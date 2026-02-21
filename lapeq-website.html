@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LAPEQ — Your Premium Concierge Experience</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#C9A84C; --gold-light:#E8C97A; --gold-dark:#A07830;
+  --black:#080808; --black-2:#111111;
+  --white:#F8F6F0; --white-dim:rgba(248,246,240,0.65);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:'Montserrat',sans-serif;font-weight:300;overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--black);}::-webkit-scrollbar-thumb{background:var(--gold);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:26px 64px;transition:all 0.4s;}
+nav.scrolled{background:rgba(8,8,8,0.96);border-bottom:1px solid rgba(201,168,76,0.12);padding:18px 64px;backdrop-filter:blur(12px);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;letter-spacing:7px;color:var(--gold);text-decoration:none;}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links a{color:rgba(248,246,240,0.75);text-decoration:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;transition:color 0.3s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.3s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-links a:hover::after{transform:scaleX(1);}
+.nav-cta{padding:11px 28px;border:1px solid var(--gold);color:var(--gold);text-decoration:none;font-size:9px;letter-spacing:3px;text-transform:uppercase;transition:all 0.3s;}
+.nav-cta:hover{background:var(--gold);color:var(--black);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+.hamburger span{width:24px;height:1px;background:var(--gold);display:block;}
+
+/* HERO */
+.hero{position:relative;height:100vh;min-height:700px;overflow:hidden;}
+.slide-progress{position:absolute;top:0;left:0;height:2px;z-index:20;background:linear-gradient(to right,var(--gold-dark),var(--gold-light));width:0%;transition:width 6.5s linear;}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease;z-index:0;}
+.slide.active{opacity:1;z-index:1;}
+.slide-img{width:100%;height:100%;object-fit:cover;transform:scale(1.07);transition:transform 9s ease;filter:brightness(0.35) saturate(0.8);}
+.slide.active .slide-img{transform:scale(1);}
+.slide::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(8,8,8,0.82) 25%,rgba(8,8,8,0.15) 100%),linear-gradient(to top,rgba(8,8,8,0.85) 0%,transparent 55%);z-index:2;}
+.hero-content{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;justify-content:center;padding:0 64px;max-width:820px;}
+.hero-eyebrow{font-size:9px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);margin-bottom:28px;display:flex;align-items:center;gap:14px;opacity:0;animation:fadeUp 1s 0.3s forwards;}
+.hero-eyebrow::after{content:'';width:40px;height:1px;background:var(--gold);opacity:0.5;}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,7vw,96px);font-weight:300;line-height:1.05;color:var(--white);margin-bottom:28px;opacity:0;animation:fadeUp 1s 0.5s forwards;}
+.hero h1 em{font-style:italic;color:var(--gold);}
+.hero-desc{font-size:14px;line-height:1.95;color:var(--white-dim);max-width:480px;margin-bottom:48px;opacity:0;animation:fadeUp 1s 0.7s forwards;}
+.hero-btns{display:flex;gap:18px;flex-wrap:wrap;opacity:0;animation:fadeUp 1s 0.9s forwards;}
+.slide-dots{position:absolute;bottom:52px;left:64px;z-index:10;display:flex;gap:10px;}
+.dot{width:28px;height:2px;background:rgba(201,168,76,0.28);cursor:pointer;transition:background 0.3s,width 0.4s;}
+.dot.active{background:var(--gold);width:54px;}
+.slide-label{position:absolute;bottom:44px;right:64px;z-index:10;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(201,168,76,0.65);display:flex;align-items:center;gap:12px;}
+.slide-label::before{content:'';width:28px;height:1px;background:var(--gold);opacity:0.4;}
+
+/* BUTTONS */
+.btn-primary{padding:16px 44px;background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--gold-light),var(--gold));background-size:200%;color:var(--black);text-decoration:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:600;transition:all 0.4s;display:inline-block;}
+.btn-primary:hover{background-position:right;transform:translateY(-2px);box-shadow:0 10px 32px rgba(201,168,76,0.25);}
+.btn-outline{padding:16px 44px;border:1px solid rgba(201,168,76,0.4);color:rgba(248,246,240,0.8);text-decoration:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;transition:all 0.3s;display:inline-block;}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+.gold-divider{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--gold) 20%,var(--gold) 80%,transparent);opacity:0.15;}
+
+/* SECTION BASE */
+section{padding:110px 64px;}
+.section-tag{font-size:9px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:18px;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,58px);font-weight:300;line-height:1.15;color:var(--white);}
+.section-title em{font-style:italic;color:var(--gold);}
+
+/* LOCATIONS BAR */
+.locations-bar{background:var(--black-2);border-bottom:1px solid rgba(201,168,76,0.1);padding:40px 64px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;}
+.locations-label{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);opacity:0.75;margin-right:48px;white-space:nowrap;}
+.locations-cities{display:flex;align-items:center;flex-wrap:wrap;justify-content:center;}
+.city-item{display:flex;align-items:center;}
+.city-name{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3vw,38px);font-weight:300;color:var(--white);letter-spacing:2px;padding:0 32px;transition:color 0.3s;white-space:nowrap;cursor:default;}
+.city-name:hover{color:var(--gold);}
+.city-sep{width:1px;height:32px;background:linear-gradient(to bottom,transparent,rgba(201,168,76,0.4),transparent);}
+
+/* RATINGS */
+.press-section{background:var(--black);padding:100px 64px;text-align:center;}
+.press-inner{max-width:1100px;margin:0 auto;}
+.press-header{margin-bottom:64px;}
+.press-header p{font-size:14px;line-height:1.9;color:var(--white-dim);margin-top:18px;max-width:500px;margin-left:auto;margin-right:auto;}
+.ratings-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:rgba(201,168,76,0.07);margin-bottom:64px;}
+.rating-card{background:var(--black-2);padding:44px 28px;transition:background 0.3s;}
+.rating-card:hover{background:#131310;}
+.rating-score{font-family:'Cormorant Garamond',serif;font-size:58px;font-weight:300;color:var(--gold);line-height:1;display:block;margin-bottom:8px;}
+.rating-stars{display:flex;justify-content:center;gap:4px;margin-bottom:16px;}
+.star{width:10px;height:10px;background:var(--gold);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);}
+.star.half{opacity:0.3;}
+.rating-platform{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(248,246,240,0.5);display:block;margin-bottom:6px;}
+.rating-count{font-size:11px;color:rgba(248,246,240,0.3);letter-spacing:1px;}
+.press-logos{display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap;}
+.press-logo-item{font-family:'Cormorant Garamond',serif;font-size:14px;letter-spacing:4px;text-transform:uppercase;color:rgba(248,246,240,0.18);font-weight:600;transition:color 0.3s;white-space:nowrap;}
+.press-logo-item:hover{color:rgba(201,168,76,0.4);}
+.press-sep{width:4px;height:4px;border-radius:50%;background:rgba(201,168,76,0.2);}
+
+/* INTRO */
+.intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;max-width:1200px;margin:0 auto;}
+.intro-text p{font-size:14px;line-height:2;color:var(--white-dim);margin-top:24px;}
+.intro-pull{font-family:'Cormorant Garamond',serif;font-size:21px;font-style:italic;color:var(--gold-light);margin-top:36px;padding-left:26px;border-left:2px solid var(--gold);line-height:1.65;}
+.stats-block{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.1);}
+.stat-box{background:var(--black-2);padding:44px 36px;text-align:center;}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:300;color:var(--gold);line-height:1;display:block;}
+.stat-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--white-dim);margin-top:10px;display:block;}
+
+/* SERVICES */
+.services-section{background:var(--black-2);}
+.services-header{text-align:center;max-width:580px;margin:0 auto 80px;}
+.services-header p{font-size:14px;line-height:1.95;color:var(--white-dim);margin-top:22px;}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:1200px;margin:0 auto;background:rgba(201,168,76,0.07);}
+.service-card{background:var(--black-2);padding:52px 40px;position:relative;overflow:hidden;transition:background 0.4s;}
+.service-card::before{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(to right,var(--gold),var(--gold-light));transition:width 0.5s;}
+.service-card:hover::before{width:100%;}
+.service-card:hover{background:#131310;}
+.service-letter{font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:300;color:rgba(201,168,76,0.07);line-height:1;margin-bottom:20px;display:block;transition:color 0.4s;}
+.service-card:hover .service-letter{color:rgba(201,168,76,0.13);}
+.service-card h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;color:var(--white);margin-bottom:16px;line-height:1.3;}
+.service-card p{font-size:12px;line-height:1.95;color:var(--white-dim);margin-bottom:28px;}
+.service-list{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.service-list li{font-size:11px;color:rgba(248,246,240,0.45);padding-left:18px;position:relative;line-height:1.6;}
+.service-list li::before{content:'—';position:absolute;left:0;color:var(--gold);font-size:10px;}
+
+/* WHY */
+.why-inner{max-width:1200px;margin:0 auto;}
+.why-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;background:rgba(201,168,76,0.07);margin-top:64px;}
+.why-item{background:var(--black);padding:44px 26px;text-align:center;transition:background 0.3s;}
+.why-item:hover{background:#0e0d0b;}
+.why-num{font-family:'Cormorant Garamond',serif;font-size:11px;color:var(--gold);letter-spacing:2px;display:block;margin-bottom:20px;opacity:0.6;}
+.why-item h4{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:400;color:var(--white);margin-bottom:14px;line-height:1.4;}
+.why-item p{font-size:11px;line-height:1.85;color:var(--white-dim);}
+
+/* HOW IT WORKS */
+.how-section{background:var(--black-2);text-align:center;}
+.how-steps{display:grid;grid-template-columns:repeat(4,1fr);max-width:1100px;margin:80px auto 0;position:relative;}
+.connector{position:absolute;top:44px;left:12.5%;right:12.5%;height:1px;background:linear-gradient(to right,rgba(201,168,76,0.6),rgba(201,168,76,0.12),rgba(201,168,76,0.6));}
+.step{padding:0 24px;position:relative;z-index:1;}
+.step-num{width:88px;height:88px;border:1px solid rgba(201,168,76,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 32px;background:var(--black-2);font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--gold);font-weight:300;transition:all 0.3s;}
+.step:hover .step-num{background:var(--gold);color:var(--black);border-color:var(--gold);transform:scale(1.06);}
+.step h4{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--white);margin-bottom:12px;}
+.step p{font-size:12px;line-height:1.85;color:var(--white-dim);}
+
+/* MEMBERSHIP */
+.mem-header{text-align:center;max-width:620px;margin:0 auto 72px;}
+.mem-header p{font-size:14px;line-height:1.95;color:var(--white-dim);margin-top:22px;}
+.membership-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;max-width:1400px;margin:0 auto;background:rgba(201,168,76,0.07);}
+.mem-card{background:var(--black-2);padding:48px 36px;transition:transform 0.3s;}
+.mem-card:hover{transform:translateY(-5px);}
+.mem-card.featured{background:linear-gradient(160deg,#1c1508 0%,#0e0b04 100%);border:1px solid rgba(201,168,76,0.22);}
+.mem-card.free-card{background:linear-gradient(160deg,#0c0f0c 0%,#0a0d0a 100%);border:1px solid rgba(100,180,100,0.18);}
+.mem-tier{display:inline-block;padding:5px 18px;font-size:8px;letter-spacing:5px;text-transform:uppercase;margin-bottom:28px;}
+.tier-free{border:1px solid rgba(120,200,120,0.35);color:#88cc88;}
+.tier-silver{border:1px solid rgba(192,192,192,0.35);color:#C8C8C8;}
+.tier-gold{border:1px solid var(--gold);color:var(--gold);background:rgba(201,168,76,0.06);}
+.tier-black{border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.75);}
+.mem-card h3{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--white);margin-bottom:8px;}
+.mem-tagline{font-size:10px;letter-spacing:2px;color:var(--gold);margin-bottom:32px;display:block;opacity:0.8;}
+.free-card .mem-tagline{color:#88cc88;}
+.mem-divider{height:1px;background:rgba(201,168,76,0.12);margin-bottom:32px;}
+.free-card .mem-divider{background:rgba(120,200,120,0.12);}
+.mem-features{list-style:none;display:flex;flex-direction:column;gap:13px;margin-bottom:40px;}
+.mem-features li{font-size:12px;color:var(--white-dim);display:flex;align-items:flex-start;gap:12px;line-height:1.6;}
+.mem-features li::before{content:'';width:5px;height:5px;background:var(--gold);border-radius:50%;margin-top:7px;flex-shrink:0;}
+.free-card .mem-features li::before{background:#88cc88;}
+.mem-cta{display:block;text-align:center;padding:14px 28px;font-size:9px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;transition:all 0.3s;}
+.cta-free{border:1px solid rgba(120,200,120,0.3);color:#88cc88;}
+.cta-free:hover{background:rgba(120,200,120,0.08);}
+.cta-silver{border:1px solid rgba(192,192,192,0.25);color:#C8C8C8;}
+.cta-silver:hover{background:rgba(192,192,192,0.08);}
+.cta-gold{background:var(--gold);color:var(--black);font-weight:600;}
+.cta-gold:hover{background:var(--gold-light);}
+.cta-black{border:1px solid rgba(255,255,255,0.15);color:var(--white);}
+.cta-black:hover{border-color:var(--gold);color:var(--gold);}
+.free-perks-strip{max-width:1400px;margin:2px auto 0;background:rgba(201,168,76,0.04);border:1px solid rgba(120,200,120,0.1);border-top:none;padding:28px 36px;display:flex;align-items:center;gap:48px;flex-wrap:wrap;}
+.free-perk{display:flex;align-items:center;gap:14px;flex:1;min-width:200px;}
+.free-perk-icon{width:36px;height:36px;border:1px solid rgba(120,200,120,0.25);display:flex;align-items:center;justify-content:center;font-size:8px;color:#88cc88;flex-shrink:0;letter-spacing:1px;font-weight:500;}
+.free-perk-text{font-size:11px;line-height:1.7;color:var(--white-dim);}
+.free-perk-text strong{display:block;font-size:12px;color:var(--white);font-weight:500;margin-bottom:2px;}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   IMAGE CYCLER  — used by Journal & Monthly Picks
+   The wrapper is position:relative with a set height.
+   All imgs are stacked via position:absolute.
+   Only the one with .cycle-active is visible (opacity:1).
+   JS rotates .cycle-active every 3.5 s per card.
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.img-cycler {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  display: block;
+  flex-shrink: 0;
+}
+/* height set inline per card e.g. style="height:240px" */
+.img-cycler img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.4s ease, transform 9s ease;
+  transform: scale(1.06);
+  filter: brightness(0.55) saturate(0.7);
+  display: block;
+  margin: 0; padding: 0;
+}
+.img-cycler img.cycle-active {
+  opacity: 1;
+  transform: scale(1.0);
+}
+
+/* BLOG */
+.blog-section{background:var(--black-2);}
+.blog-header{display:flex;justify-content:space-between;align-items:flex-end;max-width:1200px;margin:0 auto 72px;flex-wrap:wrap;gap:24px;}
+.blog-header-left p{font-size:14px;line-height:1.9;color:var(--white-dim);margin-top:18px;max-width:440px;}
+.blog-view-all{color:var(--gold);text-decoration:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;display:flex;align-items:center;gap:10px;transition:gap 0.3s;white-space:nowrap;}
+.blog-view-all::after{content:'—';}
+.blog-view-all:hover{gap:16px;}
+.blog-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:2px;max-width:1200px;margin:0 auto;background:rgba(201,168,76,0.07);}
+.blog-card{background:var(--black-2);overflow:hidden;cursor:pointer;transition:background 0.3s;position:relative;}
+.blog-card:hover{background:#131310;}
+.blog-card:hover .img-cycler img.cycle-active{filter:brightness(0.68) saturate(0.9);}
+.blog-body{padding:28px 32px 32px;}
+.blog-category{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:14px;}
+.blog-card h4{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:400;color:var(--white);line-height:1.35;margin-bottom:14px;}
+.blog-card p{font-size:12px;line-height:1.9;color:var(--white-dim);margin-bottom:20px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.blog-meta{display:flex;align-items:center;gap:14px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(248,246,240,0.3);}
+.blog-dot{width:3px;height:3px;background:var(--gold);border-radius:50%;opacity:0.5;}
+.blog-read-more{display:inline-flex;align-items:center;gap:8px;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;margin-top:18px;transition:gap 0.3s;}
+.blog-read-more::after{content:'→';}
+.blog-read-more:hover{gap:14px;}
+
+/* SPOTLIGHT */
+.spotlight-section{background:var(--black);}
+.spotlight-header{display:flex;justify-content:space-between;align-items:flex-end;max-width:1200px;margin:0 auto 72px;flex-wrap:wrap;gap:24px;}
+.spotlight-header-left p{font-size:14px;line-height:1.9;color:var(--white-dim);margin-top:18px;max-width:440px;}
+.spotlight-view-all{color:var(--gold);text-decoration:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;display:flex;align-items:center;gap:10px;transition:gap 0.3s;white-space:nowrap;}
+.spotlight-view-all::after{content:'—';}
+.spotlight-view-all:hover{gap:16px;}
+.spotlight-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:2px;max-width:1200px;margin:0 auto;background:rgba(201,168,76,0.07);}
+.spotlight-row2{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:1200px;margin:2px auto 0;background:rgba(201,168,76,0.07);}
+/* Each spotlight card is a positioning context so badges overlay the cycler */
+.spotlight-card{background:var(--black-2);overflow:hidden;position:relative;transition:background 0.3s;cursor:pointer;}
+.spotlight-card:hover{background:#131310;}
+.spotlight-card:hover .img-cycler img.cycle-active{filter:brightness(0.68) saturate(0.9);}
+/* The cycler inside spotlight needs overflow hidden on itself */
+.spotlight-card .img-cycler{overflow:hidden;}
+/* Badges sit OUTSIDE the cycler, absolutely positioned on the card */
+.spot-type-badge{position:absolute;top:18px;left:18px;padding:5px 14px;font-size:8px;letter-spacing:3px;text-transform:uppercase;z-index:10;}
+.badge-restaurant{background:rgba(180,80,40,0.92);color:#fff;}
+.badge-hotel{background:rgba(40,90,170,0.92);color:#fff;}
+.badge-event{background:rgba(110,40,170,0.92);color:#fff;}
+.badge-lounge{background:rgba(30,150,110,0.92);color:#fff;}
+.badge-hostel{background:rgba(160,120,30,0.92);color:#fff;}
+.spot-rating-badge{position:absolute;top:18px;right:18px;width:44px;height:44px;background:rgba(8,8,8,0.88);border:1px solid rgba(201,168,76,0.45);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;}
+.spot-rating-badge span:first-child{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold);line-height:1;}
+.spot-rating-badge span:last-child{font-size:6px;letter-spacing:1px;color:rgba(201,168,76,0.65);text-transform:uppercase;}
+.spotlight-body{padding:24px 28px 28px;}
+.spot-category{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px;}
+.spotlight-card h4{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--white);line-height:1.3;margin-bottom:6px;}
+.spotlight-card.hero-spot h4{font-size:24px;}
+.spot-location{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(248,246,240,0.35);margin-bottom:12px;display:block;}
+.spotlight-card p{font-size:12px;line-height:1.9;color:var(--white-dim);margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.spot-meta{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.spot-stars{display:flex;gap:3px;}
+.spot-star{width:8px;height:8px;background:var(--gold);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);}
+.spot-star.dim{opacity:0.25;}
+.spot-read{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:6px;transition:gap 0.3s;}
+.spot-read::after{content:'→';}
+.spot-read:hover{gap:10px;}
+.newsletter-strip{max-width:1200px;margin:2px auto 0;background:linear-gradient(135deg,#0e0c06,#131008);border:1px solid rgba(201,168,76,0.12);border-top:none;padding:40px 48px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;}
+.newsletter-text h4{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--white);margin-bottom:6px;}
+.newsletter-text p{font-size:12px;color:var(--white-dim);line-height:1.7;}
+.newsletter-form{display:flex;flex:1;max-width:420px;min-width:280px;}
+.newsletter-input{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.2);border-right:none;color:var(--white);padding:13px 18px;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:300;outline:none;transition:border-color 0.3s;}
+.newsletter-input:focus{border-color:rgba(201,168,76,0.5);}
+.newsletter-input::placeholder{color:rgba(248,246,240,0.3);}
+.newsletter-btn{padding:13px 24px;background:var(--gold);color:var(--black);font-size:9px;letter-spacing:3px;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;transition:background 0.3s;white-space:nowrap;}
+.newsletter-btn:hover{background:var(--gold-light);}
+
+/* TESTIMONIALS */
+.testimonials-section{background:linear-gradient(160deg,#0d0b05,#111008 60%,#0d0b05);border-top:1px solid rgba(201,168,76,0.1);border-bottom:1px solid rgba(201,168,76,0.1);padding:110px 64px;}
+.testimonials-inner{max-width:1200px;margin:0 auto;}
+.testimonials-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:72px;flex-wrap:wrap;gap:24px;}
+.testimonials-header p{font-size:14px;line-height:1.9;color:var(--white-dim);margin-top:18px;max-width:420px;}
+.testimonials-track{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(201,168,76,0.07);}
+.testi-card{background:linear-gradient(160deg,#131008,#0e0c07);padding:44px 40px;position:relative;overflow:hidden;transition:background 0.4s;}
+.testi-card:hover{background:linear-gradient(160deg,#18140a,#131008);}
+.testi-card::before{content:'\201C';font-family:'Cormorant Garamond',serif;font-size:140px;line-height:1;color:rgba(201,168,76,0.07);position:absolute;top:-10px;left:24px;pointer-events:none;}
+.testi-tier{display:inline-block;padding:3px 12px;font-size:7px;letter-spacing:4px;text-transform:uppercase;margin-bottom:24px;}
+.testi-tier.silver{border:1px solid rgba(192,192,192,0.25);color:#C0C0C0;}
+.testi-tier.gold{border:1px solid rgba(201,168,76,0.4);color:var(--gold);}
+.testi-tier.black{border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.6);}
+.testi-text{font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;font-weight:300;color:rgba(248,246,240,0.88);line-height:1.7;margin-bottom:36px;position:relative;z-index:1;}
+.testi-divider{height:1px;background:rgba(201,168,76,0.12);margin-bottom:28px;}
+.testi-author{display:flex;align-items:center;gap:18px;}
+.testi-avatar{width:44px;height:44px;border-radius:50%;border:1px solid rgba(201,168,76,0.25);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold);background:rgba(201,168,76,0.06);flex-shrink:0;}
+.testi-info{display:flex;flex-direction:column;gap:4px;}
+.testi-name{font-size:13px;color:var(--white);letter-spacing:1px;font-weight:400;}
+.testi-role{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(248,246,240,0.35);}
+.testi-city{font-size:9px;color:var(--gold);letter-spacing:1px;opacity:0.7;}
+.testi-nav{display:flex;justify-content:center;align-items:center;gap:16px;margin-top:48px;}
+.testi-arrow{width:44px;height:44px;border:1px solid rgba(201,168,76,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gold);font-size:18px;transition:all 0.3s;user-select:none;}
+.testi-arrow:hover{background:var(--gold);color:var(--black);}
+.testi-counter{font-size:11px;letter-spacing:3px;color:rgba(248,246,240,0.3);padding:0 12px;}
+
+/* VIDEO SECTION */
+.video-section{background:var(--black);padding:110px 64px;text-align:center;}
+.video-inner{max-width:1100px;margin:0 auto;}
+.video-header{margin-bottom:56px;}
+.video-header p{font-size:14px;line-height:1.9;color:var(--white-dim);margin-top:18px;max-width:520px;margin-left:auto;margin-right:auto;}
+.video-frame-wrap{position:relative;width:100%;padding-top:52%;background:var(--black-2);overflow:hidden;border:1px solid rgba(201,168,76,0.12);cursor:pointer;}
+.video-frame-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;z-index:2;display:none;}
+.video-frame-wrap iframe.playing{display:block;}
+.video-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3;transition:opacity 0.5s;}
+.video-overlay.hidden{opacity:0;pointer-events:none;}
+.video-thumb-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(0.28) saturate(0.5);}
+.video-overlay-content{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:20px;}
+.play-btn{width:84px;height:84px;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all 0.3s;background:rgba(8,8,8,0.5);position:relative;}
+.play-btn::after{content:'';position:absolute;width:108px;height:108px;border:1px solid rgba(201,168,76,0.25);border-radius:50%;animation:pulseRing 2.5s infinite;}
+.play-btn:hover{background:var(--gold);transform:scale(1.08);}
+.play-btn svg{width:30px;height:30px;fill:var(--gold);margin-left:5px;transition:fill 0.3s;}
+.play-btn:hover svg{fill:var(--black);}
+.play-label{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:rgba(248,246,240,0.7);}
+.video-gold-bar{position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold) 20%,var(--gold) 80%,transparent);opacity:0.4;}
+.video-caption{margin-top:28px;display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;}
+.video-caption span{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(248,246,240,0.28);}
+.video-caption-dot{width:3px;height:3px;background:var(--gold);border-radius:50%;opacity:0.35;}
+@keyframes pulseRing{0%{transform:scale(1);opacity:0.5;}70%{transform:scale(1.35);opacity:0;}100%{transform:scale(1.35);opacity:0;}}
+
+/* FAQ */
+.faq-inner{max-width:820px;margin:0 auto;}
+.faq-header{text-align:center;margin-bottom:64px;}
+.faq-item{border-bottom:1px solid rgba(201,168,76,0.1);padding:28px 0;cursor:pointer;}
+.faq-q{display:flex;justify-content:space-between;align-items:center;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--white);user-select:none;gap:20px;}
+.faq-icon{width:30px;height:30px;border:1px solid rgba(201,168,76,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:18px;flex-shrink:0;transition:all 0.3s;}
+.faq-item.open .faq-icon{background:var(--gold);color:var(--black);transform:rotate(45deg);}
+.faq-a{font-size:13px;line-height:1.9;color:var(--white-dim);max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.3s;}
+.faq-item.open .faq-a{max-height:200px;padding-top:20px;}
+
+/* CONTACT */
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;}
+.contact-left{background:linear-gradient(150deg,#0e0c06,#121007);padding:110px 80px;border-right:1px solid rgba(201,168,76,0.08);}
+.contact-right{background:var(--black);padding:110px 80px;}
+.contact-left p{font-size:14px;line-height:1.95;color:var(--white-dim);margin-top:22px;margin-bottom:52px;}
+.contact-info{display:flex;flex-direction:column;gap:30px;}
+.ci-item{display:flex;gap:22px;align-items:flex-start;}
+.ci-icon{width:36px;height:36px;border:1px solid rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:8px;letter-spacing:1px;color:var(--gold);font-weight:500;}
+.ci-item div{display:flex;flex-direction:column;gap:4px;}
+.ci-label{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:0.7;}
+.ci-val{font-size:13px;color:var(--white-dim);}
+.contact-form{display:flex;flex-direction:column;gap:22px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.form-group{display:flex;flex-direction:column;gap:9px;}
+.form-group label{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:0.8;}
+.form-group input,.form-group select,.form-group textarea{background:var(--black-2);border:none;border-bottom:1px solid rgba(201,168,76,0.22);color:var(--white);padding:12px 4px;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:300;outline:none;width:100%;transition:border-color 0.3s;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold);}
+.form-group textarea{resize:vertical;min-height:120px;}
+.form-group select option{background:#111;}
+
+/* CTA */
+.cta-banner{background:linear-gradient(135deg,#0d0b05,#161206 50%,#0d0b05);border-top:1px solid rgba(201,168,76,0.12);border-bottom:1px solid rgba(201,168,76,0.12);text-align:center;padding:110px 64px;}
+.cta-banner h2{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,5vw,68px);font-weight:300;color:var(--white);margin-bottom:18px;line-height:1.15;}
+.cta-banner h2 em{font-style:italic;color:var(--gold);}
+.cta-banner p{font-size:14px;color:var(--white-dim);margin-bottom:52px;letter-spacing:1px;}
+.cta-btns{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
+
+/* FOOTER */
+footer{background:#060606;border-top:1px solid rgba(201,168,76,0.07);padding:70px 64px 44px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;}
+.footer-brand .nav-logo{display:block;margin-bottom:22px;}
+.footer-brand p{font-size:12px;line-height:1.95;color:rgba(248,246,240,0.3);max-width:260px;}
+.footer-col h5{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:22px;opacity:0.8;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:13px;}
+.footer-col ul li a{font-size:12px;color:rgba(248,246,240,0.35);text-decoration:none;transition:color 0.3s;}
+.footer-col ul li a:hover{color:var(--gold);}
+.footer-bottom{grid-column:1/-1;padding-top:36px;border-top:1px solid rgba(201,168,76,0.07);display:flex;justify-content:space-between;align-items:center;font-size:10px;color:rgba(248,246,240,0.2);letter-spacing:1px;}
+
+/* VISION / PLATFORM SECTION */
+.vision-section{background:var(--black);}
+.vision-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1.6fr;gap:80px;align-items:start;}
+.vision-intro p{font-size:15px;line-height:2;color:var(--white-dim);margin-bottom:44px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;border-left:2px solid var(--gold);padding-left:24px;}
+.vision-features{display:flex;flex-direction:column;gap:32px;}
+.vf-item{display:flex;gap:22px;align-items:flex-start;padding:24px;background:var(--black-2);border:1px solid rgba(201,168,76,0.08);transition:border-color 0.3s;}
+.vf-item:hover{border-color:rgba(201,168,76,0.25);}
+.vf-icon{width:40px;height:40px;border:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px;flex-shrink:0;background:rgba(201,168,76,0.04);}
+.vf-text{display:flex;flex-direction:column;gap:7px;}
+.vf-text strong{font-size:13px;color:var(--white);font-weight:500;letter-spacing:1px;}
+.vf-text span{font-size:12px;line-height:1.85;color:var(--white-dim);}
+@media(max-width:960px){
+  .vision-inner{grid-template-columns:1fr;gap:40px;}
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.75s ease,transform 0.75s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* MOBILE */
+@media(max-width:960px){
+  nav{padding:20px 24px;}
+  .nav-links,.nav-cta{display:none;}
+  .hamburger{display:flex;}
+  section{padding:70px 24px;}
+  .locations-bar{padding:28px 24px;flex-direction:column;gap:20px;}
+  .locations-label{margin-right:0;}
+  .city-name{font-size:22px;padding:0 16px;}
+  .intro-grid,.services-grid,.membership-grid,.contact-wrap{grid-template-columns:1fr;}
+  .why-grid{grid-template-columns:1fr 1fr;}
+  .how-steps{grid-template-columns:1fr 1fr;}
+  .connector{display:none;}
+  .blog-grid,.spotlight-grid,.spotlight-row2{grid-template-columns:1fr;}
+  .ratings-grid{grid-template-columns:1fr 1fr;}
+  .press-section,.testimonials-section,.video-section{padding:70px 24px;}
+  .testimonials-track{grid-template-columns:1fr;}
+  .free-perks-strip{gap:24px;padding:24px;}
+  .newsletter-strip{flex-direction:column;gap:24px;padding:32px 24px;}
+  .newsletter-form{max-width:100%;width:100%;}
+  .contact-left,.contact-right{padding:64px 24px;}
+  footer{grid-template-columns:1fr 1fr;gap:40px;}
+  .form-row{grid-template-columns:1fr;}
+  .hero-content{padding:0 24px;max-width:100%;}
+  .slide-dots{left:24px;bottom:40px;}
+  .slide-label{right:24px;bottom:40px;font-size:8px;}
+  .video-frame-wrap{padding-top:62%;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════ NAV ══════════════════════════ -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">LAPEQ</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#membership">Membership</a></li>
+    <li><a href="#spotlight">Monthly Picks</a></li>
+    <li><a href="#blog">Journal</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Book Now</a>
+  <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- ══════════════════════════ HERO ══════════════════════════ -->
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  HERO SLIDESHOW IMAGES                                       ║
+  ║  To change any slide image, replace the src="..." URL below  ║
+  ║  with your own image URL or a local file path.               ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<div class="hero" id="home">
+  <div class="slide-progress" id="progress"></div>
+  <!-- Slide 1 – Hotels & Hospitality: change src to your hotel image -->
+  <div class="slide active"><img class="slide-img" src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1800&q=80" alt="Luxury Hotel"></div>
+  <!-- Slide 2 – Fine Dining: change src to your restaurant image -->
+  <div class="slide"><img class="slide-img" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1800&q=80" alt="Fine Dining"></div>
+  <!-- Slide 3 – Concerts & Events: change src to your events image -->
+  <div class="slide"><img class="slide-img" src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1800&q=80" alt="Events"></div>
+  <!-- Slide 4 – Luxury Cars: change src to your car image -->
+  <div class="slide"><img class="slide-img" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1800&q=80" alt="Luxury Car"></div>
+  <!-- Slide 5 – Fashion & Tailoring: change src to your fashion image -->
+  <div class="slide"><img class="slide-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1800&q=80" alt="Fashion"></div>
+  <!-- Slide 6 – Luxury Apartments: change src to your apartment image -->
+  <div class="slide"><img class="slide-img" src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1800&q=80" alt="Apartment"></div>
+  <!-- Slide 7 – Shopping: change src to your shopping image -->
+  <div class="slide"><img class="slide-img" src="https://images.unsplash.com/photo-1481437156560-3205f6a55735?w=1800&q=80" alt="Shopping"></div>
+
+  <div class="hero-content">
+    <span class="hero-eyebrow">Nigeria &nbsp;&middot;&nbsp; Premium Concierge</span>
+    <h1>Experience Life,<br><em>Effortlessly</em></h1>
+    <p class="hero-desc">From private travel arrangements to exclusive lifestyle access, LAPEQ delivers seamless concierge services designed for individuals who value time, quality, and exceptional experiences.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Book Your Experience</a>
+      <a href="#services" class="btn-outline">Explore Our Services</a>
+    </div>
+  </div>
+  <div class="slide-dots">
+    <div class="dot active" onclick="goToSlide(0)"></div>
+    <div class="dot" onclick="goToSlide(1)"></div>
+    <div class="dot" onclick="goToSlide(2)"></div>
+    <div class="dot" onclick="goToSlide(3)"></div>
+    <div class="dot" onclick="goToSlide(4)"></div>
+    <div class="dot" onclick="goToSlide(5)"></div>
+    <div class="dot" onclick="goToSlide(6)"></div>
+  </div>
+  <div class="slide-label" id="slideLabel">Hotels &amp; Hospitality</div>
+</div>
+
+<!-- ══════════════════════════ LOCATIONS ══════════════════════════ -->
+<div class="locations-bar reveal">
+  <span class="locations-label">We Operate In</span>
+  <div class="locations-cities">
+    <div class="city-item"><span class="city-name">Abuja</span><div class="city-sep"></div></div>
+    <div class="city-item"><span class="city-name">Lagos</span><div class="city-sep"></div></div>
+    <div class="city-item"><span class="city-name">Port Harcourt</span><div class="city-sep"></div></div>
+    <div class="city-item"><span class="city-name">Jos</span></div>
+  </div>
+</div>
+<div class="gold-divider"></div>
+
+<!-- ══════════════════════════ RATINGS ══════════════════════════ -->
+<section class="press-section">
+  <div class="press-inner">
+    <div class="press-header reveal">
+      <span class="section-tag">Client Satisfaction</span>
+      <h2 class="section-title">Consistently <em>Rated</em><br>Among the Best</h2>
+      <p>Our commitment to excellence is reflected in the experiences of those we serve across every city we operate in.</p>
+    </div>
+    <div class="ratings-grid reveal">
+      <div class="rating-card"><span class="rating-score">4.9</span><div class="rating-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><span class="rating-platform">Overall Experience</span><span class="rating-count">Based on client feedback</span></div>
+      <div class="rating-card"><span class="rating-score">5.0</span><div class="rating-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><span class="rating-platform">Professionalism</span><span class="rating-count">Consistently top-rated</span></div>
+      <div class="rating-card"><span class="rating-score">4.8</span><div class="rating-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star half"></div></div><span class="rating-platform">Response Time</span><span class="rating-count">Average: under 30 minutes</span></div>
+      <div class="rating-card"><span class="rating-score">5.0</span><div class="rating-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><span class="rating-platform">Discretion &amp; Trust</span><span class="rating-count">Zero breaches. Ever.</span></div>
+    </div>
+    <!-- <div class="press-logos reveal">
+      <span class="press-logo-item">Premium Service Award</span><div class="press-sep"></div>
+      <span class="press-logo-item">Nigeria Lifestyle 2024</span><div class="press-sep"></div>
+      <span class="press-logo-item">Top Concierge Brand</span><div class="press-sep"></div>
+      <span class="press-logo-item">Executive Choice</span><div class="press-sep"></div>
+      <span class="press-logo-item">Luxury Africa Index</span>
+    </div> -->
+  </div>
+</section>
+<div class="gold-divider"></div>
+
+<!-- ══════════════════════════ ABOUT ══════════════════════════ -->
+<section id="about">
+  <div class="intro-grid">
+    <div class="intro-text reveal">
+      <span class="section-tag">Who We Are</span>
+      <h2 class="section-title">Redefining<br><em>Convenience</em> in Nigeria</h2>
+      <p>LAPEQ is a premium concierge and lifestyle management company based in Abuja, Nigeria. We exist for discerning individuals, executives, visitors, and businesses who expect more than ordinary service.</p>
+      <p>We provide bespoke travel arrangements, priority reservations, VIP access, and personal support, all delivered with discretion and professionalism.</p>
+      <p class="intro-pull">"At LAPEQ, we don't just complete tasks.<br>We curate experiences."</p>
+    </div>
+    <div class="stats-block reveal">
+      <div class="stat-box"><span class="stat-num">24/7</span><span class="stat-label">Concierge Support</span></div>
+      <div class="stat-box"><span class="stat-num">100%</span><span class="stat-label">Discretion Guaranteed</span></div>
+      <div class="stat-box"><span class="stat-num">4</span><span class="stat-label">Cities Covered</span></div>
+      <div class="stat-box"><span class="stat-num">+</span><span class="stat-label">Endless Possibilities</span></div>
+    </div>
+  </div>
+
+<div class="gold-divider"></div>
+
+<!-- ══════════════════════════ PLATFORM VISION ══════════════════════════ -->
+<section class="vision-section" id="platform">
+  <div class="vision-inner">
+    <div class="vision-left reveal">
+      <span class="section-tag">The LAPEQ Ecosystem</span>
+      <h2 class="section-title">Beyond Concierge —<br>A <em>Lifestyle Platform</em></h2>
+    </div>
+    <div class="vision-right reveal">
+      <div class="vision-intro">
+        <p>Delivering premium, budget-friendly pricing and curated menus across top lounges, restaurants, boutiques, fashion houses, spas, and more. Enhanced with exclusive member discounts.</p>
+      </div>
+      <div class="vision-features">
+        <div class="vf-item">
+          <div class="vf-icon">♀</div>
+          <div class="vf-text">
+            <strong>Ladies' Section</strong>
+            <span>A refined space designed for elegance, comfort, and personalized experiences, catering to the modern woman's lifestyle with discretion and care.</span>
+          </div>
+        </div>
+        <div class="vf-item">
+          <div class="vf-icon">✦</div>
+          <div class="vf-text">
+            <strong>Smart Concierge Assistant</strong>
+            <span>Real-time flight updates and essential travel information at your fingertips, so you're always one step ahead, wherever you're headed.</span>
+          </div>
+        </div>
+        <div class="vf-item">
+          <div class="vf-icon">⟷</div>
+          <div class="vf-text">
+            <strong>Travel Pairing Feature</strong>
+            <span>An innovative system that connects travellers departing at the same time, creating safer, more social, and more convenient journeys across Nigeria.</span>
+          </div>
+        </div>
+        <div class="vf-item">
+          <div class="vf-icon">◈</div>
+          <div class="vf-text">
+            <strong>Lifestyle Hub &amp; Brand Partnerships</strong>
+            <span>As we grow, our platform evolves into a premier destination where leading restaurants, lounges, and brands collaborate with us for unmatched visibility and customer experience.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="gold-divider"></div>
+
+<!-- ══════════════════════════ SERVICES ══════════════════════════ -->
+<section class="services-section" id="services">
+  <div class="services-header reveal">
+    <span class="section-tag">What We Do</span>
+    <h2 class="section-title">Tailored Around<br><em>Your Lifestyle</em></h2>
+    <p>One trusted partner handling every detail with excellence and absolute discretion.</p>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card"><span class="service-letter">H</span><h3>Hospitality &amp; Private Travel</h3><p>From touchdown to departure, every detail arranged with precision and care.</p><ul class="service-list"><li>Luxury hotel reservations</li><li>Premium serviced apartments</li><li>Flight arrangements</li><li>Executive car hire</li><li>Private city tours and curated itineraries</li></ul></div>
+    <div class="service-card"><span class="service-letter">L</span><h3>Lifestyle &amp; Exclusive Access</h3><p>We open doors others cannot. Priority access to the finest venues, events, and restaurants.</p><ul class="service-list"><li>Priority restaurant reservations</li><li>VIP lounge and club bookings</li><li>Concert and private event access</li><li>Shopping and fashion curation</li><li>Curated elite experiences</li></ul></div>
+    <div class="service-card"><span class="service-letter">P</span><h3>Personal &amp; Business Support</h3><p>Time is your most valuable asset. We protect it with efficiency and confidentiality.</p><ul class="service-list"><li>Personal assistant services</li><li>Executive business support</li><li>Lifestyle management</li><li>Networking coordination</li><li>Private security arrangements</li></ul></div>
+  </div>
+</section>
+<div class="gold-divider"></div>
+
+<!-- ══════════════════════════ WHY ══════════════════════════ -->
+<section>
+  <div class="why-inner">
+    <div class="reveal"><span class="section-tag">Why Choose Us</span><h2 class="section-title">Elevated Service.<br><em>Exceptional Access.</em></h2></div>
+    <div class="why-grid reveal">
+      <div class="why-item"><span class="why-num">01</span><h4>All-in-One Convenience</h4><p>One trusted partner handling every detail, from simple to extraordinary.</p></div>
+      <div class="why-item"><span class="why-num">02</span><h4>Bespoke Experiences</h4><p>Every service tailored precisely to your needs, preferences, and lifestyle.</p></div>
+      <div class="why-item"><span class="why-num">03</span><h4>Professionalism &amp; Discretion</h4><p>Confidentiality and excellence are non-negotiable standards at LAPEQ.</p></div>
+      <div class="why-item"><span class="why-num">04</span><h4>24/7 Support</h4><p>Available whenever you need us, always around the clock, every day of the year.</p></div>
+      <div class="why-item"><span class="why-num">05</span><h4>Affordable Luxury</h4><p>Premium experiences delivered without complications or inflated costs.</p></div>
+    </div>
+  </div>
+</section>
+<div class="gold-divider"></div>
+
+<!-- ══════════════════════════ HOW IT WORKS ══════════════════════════ -->
+<section class="how-section">
+  <span class="section-tag reveal" style="display:block;text-align:center;">The Process</span>
+  <h2 class="section-title reveal" style="text-align:center;">A <em>Seamless</em> Experience</h2>
+  <div class="how-steps reveal">
+    <div class="connector"></div>
+    <div class="step"><div class="step-num">01</div><h4>Share Your Request</h4><p>Tell us your vision, schedule, or desired experience.</p></div>
+    <div class="step"><div class="step-num">02</div><h4>We Curate Your Plan</h4><p>Our team designs a tailored concierge solution built around you.</p></div>
+    <div class="step"><div class="step-num">03</div><h4>Confirm &amp; Relax</h4><p>Choose your preferred package and let us handle every detail.</p></div>
+    <div class="step"><div class="step-num">04</div><h4>Experience Effortlessly</h4><p>Enjoy seamlessly while LAPEQ manages everything behind the scenes.</p></div>
+  </div>
+</section>
+<div class="gold-divider"></div>
+
+<!-- ══════════════════════════ MEMBERSHIP ══════════════════════════ -->
+<section id="membership">
+  <div class="mem-header reveal">
+    <span class="section-tag">Membership</span>
+    <h2 class="section-title">Four Levels.<br>One Standard: <em>Excellence.</em></h2>
+    <p>From our free community membership to our invitation-only Black tier — LAPEQ has a place for everyone who values convenience, access, and an elevated lifestyle.</p>
+  </div>
+  <div class="membership-grid reveal">
+    <div class="mem-card free-card">
+      <span class="mem-tier tier-free">Free</span>
+      <h3>Community Access</h3>
+      <span class="mem-tagline" style="color:#88cc88;">Welcome to the LAPEQ World.</span>
+      <div class="mem-divider"></div>
+      <ul class="mem-features">
+        <li>Free LAPEQ membership card (physical, mailed to you)</li>
+        <li>Monthly lifestyle digest delivered to your inbox</li>
+        <li>Monthly curated city guide, restaurants, hotels &amp; events</li>
+        <li>Access to free LAPEQ community events</li>
+        <li>Early access to LAPEQ announcements and launches</li>
+        <li>Member-only discounts with select partners</li>
+        <li>No subscription fee: free forever</li>
+      </ul>
+      <a href="#contact" class="mem-cta cta-free">Join for Free</a>
+    </div>
+    <div class="mem-card">
+      <span class="mem-tier tier-silver">Silver</span>
+      <h3>Essential Access</h3>
+      <span class="mem-tagline">Premium Convenience. Simplified.</span>
+      <div class="mem-divider"></div>
+      <ul class="mem-features">
+        <li>Priority hotel and apartment bookings</li>
+        <li>Flight booking assistance</li>
+        <li>Restaurant and lounge reservations</li>
+        <li>Car hire arrangements</li>
+        <li>Event access coordination</li>
+        <li>Dedicated concierge during business hours</li>
+        <li>24-hour response time</li>
+      </ul>
+      <a href="#contact" class="mem-cta cta-silver">Request Membership</a>
+    </div>
+    <div class="mem-card featured">
+      <span class="mem-tier tier-gold">Gold</span>
+      <h3>Enhanced Privileges</h3>
+      <span class="mem-tagline">Elevated Access. Enhanced Living.</span>
+      <div class="mem-divider"></div>
+      <ul class="mem-features">
+        <li>Everything in Silver, plus:</li>
+        <li>Priority fast-track handling of all requests</li>
+        <li>VIP restaurant and lounge reservations</li>
+        <li>Curated private experiences</li>
+        <li>Personalized itinerary planning</li>
+        <li>Business assistant support</li>
+        <li>Dedicated concierge manager</li>
+        <li>Extended support hours and faster response</li>
+      </ul>
+      <a href="#contact" class="mem-cta cta-gold">Request Membership</a>
+    </div>
+    <div class="mem-card">
+      <span class="mem-tier tier-black">Black</span>
+      <h3>Elite &amp; Unlimited</h3>
+      <span class="mem-tagline">Access Without Limits.</span>
+      <div class="mem-divider"></div>
+      <ul class="mem-features">
+        <li>Everything in Gold, plus:</li>
+        <li>24/7 dedicated concierge manager</li>
+        <li>Unlimited concierge requests</li>
+        <li>VIP event and private access arrangements</li>
+        <li>Confidential personal assistant support</li>
+        <li>Exclusive invitations and elite experiences</li>
+        <li>Private security arrangements</li>
+        <li>Full lifestyle and corporate management</li>
+      </ul>
+      <a href="#contact" class="mem-cta cta-black">Apply for Membership</a>
+    </div>
+  </div>
+  <div class="free-perks-strip reveal">
+    <div class="free-perk"><div class="free-perk-icon">CARD</div><div class="free-perk-text"><strong>Physical LAPEQ Card</strong>Your membership card is mailed directly to you, a tangible mark of belonging to the LAPEQ community.</div></div>
+    <div class="free-perk"><div class="free-perk-icon">MON</div><div class="free-perk-text"><strong>Monthly Lifestyle Digest</strong>Every month we send curated guides to the best restaurants, hotels, events, and experiences across our cities.</div></div>
+    <div class="free-perk"><div class="free-perk-icon">EVT</div><div class="free-perk-text"><strong>Free LAPEQ Events</strong>Exclusive community gatherings, networking evenings, and lifestyle experiences, free for all members.</div></div>
+  </div>
+</section>
+<div class="gold-divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     MONTHLY SPOTLIGHT
+     ══════════════════════════════════════════════════════════════ -->
+<!--
+  ╔═══════════════════════════════════════════════════════════════╗
+  ║  HOW TO CHANGE SPOTLIGHT IMAGES                               ║
+  ║  Each card has an .img-cycler div with 3–4 <img> tags inside. ║
+  ║  The images auto-rotate every 3.5 seconds.                    ║
+  ║  To change: replace the src="..." on any <img> below.         ║
+  ║  To add a new image: copy one <img> line and change the src.  ║
+  ╚═══════════════════════════════════════════════════════════════╝
+-->
+<section class="spotlight-section" id="spotlight" style="padding:110px 64px;">
+  <div class="spotlight-header reveal">
+    <div class="spotlight-header-left">
+      <span class="section-tag">Monthly Spotlight</span>
+      <h2 class="section-title">LAPEQ Picks:<br><em>February 2025</em></h2>
+      <p>Every month, our concierge team personally visits and rates the best restaurants, hotels, hostels, lounges, and events across our cities.</p>
+    </div>
+    <a href="lapeq-picks.html" class="spotlight-view-all">View All Spotlights</a>
+  </div>
+
+  <!-- ROW 1 -->
+  <div class="spotlight-grid reveal">
+
+    <!-- ── CARD: Restaurant of the Month (large hero card) ── -->
+    <div class="spotlight-card hero-spot">
+      <!-- CHANGE IMAGES: replace any src below with your own photo URL -->
+      <div class="img-cycler" style="height:320px;">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=900&q=80" alt="Restaurant">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80" alt="Fine Dining">
+        <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?w=900&q=80" alt="Restaurant Interior">
+        <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=900&q=80" alt="Table Setting">
+      </div>
+      <div class="spot-type-badge badge-restaurant">Restaurant</div>
+      <div class="spot-rating-badge"><span>9.2</span><span>/ 10</span></div>
+      <div class="spotlight-body">
+        <span class="spot-category">Restaurant of the Month</span>
+        <h4>Signatures Restaurant, Abuja</h4>
+        <span class="spot-location">Transcorp Hilton, Abuja</span>
+        <p>An exceptional fine dining experience that continues to set the benchmark for luxury dining in the capital. The tasting menu is a masterclass in modern Nigerian-international cuisine with impeccable service.</p>
+        <div class="spot-meta">
+          <div class="spot-stars"><div class="spot-star"></div><div class="spot-star"></div><div class="spot-star"></div><div class="spot-star"></div><div class="spot-star"></div></div>
+          <a href="lapeq-picks.html" class="spot-read">Read Full Feature</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CARD: Hotel of the Month ── -->
+    <div class="spotlight-card">
+      <!-- CHANGE IMAGES: replace any src below with your own photo URL -->
+      <div class="img-cycler" style="height:220px;">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=700&q=80" alt="Hotel">
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=700&q=80" alt="Hotel Lobby">
+        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=700&q=80" alt="Hotel Room">
+      </div>
+      <div class="spot-type-badge badge-hotel">Hotel</div>
+      <div class="spot-rating-badge"><span>9.0</span><span>/ 10</span></div>
+      <div class="spotlight-body">
+        <span class="spot-category">Hotel of the Month</span>
+        <h4>Eko Hotels &amp; Suites, Lagos</h4>
+        <span class="spot-location">Victoria Island, Lagos</span>
+        <p>Lagos's landmark luxury hotel delivers consistently across every touchpoint, from the suites to world-class event facilities.</p>
+        <div class="spot-meta">
+          <div class="spot-stars"><div class="spot-star"></div><div class="spot-star"></div><div class="spot-star"></div><div class="spot-star"></div><div class="spot-star dim"></div></div>
+          <a href="lapeq-picks.html" class="spot-read">Read More</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CARD: Event of the Month ── -->
+    <div class="spotlight-card">
+      <!-- CHANGE IMAGES: replace any src below with your own photo URL -->
+      <div class="img-cycler" style="height:220px;">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=700&q=80" alt="Event">
+        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=700&q=80" alt="Concert">
+        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=700&q=80" alt="Event Night">
+      </div>
+      <div class="spot-type-badge badge-event">Event</div>
+      <div class="spot-rating-badge"><span>8.8</span><span>/ 10</span></div>
+      <div class="spotlight-body">
+        <span class="spot-category">Event of the Month</span>
+        <h4>Abuja Jazz Festival 2025</h4>
+        <span class="spot-location">Millennium Park, Abuja</span>
+        <p>A landmark cultural evening featuring world-class performances in a beautifully curated outdoor setting. LAPEQ arranged VIP access for members.</p>
+        <div class="spot-meta">
+          <div class="spot-stars"><div class="spot-star"></div><div class="spot-star"></div><div class="spot-star"></div><div class="spot-star"></div><div class="spot-star dim"></div></div>
+          <a href="lapeq-picks.html" class="spot-read">Read More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 2 -->
+  <div class="spotlight-row2 reveal">
+
+    <!-- ── CARD: Lounge of the Month ── -->
+    <div class="spotlight-card">
+      <!-- CHANGE IMAGES: replace any src below with your own photo URL -->
+      <div class="img-cycler" style="height:220px;">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=700&q=80" alt="Lounge">
+        <img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=700&q=80" alt="Bar">
+        <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=700&q=80" alt="Cocktails">
+      </div>
+      <div class="spot-type-badge badge-lounge">Lounge</div>
+      <div class="spot-rating-badge"><span>8.5</span><span>/ 10</span></div>
+      <div class="spotlight-body">
+        <span class="spot-category">Lounge of the Month</span>
+        <h4>Zinc Lounge, Port Harcourt</h4>
+        <span class="spot-location">GRA Phase 2, Port Harcourt</span>
+        <p>Port Harcourt's most refined lounge experience. Exceptional cocktail programme, intimate atmosphere, and a crowd that knows how to enjoy themselves.</p>
+        <div class="spot-meta">
+          <div class="spot-stars"><div class="spot-star"></div><div class="spot-star"></div><div class="spot-star"></div><div class="spot-star"></div><div class="spot-star dim"></div></div>
+          <a href="lapeq-picks.html" class="spot-read">Read More</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CARD: Hostel/Stay of the Month ── -->
+    <div class="spotlight-card">
+      <!-- CHANGE IMAGES: replace any src below with your own photo URL -->
+      <div class="img-cycler" style="height:220px;">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=700&q=80" alt="Hostel">
+        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=700&q=80" alt="Room">
+        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=700&q=80" alt="Interior">
+      </div>
+      <div class="spot-type-badge badge-hostel">Hostel</div>
+      <div class="spot-rating-badge"><span>8.3</span><span>/ 10</span></div>
+      <div class="spotlight-body">
+        <span class="spot-category">Stay of the Month</span>
+        <h4>The Hillside Boutique Hostel, Jos</h4>
+        <span class="spot-location">Rayfield, Jos</span>
+        <p>Jos's best-kept secret for budget-conscious travellers who refuse to compromise on quality. Clean, stylish, and wonderfully located.</p>
+        <div class="spot-meta">
+          <div class="spot-stars"><div class="spot-star"></div><div class="spot-star"></div><div class="spot-star"></div><div class="spot-star"></div><div class="spot-star dim"></div></div>
+          <a href="lapeq-picks.html" class="spot-read">Read More</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CARD: Lagos Pick of the Month ── -->
+    <div class="spotlight-card">
+      <!-- CHANGE IMAGES: replace any src below with your own photo URL -->
+      <div class="img-cycler" style="height:220px;">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1544148103-0773bf10d330?w=700&q=80" alt="Lagos Restaurant">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=80" alt="Dining">
+        <img src="https://images.unsplash.com/photo-1550966871-3ed3cfd6dcea?w=700&q=80" alt="Interior">
+      </div>
+      <div class="spot-type-badge badge-restaurant">Restaurant</div>
+      <div class="spot-rating-badge"><span>8.7</span><span>/ 10</span></div>
+      <div class="spotlight-body">
+        <span class="spot-category">Lagos Pick of the Month</span>
+        <h4>Nok by Alara, Lagos</h4>
+        <span class="spot-location">Alara Concept Store, Lagos</span>
+        <p>A uniquely Lagos dining experience blending pan-African cuisine with stunning interior design. Creative, vibrant, and consistently excellent.</p>
+        <div class="spot-meta">
+          <div class="spot-stars"><div class="spot-star"></div><div class="spot-star"></div><div class="spot-star"></div><div class="spot-star"></div><div class="spot-star dim"></div></div>
+          <a href="lapeq-picks.html" class="spot-read">Read More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="newsletter-strip reveal">
+    <div class="newsletter-text">
+      <h4>Get the Monthly Spotlight in Your Inbox</h4>
+      <p>Free LAPEQ members receive this guide every month, plus exclusive early access to events and partner offers.</p>
+    </div>
+    <div class="newsletter-form">
+      <input type="email" class="newsletter-input" placeholder="Enter your email address">
+      <button class="newsletter-btn">Subscribe Free</button>
+    </div>
+  </div>
+</section>
+<div class="gold-divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     JOURNAL (BLOG)
+     ══════════════════════════════════════════════════════════════ -->
+<!--
+  ╔═══════════════════════════════════════════════════════════════╗
+  ║  HOW TO CHANGE JOURNAL IMAGES                                 ║
+  ║  Each card has an .img-cycler div with 3–4 <img> tags.        ║
+  ║  Images rotate automatically every 3.5 seconds.               ║
+  ║  To change: replace src="..." on any <img> below.             ║
+  ╚═══════════════════════════════════════════════════════════════╝
+-->
+<section class="blog-section" id="blog">
+  <div class="blog-header reveal">
+    <div class="blog-header-left">
+      <span class="section-tag">The LAPEQ Journal</span>
+      <h2 class="section-title">Lifestyle Insights &amp;<br><em>Curated Guides</em></h2>
+      <p>From insider guides to luxury travel, fashion, and dining, written for those who refuse to settle for ordinary.</p>
+    </div>
+    <a href="lapeq-journal.html" class="blog-view-all">View All Articles</a>
+  </div>
+
+  <!-- JOURNAL ROW 1 -->
+  <div class="blog-grid reveal">
+
+    <!-- ── JOURNAL CARD 1: Featured (large) ── -->
+    <div class="blog-card">
+      <!-- CHANGE IMAGES: replace any src below with your own photo URL -->
+      <div class="img-cycler" style="height:340px;">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=900&q=80" alt="Abuja Dining">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80" alt="Fine Dining">
+        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=900&q=80" alt="Events">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80" alt="Restaurant Interior">
+      </div>
+      <div class="blog-body">
+        <span class="blog-category">Lifestyle &amp; Access</span>
+        <h4>The Insider's Guide to Abuja's Most Exclusive Venues in 2025</h4>
+        <p>From rooftop lounges with skyline views to private dining rooms reserved for those who know where to ask, LAPEQ reveals the addresses that define Abuja's luxury scene this year.</p>
+        <div class="blog-meta"><span>LAPEQ Editorial</span><div class="blog-dot"></div><span>6 min read</span></div>
+        <a href="lapeq-journal.html" class="blog-read-more">Read Article</a>
+      </div>
+    </div>
+
+    <!-- ── JOURNAL CARD 2: Travel ── -->
+    <div class="blog-card">
+      <!-- CHANGE IMAGES: replace any src below with your own photo URL -->
+      <div class="img-cycler" style="height:240px;">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=700&q=80" alt="Travel">
+        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=700&q=80" alt="Luxury Car">
+        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=700&q=80" alt="Apartment">
+      </div>
+      <div class="blog-body">
+        <span class="blog-category">Travel</span>
+        <h4>How to Travel Nigeria Without the Stress</h4>
+        <p>Executive car hire, flight arrangements, and airport handling. The LAPEQ way to move through Nigeria with zero friction.</p>
+        <div class="blog-meta"><span>LAPEQ Editorial</span><div class="blog-dot"></div><span>4 min read</span></div>
+        <a href="lapeq-journal.html" class="blog-read-more">Read Article</a>
+      </div>
+    </div>
+
+    <!-- ── JOURNAL CARD 3: Fashion ── -->
+    <div class="blog-card">
+      <!-- CHANGE IMAGES: replace any src below with your own photo URL -->
+      <div class="img-cycler" style="height:240px;">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=700&q=80" alt="Fashion">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80" alt="Style">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=700&q=80" alt="Tailoring">
+      </div>
+      <div class="blog-body">
+        <span class="blog-category">Fashion &amp; Style</span>
+        <h4>Bespoke Tailoring in Abuja: The Artisans Who Dress the Elite</h4>
+        <p>We profile the master tailors and fashion houses creating extraordinary custom pieces for Nigeria's most discerning clientele.</p>
+        <div class="blog-meta"><span>LAPEQ Editorial</span><div class="blog-dot"></div><span>5 min read</span></div>
+        <a href="lapeq-journal.html" class="blog-read-more">Read Article</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- JOURNAL ROW 2 -->
+  <div class="blog-grid reveal" style="margin-top:2px;">
+
+    <!-- ── JOURNAL CARD 4: Hospitality ── -->
+    <div class="blog-card">
+      <!-- CHANGE IMAGES: replace any src below with your own photo URL -->
+      <div class="img-cycler" style="height:240px;">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=900&q=80" alt="Apartment">
+        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=900&q=80" alt="Luxury Apt">
+        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=900&q=80" alt="Suite">
+      </div>
+      <div class="blog-body">
+        <span class="blog-category">Hospitality</span>
+        <h4>Abuja's Best Serviced Apartments for the Modern Executive</h4>
+        <p>Whether relocating temporarily or hosting international guests, these residences set the standard for luxury living in the capital.</p>
+        <div class="blog-meta"><span>LAPEQ Editorial</span><div class="blog-dot"></div><span>4 min read</span></div>
+        <a href="lapeq-journal.html" class="blog-read-more">Read Article</a>
+      </div>
+    </div>
+
+    <!-- ── JOURNAL CARD 5: Events ── -->
+    <div class="blog-card">
+      <!-- CHANGE IMAGES: replace any src below with your own photo URL -->
+      <div class="img-cycler" style="height:240px;">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=700&q=80" alt="Events">
+        <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=700&q=80" alt="Concert">
+        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=700&q=80" alt="Night Event">
+      </div>
+      <div class="blog-body">
+        <span class="blog-category">Events</span>
+        <h4>VIP Access: How to Attend Abuja's Most Coveted Events</h4>
+        <p>Concerts, private galas, and invite-only gatherings, LAPEQ gets you through the doors others simply cannot open.</p>
+        <div class="blog-meta"><span>LAPEQ Editorial</span><div class="blog-dot"></div><span>3 min read</span></div>
+        <a href="lapeq-journal.html" class="blog-read-more">Read Article</a>
+      </div>
+    </div>
+
+    <!-- ── JOURNAL CARD 6: Shopping ── -->
+    <div class="blog-card">
+      <!-- CHANGE IMAGES: replace any src below with your own photo URL -->
+      <div class="img-cycler" style="height:240px;">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1481437156560-3205f6a55735?w=700&q=80" alt="Shopping">
+        <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=700&q=80" alt="Shopping 2">
+        <img src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=700&q=80" alt="Retail">
+      </div>
+      <div class="blog-body">
+        <span class="blog-category">Shopping &amp; Lifestyle</span>
+        <h4>The Best Shopping Destinations in Abuja — Curated by LAPEQ</h4>
+        <p>From premium malls to boutique concept stores, our concierge team has mapped every destination worth your time and money.</p>
+        <div class="blog-meta"><span>LAPEQ Editorial</span><div class="blog-dot"></div><span>5 min read</span></div>
+        <a href="lapeq-journal.html" class="blog-read-more">Read Article</a>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="gold-divider"></div>
+
+<!-- ══════════════════════════ TESTIMONIALS ══════════════════════════ -->
+<section class="testimonials-section" id="testimonials">
+  <div class="testimonials-inner">
+    <div class="testimonials-header reveal">
+      <div>
+        <span class="section-tag">Voices of Our Clients</span>
+        <h2 class="section-title">Words That<br><em>Speak for Themselves</em></h2>
+        <p>Every experience we create is built around a real person with real expectations. Here is what some of those people have said.</p>
+      </div>
+    </div>
+    <div class="testimonials-track reveal" id="testiTrack">
+      <div class="testi-card"><span class="testi-tier gold">Gold Member</span><p class="testi-text">"LAPEQ handled my entire visit to Abuja — hotel, transport, restaurant bookings, and even a last-minute event ticket. Everything was flawless. I have never felt more taken care of as a traveller."</p><div class="testi-divider"></div><div class="testi-author"><div class="testi-avatar">A</div><div class="testi-info"><span class="testi-name">Adaeze O.</span><span class="testi-role">Business Executive</span><span class="testi-city">Lagos</span></div></div></div>
+      <div class="testi-card"><span class="testi-tier black">Black Member</span><p class="testi-text">"The discretion and professionalism LAPEQ operates with is unmatched. They managed everything — from my private schedule to sensitive personal arrangements — without a single slip. Exceptional."</p><div class="testi-divider"></div><div class="testi-author"><div class="testi-avatar">C</div><div class="testi-info"><span class="testi-name">Chukwuemeka B.</span><span class="testi-role">Corporate Director</span><span class="testi-city">Abuja</span></div></div></div>
+      <div class="testi-card"><span class="testi-tier silver">Silver Member</span><p class="testi-text">"I was visiting Nigeria for the first time and had no idea where to start. LAPEQ stepped in and made Port Harcourt feel like home. The restaurant recommendations alone were worth every naira."</p><div class="testi-divider"></div><div class="testi-author"><div class="testi-avatar">S</div><div class="testi-info"><span class="testi-name">Sophia M.</span><span class="testi-role">International Consultant</span><span class="testi-city">Port Harcourt</span></div></div></div>
+      <div class="testi-card"><span class="testi-tier gold">Gold Member</span><p class="testi-text">"As a busy professional, I simply cannot afford stress. LAPEQ has become my secret weapon. They respond within minutes, think ten steps ahead, and always deliver something better than I imagined."</p><div class="testi-divider"></div><div class="testi-author"><div class="testi-avatar">T</div><div class="testi-info"><span class="testi-name">Taiwo F.</span><span class="testi-role">Entrepreneur</span><span class="testi-city">Lagos</span></div></div></div>
+      <div class="testi-card"><span class="testi-tier black">Black Member</span><p class="testi-text">"The VIP event access LAPEQ arranged was beyond anything I expected. Private entry, reserved seating, meet and greet — all confirmed within hours of my request. This is what luxury should feel like."</p><div class="testi-divider"></div><div class="testi-author"><div class="testi-avatar">M</div><div class="testi-info"><span class="testi-name">Musa A.</span><span class="testi-role">Public Figure</span><span class="testi-city">Abuja</span></div></div></div>
+      <div class="testi-card"><span class="testi-tier silver">Silver Member</span><p class="testi-text">"I used LAPEQ for my wedding weekend concierge needs in Jos. They coordinated accommodation for over twenty guests, car hire, and an exclusive dinner reservation. Perfect execution from start to finish."</p><div class="testi-divider"></div><div class="testi-author"><div class="testi-avatar">N</div><div class="testi-info"><span class="testi-name">Ngozi K.</span><span class="testi-role">Medical Professional</span><span class="testi-city">Jos</span></div></div></div>
+    </div>
+    <div class="testi-nav reveal">
+      <div class="testi-arrow" onclick="scrollTesti(-1)">&#8592;</div>
+      <span class="testi-counter" id="testiCounter">1 / 2</span>
+      <div class="testi-arrow" onclick="scrollTesti(1)">&#8594;</div>
+    </div>
+  </div>
+</section>
+<div class="gold-divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     VIDEO SECTION
+     ══════════════════════════════════════════════════════════════ -->
+<section class="video-section" id="video">
+  <div class="video-inner">
+    <div class="video-header reveal">
+      <span class="section-tag">The LAPEQ Experience</span>
+      <h2 class="section-title">See What <em>We Do</em></h2>
+      <p>Watch how LAPEQ curates seamless, luxurious experiences for our clients across Abuja, Lagos, Port Harcourt, and Jos, from the first request to the final moment.</p>
+    </div>
+
+    <div class="video-frame-wrap reveal" id="videoWrap" onclick="playVideo()">
+      <iframe
+        id="videoIframe"
+        src="https://www.youtube.com/embed/AfxyA2O8JqM?si=yZV4Fmt8iz0kYDFv"
+        data-src="https://www.youtube.com/embed/AfxyA2O8JqM?si=yZV4Fmt8iz0kYDFv"
+        allow="autoplay; fullscreen"
+        allowfullscreen>
+      </iframe>
+
+      <div class="video-overlay" id="videoOverlay">
+        <div class="video-thumb-bg" style="background-image:url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1400&q=80');"></div>
+        <div class="video-overlay-content">
+          <div class="play-btn">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <span class="play-label">Play Experience Reel</span>
+        </div>
+        <div class="video-gold-bar"></div>
+      </div>
+    </div>
+
+    <div class="video-caption reveal">
+      <span>LAPEQ Concierge</span>
+      <div class="video-caption-dot"></div>
+      <span>Abuja &middot; Lagos &middot; Port Harcourt &middot; Jos</span>
+      <div class="video-caption-dot"></div>
+      <span>Premium Lifestyle 2025</span>
+    </div>
+  </div>
+</section>
+<div class="gold-divider"></div>
+
+<!-- ══════════════════════════ FAQ ══════════════════════════ -->
+<section id="faq">
+  <div class="faq-inner">
+    <div class="faq-header reveal"><span class="section-tag">FAQ</span><h2 class="section-title">Frequently Asked<br><em>Questions</em></h2></div>
+    <div class="faq-item reveal" onclick="toggleFaq(this)"><div class="faq-q">What is a concierge service? <span class="faq-icon">+</span></div><div class="faq-a">A concierge service provides personalized lifestyle management and support — handling travel, reservations, access, logistics, and personal tasks to save you time and eliminate stress. At LAPEQ, we go beyond task completion to curate complete, seamless experiences.</div></div>
+    <div class="faq-item reveal" onclick="toggleFaq(this)"><div class="faq-q">Is LAPEQ only for high-net-worth individuals? <span class="faq-icon">+</span></div><div class="faq-a">No. While we offer premium and VIP services, our flexible membership packages — including a completely free tier — make LAPEQ accessible to professionals, international visitors, and individuals seeking quality service at every level.</div></div>
+    <div class="faq-item reveal" onclick="toggleFaq(this)"><div class="faq-q">How far in advance should I book? <span class="faq-icon">+</span></div><div class="faq-a">We recommend booking in advance for major events, travel arrangements, and exclusive access requests. However, we also accommodate urgent and last-minute requests whenever possible — our team is always ready to assist.</div></div>
+    <div class="faq-item reveal" onclick="toggleFaq(this)"><div class="faq-q">Do you offer 24/7 support? <span class="faq-icon">+</span></div><div class="faq-a">Yes. Our concierge team is available around the clock. Gold and Black members receive priority access to a dedicated concierge manager at all hours.</div></div>
+    <div class="faq-item reveal" onclick="toggleFaq(this)"><div class="faq-q">Are my requests handled confidentially? <span class="faq-icon">+</span></div><div class="faq-a">Absolutely. Discretion and client privacy are core values at LAPEQ. All requests and personal information are handled with strict confidentiality — especially for Black membership and corporate clients.</div></div>
+    <div class="faq-item reveal" onclick="toggleFaq(this)"><div class="faq-q">Do you handle private security arrangements? <span class="faq-icon">+</span></div><div class="faq-a">Yes. For clients who require it, LAPEQ can coordinate private security arrangements with trusted, vetted professionals. This service is available primarily to Gold and Black membership clients, handled with complete discretion.</div></div>
+  </div>
+</section>
+<div class="gold-divider"></div>
+
+<!-- ══════════════════════════ CTA ══════════════════════════ -->
+<div class="cta-banner reveal">
+  <h2>Ready to Experience<br>Nigeria <em>Differently?</em></h2>
+  <p>Your time is valuable. Let LAPEQ handle the rest.</p>
+  <div class="cta-btns">
+    <a href="#contact" class="btn-primary">Book Now</a>
+    <a href="#contact" class="btn-outline">Contact Our Concierge</a>
+  </div>
+</div>
+
+<!-- ══════════════════════════ CONTACT ══════════════════════════ -->
+<div class="contact-wrap" id="contact">
+  <div class="contact-left">
+    <span class="section-tag">Get In Touch</span>
+    <h2 class="section-title" style="font-size:clamp(30px,3vw,46px);">Let's Curate<br><em>Your Experience</em></h2>
+    <p>Reach out to our concierge team. We are available 24/7 and ready to design your perfect experience with care and precision.</p>
+    <div class="contact-info">
+      <div class="ci-item"><div class="ci-icon">LOC</div><div><span class="ci-label">Location</span><span class="ci-val">Abuja, Nigeria</span></div></div>
+      <div class="ci-item"><div class="ci-icon">WA</div><div><span class="ci-label">WhatsApp</span><span class="ci-val">Available on Request</span></div></div>
+      <div class="ci-item"><div class="ci-icon">@</div><div><span class="ci-label">Email</span><span class="ci-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="02616d6c616b67706567426e637267732c616d6f">concierge@lapeq.com</a></span></div></div>
+      <div class="ci-item"><div class="ci-icon">24H</div><div><span class="ci-label">Availability</span><span class="ci-val">24/7 Concierge Support</span></div></div>
+    </div>
+  </div>
+  <div class="contact-right">
+    <span class="section-tag">Send a Request</span>
+    <div class="contact-form">
+      <div class="form-row">
+        <div class="form-group"><label>Full Name</label><input type="text" placeholder="Your name"></div>
+        <div class="form-group"><label>Phone / WhatsApp</label><input type="tel" placeholder="+234..."></div>
+      </div>
+      <div class="form-group"><label>Email Address</label><input type="email" placeholder="your@email.com"></div>
+      <div class="form-row">
+        <div class="form-group"><label>Service Required</label><select><option value="">Select a service</option><option>Hospitality and Travel</option><option>Lifestyle and Exclusive Access</option><option>Personal and Business Support</option><option>Membership Enquiry</option><option>Custom Package</option><option>Private Security</option></select></div>
+        <div class="form-group"><label>Preferred Date</label><input type="date"></div>
+      </div>
+      <div class="form-group"><label>Your Message</label><textarea placeholder="Tell us about your desired experience..."></textarea></div>
+      <a href="#" class="btn-primary" style="text-align:center;">Speak to a Concierge</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ FOOTER ══════════════════════════ -->
+<footer>
+  <div class="footer-brand">
+    <a href="#" class="nav-logo">LAPEQ</a>
+    <p>Your premium international concierge company based in Abuja, Nigeria. Delivering seamless, luxurious, and stress-free lifestyle experiences.</p>
+  </div>
+  <div class="footer-col">
+    <h5>Services</h5>
+    <ul>
+      <li><a href="#services">Hospitality and Travel</a></li>
+      <li><a href="#services">Lifestyle Access</a></li>
+      <li><a href="#services">Personal Support</a></li>
+      <li><a href="#services">Business Concierge</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h5>Membership</h5>
+    <ul>
+      <li><a href="#membership">Free - Join Now</a></li>
+      <li><a href="#membership">Silver</a></li>
+      <li><a href="#membership">Gold</a></li>
+      <li><a href="#membership">Black</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h5>Company</h5>
+    <ul>
+      <li><a href="#about">About LAPEQ</a></li>
+      <li><a href="#spotlight">Monthly Picks</a></li>
+      <li><a href="#blog">Journal</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 LAPEQ. All rights reserved.</span>
+    <span>Abuja &nbsp;&middot;&nbsp; Lagos &nbsp;&middot;&nbsp; Port Harcourt &nbsp;&middot;&nbsp; Jos</span>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── NAVBAR SCROLL ──
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── HERO SLIDESHOW ──
+const slideLabels = ['Hotels &amp; Hospitality','Fine Dining','Concerts &amp; Events','Luxury Vehicles','Fashion &amp; Tailoring','Luxury Apartments','Shopping &amp; Lifestyle'];
+let current = 0, slideTimer = null;
+const slides = document.querySelectorAll('.slide');
+const dots   = document.querySelectorAll('.dot');
+const labelEl = document.getElementById('slideLabel');
+const progressBar = document.getElementById('progress');
+
+function goToSlide(n) {
+  slides[current].classList.remove('active');
+  dots[current].classList.remove('active');
+  current = n;
+  slides[current].classList.add('active');
+  dots[current].classList.add('active');
+  labelEl.innerHTML = slideLabels[current];
+  restartProgress();
+}
+function restartProgress() {
+  progressBar.style.transition = 'none';
+  progressBar.style.width = '0%';
+  clearInterval(slideTimer);
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    progressBar.style.transition = 'width 6.5s linear';
+    progressBar.style.width = '100%';
+  }));
+  slideTimer = setInterval(() => goToSlide((current + 1) % slides.length), 6500);
+}
+restartProgress();
+
+// ── SCROLL REVEAL ──
+const revealEls = document.querySelectorAll('.reveal');
+const ro = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
+}, { threshold: 0.08 });
+revealEls.forEach(el => ro.observe(el));
+
+// ── IMAGE CYCLER ──
+// Finds every .img-cycler, reads its <img> children, and rotates the .cycle-active
+// class every 3.5 seconds. Each cycler is staggered randomly so they don't all
+// change at the same moment.
+document.querySelectorAll('.img-cycler').forEach(cycler => {
+  const imgs = Array.from(cycler.querySelectorAll('img'));
+  if (imgs.length < 2) return;                // skip if only one image
+  let idx = 0;
+  const delay = Math.random() * 3000;         // random 0–3 s stagger
+  setTimeout(() => {
+    setInterval(() => {
+      imgs[idx].classList.remove('cycle-active');
+      idx = (idx + 1) % imgs.length;
+      imgs[idx].classList.add('cycle-active');
+    }, 3500);
+  }, delay);
+});
+
+// ── VIDEO PLAYER ──
+function playVideo() {
+  const wrap    = document.getElementById('videoWrap');
+  const overlay = document.getElementById('videoOverlay');
+  const iframe  = document.getElementById('videoIframe');
+  // Reads the URL from data-src (set in the HTML comments above) and loads it
+  const embedUrl = iframe.getAttribute('data-src');
+  if (!embedUrl || embedUrl.includes('YOUR_VIDEO_ID')) {
+    // No real video set yet — show an alert so the developer knows what to do
+    alert('To add your video: open the HTML file, find the <iframe> in the VIDEO SECTION, and replace YOUR_VIDEO_ID with your actual YouTube or Vimeo video ID.');
+    return;
+  }
+  iframe.src = embedUrl;
+  iframe.classList.add('playing');
+  overlay.classList.add('hidden');
+  wrap.style.cursor = 'default';
+}
+
+// ── FAQ ACCORDION ──
+function toggleFaq(el) {
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('open'));
+  if (!isOpen) el.classList.add('open');
+}
+
+// ── TESTIMONIALS PAGINATION ──
+let testiPage = 0;
+const testiCards = document.querySelectorAll('.testi-card');
+const testiCounterEl = document.getElementById('testiCounter');
+const perPage = () => window.innerWidth < 960 ? 1 : 3;
+const totalPages = () => Math.ceil(testiCards.length / perPage());
+
+function updateTesti() {
+  const pp = perPage();
+  testiCards.forEach((c, i) => {
+    c.style.display = (i >= testiPage * pp && i < (testiPage + 1) * pp) ? '' : 'none';
+  });
+  testiCounterEl.textContent = (testiPage + 1) + ' / ' + totalPages();
+}
+function scrollTesti(dir) {
+  testiPage = (testiPage + dir + totalPages()) % totalPages();
+  updateTesti();
+}
+updateTesti();
+window.addEventListener('resize', updateTesti);
+
+// ── MOBILE NAV ──
+function toggleMenu() {
+  const links = document.querySelector('.nav-links');
+  const cta   = document.querySelector('.nav-cta');
+  const isOpen = links.style.display === 'flex';
+  if (isOpen) {
+    links.style.display = '';
+    cta.style.display = '';
+  } else {
+    links.style.cssText = 'display:flex;flex-direction:column;position:fixed;top:66px;left:0;right:0;background:rgba(8,8,8,0.97);padding:32px 24px;gap:22px;border-bottom:1px solid rgba(201,168,76,0.15);z-index:199;backdrop-filter:blur(12px);';
+    cta.style.display = 'none';
+  }
+}
+</script>
+</body>
+</html>

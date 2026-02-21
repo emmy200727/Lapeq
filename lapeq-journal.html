@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The LAPEQ Journal — Lifestyle, Travel & Luxury Insights</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#C9A84C; --gold-light:#E8C97A; --gold-dark:#A07830;
+  --black:#080808; --black-2:#111111; --black-3:#181612;
+  --white:#F8F6F0; --white-dim:rgba(248,246,240,0.65);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:'Montserrat',sans-serif;font-weight:300;overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--black);}::-webkit-scrollbar-thumb{background:var(--gold);}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:22px 64px;background:rgba(8,8,8,0.95);border-bottom:1px solid rgba(201,168,76,0.1);backdrop-filter:blur(12px);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;letter-spacing:7px;color:var(--gold);text-decoration:none;}
+.nav-back{display:flex;align-items:center;gap:10px;color:rgba(248,246,240,0.6);text-decoration:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;transition:color 0.3s;}
+.nav-back:hover{color:var(--gold);}
+.nav-back::before{content:'←';font-size:14px;}
+.nav-cta{padding:10px 26px;border:1px solid var(--gold);color:var(--gold);text-decoration:none;font-size:9px;letter-spacing:3px;text-transform:uppercase;transition:all 0.3s;}
+.nav-cta:hover{background:var(--gold);color:var(--black);}
+
+/* ── JOURNAL HERO ── */
+.journal-hero{padding:160px 64px 80px;max-width:1400px;margin:0 auto;}
+.journal-hero-eyebrow{display:flex;align-items:center;gap:16px;margin-bottom:24px;}
+.journal-hero-eyebrow span:first-child{font-size:9px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);}
+.eyebrow-line{height:1px;width:48px;background:var(--gold);opacity:0.4;}
+.journal-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(56px,8vw,110px);font-weight:300;line-height:0.95;color:var(--white);margin-bottom:32px;}
+.journal-hero h1 em{font-style:italic;color:var(--gold);}
+.journal-hero-sub{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap;}
+.journal-hero-sub p{font-size:14px;line-height:1.9;color:var(--white-dim);max-width:480px;}
+.journal-issue{text-align:right;}
+.journal-issue .issue-num{font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:300;color:rgba(201,168,76,0.08);line-height:1;display:block;}
+.journal-issue .issue-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,168,76,0.4);}
+.gold-divider{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--gold) 20%,var(--gold) 80%,transparent);opacity:0.15;margin:0;}
+
+/* ── FILTER BAR ── */
+.filter-bar{padding:32px 64px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--black-2);border-bottom:1px solid rgba(201,168,76,0.07);}
+.filter-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,168,76,0.5);margin-right:16px;}
+.filter-btn{padding:8px 20px;border:1px solid rgba(201,168,76,0.15);color:rgba(248,246,240,0.5);font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.3s;background:none;font-family:'Montserrat',sans-serif;}
+.filter-btn:hover,.filter-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.05);}
+
+/* ── FEATURED ARTICLE ── */
+.featured-wrap{max-width:1400px;margin:0 auto;padding:72px 64px 0;}
+.featured-article{display:grid;grid-template-columns:1.2fr 1fr;gap:0;background:var(--black-2);border:1px solid rgba(201,168,76,0.08);overflow:hidden;cursor:pointer;transition:border-color 0.4s;}
+.featured-article:hover{border-color:rgba(201,168,76,0.25);}
+.featured-img-wrap{position:relative;overflow:hidden;min-height:500px;}
+.featured-img-wrap .feat-img{width:100%;height:100%;object-fit:cover;filter:brightness(0.6) saturate(0.8);transition:transform 8s ease, filter 0.5s;}
+.featured-article:hover .feat-img{transform:scale(1.04);filter:brightness(0.7) saturate(0.9);}
+.featured-img-wrap .feat-cycler{position:absolute;inset:0;}
+.feat-cycler img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.4s ease,transform 9s ease;transform:scale(1.06);filter:brightness(0.6) saturate(0.8);}
+.feat-cycler img.cycle-active{opacity:1;transform:scale(1);}
+.feat-tag{position:absolute;top:28px;left:28px;z-index:2;padding:6px 16px;background:rgba(8,8,8,0.85);border:1px solid rgba(201,168,76,0.35);color:var(--gold);font-size:8px;letter-spacing:4px;text-transform:uppercase;}
+.feat-read-time{position:absolute;bottom:28px;left:28px;z-index:2;font-size:9px;letter-spacing:3px;color:rgba(248,246,240,0.6);text-transform:uppercase;}
+.featured-body{padding:60px 52px;display:flex;flex-direction:column;justify-content:space-between;}
+.featured-meta{margin-bottom:auto;}
+.feat-overline{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:20px;}
+.featured-body h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3vw,44px);font-weight:300;color:var(--white);line-height:1.2;margin-bottom:24px;}
+.featured-body p{font-size:13px;line-height:2;color:var(--white-dim);margin-bottom:32px;}
+.feat-author{display:flex;align-items:center;gap:16px;padding-top:28px;border-top:1px solid rgba(201,168,76,0.1);}
+.feat-avatar{width:40px;height:40px;border-radius:50%;border:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--gold);background:rgba(201,168,76,0.06);}
+.feat-author-info span:first-child{display:block;font-size:12px;color:var(--white);font-weight:400;}
+.feat-author-info span:last-child{font-size:9px;letter-spacing:2px;color:rgba(248,246,240,0.35);text-transform:uppercase;}
+.read-link{display:inline-flex;align-items:center;gap:8px;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;transition:gap 0.3s;margin-top:32px;}
+.read-link::after{content:'→';}
+.read-link:hover{gap:14px;}
+
+/* ── ARTICLE GRID ── */
+.articles-wrap{max-width:1400px;margin:0 auto;padding:2px 64px 0;}
+.articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(201,168,76,0.07);}
+.article-card{background:var(--black-2);cursor:pointer;transition:background 0.3s;overflow:hidden;}
+.article-card:hover{background:var(--black-3);}
+/* image cycler in article cards */
+.article-img-wrap{position:relative;height:220px;overflow:hidden;}
+.article-img-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.4s ease,transform 9s ease;transform:scale(1.06);filter:brightness(0.55) saturate(0.7);}
+.article-img-wrap img.cycle-active{opacity:1;transform:scale(1);}
+.article-card:hover .article-img-wrap img.cycle-active{filter:brightness(0.68) saturate(0.85);}
+.article-cat-badge{position:absolute;bottom:16px;left:16px;padding:4px 12px;font-size:8px;letter-spacing:3px;text-transform:uppercase;z-index:2;}
+.cat-lifestyle{background:rgba(201,168,76,0.85);color:#000;}
+.cat-travel{background:rgba(40,90,170,0.88);color:#fff;}
+.cat-fashion{background:rgba(130,50,150,0.88);color:#fff;}
+.cat-hospitality{background:rgba(30,130,90,0.88);color:#fff;}
+.cat-events{background:rgba(180,60,40,0.88);color:#fff;}
+.cat-shopping{background:rgba(100,70,160,0.88);color:#fff;}
+.cat-food{background:rgba(180,100,30,0.88);color:#fff;}
+.article-body{padding:26px 28px 32px;}
+.article-body h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--white);line-height:1.3;margin-bottom:12px;}
+.article-body p{font-size:12px;line-height:1.85;color:var(--white-dim);margin-bottom:18px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.article-footer{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid rgba(201,168,76,0.08);}
+.article-footer-meta{font-size:9px;letter-spacing:2px;color:rgba(248,246,240,0.3);text-transform:uppercase;}
+.article-read{font-size:9px;letter-spacing:2px;color:var(--gold);text-decoration:none;text-transform:uppercase;display:flex;align-items:center;gap:5px;transition:gap 0.3s;}
+.article-read::after{content:'→';}
+.article-read:hover{gap:9px;}
+
+/* ── FULL ARTICLE VIEW (overlay) ── */
+.article-overlay{position:fixed;inset:0;z-index:500;background:var(--black);overflow-y:auto;opacity:0;pointer-events:none;transition:opacity 0.5s;}
+.article-overlay.open{opacity:1;pointer-events:all;}
+.overlay-close{position:fixed;top:28px;right:40px;z-index:600;width:44px;height:44px;border:1px solid rgba(201,168,76,0.3);background:rgba(8,8,8,0.9);color:var(--gold);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;}
+.overlay-close:hover{background:var(--gold);color:var(--black);}
+.article-full{max-width:760px;margin:0 auto;padding:120px 40px 100px;}
+.article-full .af-tag{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:20px;}
+.article-full h1{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,62px);font-weight:300;line-height:1.1;color:var(--white);margin-bottom:28px;}
+.article-full h1 em{font-style:italic;color:var(--gold);}
+.af-meta{display:flex;align-items:center;gap:16px;padding:20px 0;border-top:1px solid rgba(201,168,76,0.1);border-bottom:1px solid rgba(201,168,76,0.1);margin-bottom:52px;flex-wrap:wrap;}
+.af-meta-item{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(248,246,240,0.4);}
+.af-meta-dot{width:3px;height:3px;background:var(--gold);border-radius:50%;opacity:0.4;}
+.article-full .af-hero{width:100%;height:420px;object-fit:cover;filter:brightness(0.65) saturate(0.8);margin-bottom:52px;display:block;}
+.af-body{font-size:15px;line-height:2;color:rgba(248,246,240,0.8);font-family:'Cormorant Garamond',serif;font-weight:300;}
+.af-body p{margin-bottom:28px;}
+.af-body h3{font-size:26px;color:var(--white);margin:48px 0 20px;font-weight:400;}
+.af-pull{font-size:22px;font-style:italic;color:var(--gold-light);padding:32px 0 32px 28px;border-left:2px solid var(--gold);margin:44px 0;line-height:1.6;}
+.af-tip{background:var(--black-2);border:1px solid rgba(201,168,76,0.12);padding:24px 28px;margin:36px 0;}
+.af-tip strong{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px;font-family:'Montserrat',sans-serif;}
+.af-tip p{font-size:13px;color:var(--white-dim);margin:0;font-family:'Montserrat',sans-serif;line-height:1.8;}
+
+/* ── QUOTE STRIP ── */
+.quote-strip{background:linear-gradient(135deg,#0d0b05,#131008);border-top:1px solid rgba(201,168,76,0.1);border-bottom:1px solid rgba(201,168,76,0.1);padding:80px 64px;text-align:center;margin-top:2px;}
+.quote-strip blockquote{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3vw,38px);font-style:italic;font-weight:300;color:var(--white);line-height:1.5;max-width:820px;margin:0 auto 24px;}
+.quote-strip cite{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:0.7;}
+
+/* ── NEWSLETTER ── */
+.journal-newsletter{background:var(--black-2);padding:80px 64px;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;max-width:100%;}
+.jn-text h3{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--white);margin-bottom:8px;}
+.jn-text p{font-size:13px;color:var(--white-dim);}
+.jn-form{display:flex;flex:1;max-width:440px;min-width:280px;}
+.jn-input{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.2);border-right:none;color:var(--white);padding:14px 18px;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:300;outline:none;transition:border-color 0.3s;}
+.jn-input:focus{border-color:rgba(201,168,76,0.5);}
+.jn-input::placeholder{color:rgba(248,246,240,0.3);}
+.jn-btn{padding:14px 26px;background:var(--gold);color:var(--black);font-size:9px;letter-spacing:3px;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;transition:background 0.3s;white-space:nowrap;}
+.jn-btn:hover{background:var(--gold-light);}
+
+/* ── FOOTER ── */
+.page-footer{background:#060606;border-top:1px solid rgba(201,168,76,0.07);padding:36px 64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;}
+.page-footer span{font-size:10px;color:rgba(248,246,240,0.2);letter-spacing:1px;}
+.page-footer a{color:var(--gold);text-decoration:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.75s ease,transform 0.75s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* ── MOBILE ── */
+@media(max-width:960px){
+  nav{padding:18px 24px;}
+  .journal-hero{padding:120px 24px 60px;}
+  .featured-wrap,.articles-wrap{padding:40px 24px 0;}
+  .featured-article{grid-template-columns:1fr;}
+  .featured-img-wrap{min-height:300px;}
+  .articles-grid{grid-template-columns:1fr;}
+  .filter-bar{padding:20px 24px;}
+  .quote-strip{padding:60px 24px;}
+  .journal-newsletter{padding:60px 24px;}
+  .page-footer{padding:28px 24px;}
+  .article-full{padding:100px 24px 80px;}
+  .overlay-close{top:20px;right:20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="lapeq-website.html" class="nav-back">Back to LAPEQ</a>
+  <a href="lapeq-website.html" class="nav-logo">LAPEQ</a>
+  <a href="lapeq-website.html#contact" class="nav-cta">Book Now</a>
+</nav>
+
+<!-- ARTICLE READING OVERLAY -->
+<div class="article-overlay" id="articleOverlay">
+  <div class="overlay-close" onclick="closeArticle()">✕</div>
+  <div class="article-full" id="articleContent"></div>
+</div>
+
+<!-- HERO -->
+<div class="journal-hero reveal">
+  <div class="journal-hero-eyebrow">
+    <span>The LAPEQ Journal</span>
+    <div class="eyebrow-line"></div>
+    <span style="color:rgba(248,246,240,0.35);font-size:9px;letter-spacing:3px;">EST. 2024</span>
+  </div>
+  <h1>Lifestyle<br>Insights &amp;<br><em>Curated</em><br>Guides</h1>
+  <div class="journal-hero-sub">
+    <p>From insider guides to luxury travel, fashion, and fine dining — our journal is written for those who refuse to settle for ordinary experiences in Nigeria and beyond.</p>
+    <div class="journal-issue">
+      <span class="issue-num">06</span>
+      <span class="issue-label">February 2025 Edition</span>
+    </div>
+  </div>
+</div>
+<div class="gold-divider"></div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <span class="filter-label">Browse By</span>
+  <button class="filter-btn active" onclick="filterArticles('all', this)">All</button>
+  <button class="filter-btn" onclick="filterArticles('lifestyle', this)">Lifestyle</button>
+  <button class="filter-btn" onclick="filterArticles('travel', this)">Travel</button>
+  <button class="filter-btn" onclick="filterArticles('fashion', this)">Fashion</button>
+  <button class="filter-btn" onclick="filterArticles('hospitality', this)">Hospitality</button>
+  <button class="filter-btn" onclick="filterArticles('events', this)">Events</button>
+  <button class="filter-btn" onclick="filterArticles('shopping', this)">Shopping</button>
+  <button class="filter-btn" onclick="filterArticles('food', this)">Dining</button>
+</div>
+
+<!-- FEATURED ARTICLE -->
+<div class="featured-wrap reveal">
+  <div class="featured-article" onclick="openArticle('featured')">
+    <div class="featured-img-wrap">
+      <!-- CHANGE IMAGES: replace src values with your preferred restaurant/venue images -->
+      <div class="feat-cycler">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=1200&q=80" alt="Abuja Dining">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80" alt="Fine Dining">
+        <img src="https://images.unsplash.com/photo-1550966871-3ed3cfd6dcea?w=1200&q=80" alt="Restaurant">
+        <img src="https://images.unsplash.com/photo-1519671282429-b8b39c04f95e?w=1200&q=80" alt="Night Dining">
+      </div>
+      <span class="feat-tag">Cover Story</span>
+      <span class="feat-read-time">6 min read</span>
+    </div>
+    <div class="featured-body">
+      <div class="featured-meta">
+        <span class="feat-overline">Lifestyle &amp; Access</span>
+        <h2>The Insider's Guide to Abuja's Most Exclusive Venues in 2025</h2>
+        <p>From rooftop lounges with sweeping skyline views to private dining rooms reserved for those who know where to ask — LAPEQ reveals the addresses that define Abuja's luxury scene this year. We went behind the velvet rope so you don't have to.</p>
+        <a href="#" class="read-link" onclick="event.stopPropagation(); openArticle('featured'); return false;">Read Full Article</a>
+      </div>
+      <div class="feat-author">
+        <div class="feat-avatar">L</div>
+        <div class="feat-author-info">
+          <span>LAPEQ Editorial</span>
+          <span>February 2025</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ARTICLES GRID -->
+<div class="articles-wrap">
+  <div class="articles-grid" id="articlesGrid">
+
+    <!-- CARD 1 — Travel -->
+    <div class="article-card" data-category="travel" onclick="openArticle('travel')">
+      <!-- CHANGE IMAGES: replace src values with your preferred travel images -->
+      <div class="article-img-wrap">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=700&q=80" alt="Travel">
+        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=700&q=80" alt="Luxury Car">
+        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=700&q=80" alt="Apartment">
+        <span class="article-cat-badge cat-travel">Travel</span>
+      </div>
+      <div class="article-body">
+        <h3>How to Travel Nigeria Without the Stress</h3>
+        <p>Executive car hire, flight arrangements, and airport handling — the LAPEQ way to move through Nigeria with zero friction and total ease, regardless of which city you're heading to.</p>
+        <div class="article-footer">
+          <span class="article-footer-meta">4 min read · Feb 2025</span>
+          <a href="#" class="article-read" onclick="event.stopPropagation(); openArticle('travel'); return false;">Read</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 2 — Fashion -->
+    <div class="article-card" data-category="fashion" onclick="openArticle('fashion')">
+      <!-- CHANGE IMAGES: replace src values with your preferred fashion images -->
+      <div class="article-img-wrap">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=700&q=80" alt="Fashion">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80" alt="Style">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=700&q=80" alt="Tailoring">
+        <span class="article-cat-badge cat-fashion">Fashion</span>
+      </div>
+      <div class="article-body">
+        <h3>Bespoke Tailoring in Abuja: The Artisans Who Dress the Elite</h3>
+        <p>We profile the master tailors and fashion houses creating extraordinary custom pieces for Nigeria's most discerning clientele — names you need to know.</p>
+        <div class="article-footer">
+          <span class="article-footer-meta">5 min read · Feb 2025</span>
+          <a href="#" class="article-read" onclick="event.stopPropagation(); openArticle('fashion'); return false;">Read</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 3 — Hospitality -->
+    <div class="article-card" data-category="hospitality" onclick="openArticle('apartments')">
+      <!-- CHANGE IMAGES: replace src values with your preferred hospitality images -->
+      <div class="article-img-wrap">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=700&q=80" alt="Apartment">
+        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=700&q=80" alt="Suite">
+        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=700&q=80" alt="Hotel">
+        <span class="article-cat-badge cat-hospitality">Hospitality</span>
+      </div>
+      <div class="article-body">
+        <h3>Abuja's Best Serviced Apartments for the Modern Executive</h3>
+        <p>Whether relocating temporarily or hosting international guests, these are the residences that set the standard for luxury living in the capital this year.</p>
+        <div class="article-footer">
+          <span class="article-footer-meta">4 min read · Feb 2025</span>
+          <a href="#" class="article-read" onclick="event.stopPropagation(); openArticle('apartments'); return false;">Read</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 4 — Events -->
+    <div class="article-card" data-category="events" onclick="openArticle('events')">
+      <!-- CHANGE IMAGES: replace src values with your preferred event images -->
+      <div class="article-img-wrap">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=700&q=80" alt="Events">
+        <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=700&q=80" alt="Concert">
+        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=700&q=80" alt="Night Event">
+        <span class="article-cat-badge cat-events">Events</span>
+      </div>
+      <div class="article-body">
+        <h3>VIP Access: How to Attend Abuja's Most Coveted Events</h3>
+        <p>Concerts, private galas, and invite-only gatherings — LAPEQ gets you through the doors others simply cannot open. Here is how we do it.</p>
+        <div class="article-footer">
+          <span class="article-footer-meta">3 min read · Feb 2025</span>
+          <a href="#" class="article-read" onclick="event.stopPropagation(); openArticle('events'); return false;">Read</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 5 — Shopping -->
+    <div class="article-card" data-category="shopping" onclick="openArticle('shopping')">
+      <!-- CHANGE IMAGES: replace src values with your preferred shopping images -->
+      <div class="article-img-wrap">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1481437156560-3205f6a55735?w=700&q=80" alt="Shopping">
+        <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=700&q=80" alt="Boutique">
+        <img src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=700&q=80" alt="Retail">
+        <span class="article-cat-badge cat-shopping">Shopping</span>
+      </div>
+      <div class="article-body">
+        <h3>The Best Shopping Destinations in Abuja — Curated by LAPEQ</h3>
+        <p>From premium malls to boutique concept stores, our concierge team has mapped every destination worth your time and money across the capital city.</p>
+        <div class="article-footer">
+          <span class="article-footer-meta">5 min read · Jan 2025</span>
+          <a href="#" class="article-read" onclick="event.stopPropagation(); openArticle('shopping'); return false;">Read</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 6 — Dining -->
+    <div class="article-card" data-category="food" onclick="openArticle('dining')">
+      <!-- CHANGE IMAGES: replace src values with your preferred dining images -->
+      <div class="article-img-wrap">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=80" alt="Dining">
+        <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?w=700&q=80" alt="Restaurant">
+        <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=700&q=80" alt="Table">
+        <span class="article-cat-badge cat-food">Dining</span>
+      </div>
+      <div class="article-body">
+        <h3>Nigeria's 10 Most Memorable Restaurant Experiences Right Now</h3>
+        <p>Our editorial team has eaten their way through Abuja, Lagos, Port Harcourt, and Jos to bring you the definitive 2025 restaurant guide — from fine dining to hidden gems.</p>
+        <div class="article-footer">
+          <span class="article-footer-meta">8 min read · Jan 2025</span>
+          <a href="#" class="article-read" onclick="event.stopPropagation(); openArticle('dining'); return false;">Read</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 7 — Lifestyle -->
+    <div class="article-card" data-category="lifestyle" onclick="openArticle('ladies')">
+      <!-- CHANGE IMAGES: replace src values with your preferred lifestyle images -->
+      <div class="article-img-wrap">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=700&q=80" alt="Spa">
+        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=700&q=80" alt="Wellness">
+        <img src="https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?w=700&q=80" alt="Lifestyle">
+        <span class="article-cat-badge cat-lifestyle">Lifestyle</span>
+      </div>
+      <div class="article-body">
+        <h3>The LAPEQ Ladies' Section: A Space Designed for Elegance</h3>
+        <p>Our curated Ladies' Section brings together spas, boutiques, fine dining, and personal styling experiences designed specifically around the modern Nigerian woman's refined lifestyle.</p>
+        <div class="article-footer">
+          <span class="article-footer-meta">4 min read · Jan 2025</span>
+          <a href="#" class="article-read" onclick="event.stopPropagation(); openArticle('ladies'); return false;">Read</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 8 — Travel -->
+    <div class="article-card" data-category="travel" onclick="openArticle('pairing')">
+      <!-- CHANGE IMAGES: replace src values with your preferred travel/pairing images -->
+      <div class="article-img-wrap">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=700&q=80" alt="Travel">
+        <img src="https://images.unsplash.com/photo-1544620347460-35ea1bf8aced?w=700&q=80" alt="Airport">
+        <img src="https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=700&q=80" alt="Journey">
+        <span class="article-cat-badge cat-travel">Travel</span>
+      </div>
+      <div class="article-body">
+        <h3>LAPEQ's Travel Pairing Feature: Safer, Smarter Journeys</h3>
+        <p>Our innovative pairing system connects travellers departing at the same time, creating safer, more social, and more convenient journeys across Nigeria — a first of its kind.</p>
+        <div class="article-footer">
+          <span class="article-footer-meta">3 min read · Dec 2024</span>
+          <a href="#" class="article-read" onclick="event.stopPropagation(); openArticle('pairing'); return false;">Read</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 9 — Hospitality -->
+    <div class="article-card" data-category="hospitality" onclick="openArticle('spas')">
+      <!-- CHANGE IMAGES: replace src values with your preferred spa/wellness images -->
+      <div class="article-img-wrap">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=700&q=80" alt="Spa">
+        <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=700&q=80" alt="Wellness">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=700&q=80" alt="Relaxation">
+        <span class="article-cat-badge cat-hospitality">Wellness</span>
+      </div>
+      <div class="article-body">
+        <h3>Abuja's Finest Spas and Wellness Experiences for 2025</h3>
+        <p>From traditional hammam treatments to cutting-edge wellness therapies, LAPEQ's wellness concierge has reviewed and curated Abuja's best spa and recovery experiences this year.</p>
+        <div class="article-footer">
+          <span class="article-footer-meta">5 min read · Dec 2024</span>
+          <a href="#" class="article-read" onclick="event.stopPropagation(); openArticle('spas'); return false;">Read</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="gold-divider" style="margin-top:2px;"></div>
+
+<!-- QUOTE STRIP -->
+<div class="quote-strip reveal">
+  <blockquote>"Luxury is not about price — it is about the feeling of being perfectly taken care of at every moment."</blockquote>
+  <cite>— LAPEQ Editorial Philosophy</cite>
+</div>
+<div class="gold-divider"></div>
+
+<!-- NEWSLETTER -->
+<div class="journal-newsletter reveal">
+  <div class="jn-text">
+    <h3>Never Miss an Edition</h3>
+    <p>Free LAPEQ members receive the full journal every month — plus curated city guides, exclusive event invitations, and partner discounts.</p>
+  </div>
+  <div class="jn-form">
+    <input type="email" class="jn-input" placeholder="Enter your email address">
+    <button class="jn-btn">Subscribe Free</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="page-footer">
+  <span>&copy; 2025 LAPEQ. All rights reserved.</span>
+  <a href="lapeq-website.html">← Return to Main Site</a>
+</div>
+
+<!-- ARTICLE CONTENT DATA -->
+<script>
+const articles = {
+  featured: {
+    tag: 'Lifestyle & Access · Cover Story',
+    title: "The Insider's Guide to Abuja's Most Exclusive <em>Venues</em> in 2025",
+    meta: ['LAPEQ Editorial', 'February 2025', '6 min read'],
+    img: 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=1200&q=80',
+    body: `
+      <p>Abuja has always been Nigeria's capital of power — but in 2025, it is becoming something else entirely: the country's capital of refined taste. A new generation of venues has quietly opened their doors to those who know where to ask, and LAPEQ has spent the past year mapping every one of them.</p>
+      <h3>The Rooftop Renaissance</h3>
+      <p>Three new rooftop venues opened in Maitama and Wuse 2 in the past twelve months, and only one of them advertises publicly. The others rely entirely on word of mouth — and the word has reached us. Expect panoramic skyline views, Japanese-inspired cocktail menus, and a dress code that is enforced with polite firmness.</p>
+      <div class="af-pull">"The best table in Abuja is not in any restaurant guide. It is on a rooftop in Maitama with no sign on the door."</div>
+      <h3>Private Dining Rooms</h3>
+      <p>Several of Abuja's most established restaurants now maintain private dining rooms that are invisible to walk-in guests. These spaces — seating between six and twenty — are reserved for private celebrations, business dinners, and experiences that demand absolute discretion. LAPEQ members receive priority access upon request.</p>
+      <div class="af-tip">
+        <strong>LAPEQ Concierge Tip</strong>
+        <p>For the highest-tier private dining experiences, we recommend making your request at least 72 hours in advance. Our concierge team handles all arrangements — from personalised menus to dedicated staff — so you arrive to a space that already knows your name.</p>
+      </div>
+      <p>Beyond restaurants, the club scene has matured considerably. Gone are the days of loud, indiscriminate nightlife. The venues worth visiting in 2025 are intimate, beautifully designed, and carefully curated in their guest experience. LAPEQ members are regularly extended invitations to these spaces as part of our Gold and Black tier benefits.</p>
+      <h3>What's Coming Next</h3>
+      <p>Our editorial team has learned of at least four new venues launching in Abuja before mid-year — two in the hospitality sector and two in fine dining. LAPEQ members will be among the first to hear about these openings, receive access to launch events, and enjoy exclusive early reservation windows. Watch this space.</p>
+    `
+  },
+  travel: {
+    tag: 'Travel',
+    title: 'How to Travel Nigeria <em>Without the Stress</em>',
+    meta: ['LAPEQ Editorial', 'February 2025', '4 min read'],
+    img: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1200&q=80',
+    body: `
+      <p>Travelling within Nigeria — between cities, across states, and through airports — does not have to be the ordeal most people accept it as. With the right arrangements in place, it becomes something else entirely: a smooth, predictable, even enjoyable experience. LAPEQ exists to make that the standard, not the exception.</p>
+      <h3>The LAPEQ Travel System</h3>
+      <p>When you engage LAPEQ for travel support, you are not simply booking a car or a flight. You are activating a system. Our concierge team coordinates every touchpoint — departure, transit, arrival, and everything that happens in between. Your driver knows your name before you land. Your hotel has your preferences on file before you check in.</p>
+      <div class="af-pull">"Travel should expand your world — not exhaust you before you arrive."</div>
+      <h3>Airport Handling & VIP Assistance</h3>
+      <p>For travellers arriving at or departing from Nnamdi Azikiwe International Airport in Abuja, or Murtala Muhammed in Lagos, LAPEQ offers dedicated airport handling services. A LAPEQ representative meets you at the aircraft door or at departures, manages your luggage, fast-tracks your documentation, and escorts you to your vehicle — no queuing, no confusion, no stress.</p>
+      <div class="af-tip">
+        <strong>Smart Concierge Assistant</strong>
+        <p>LAPEQ members also have access to our smart concierge assistant which provides real-time flight updates, gate information, and delay alerts. You will always know what is happening before anyone else does.</p>
+      </div>
+      <h3>Executive Car Hire Across Nigeria</h3>
+      <p>Our fleet partners operate across Abuja, Lagos, Port Harcourt, and Jos. Every vehicle is vetted for cleanliness, reliability, and professional presentation. Every driver is verified, trained in client discretion, and carries a LAPEQ conduct code. Whether you need an hourly engagement or a multi-day executive arrangement, our team will coordinate it seamlessly.</p>
+    `
+  },
+  fashion: {
+    tag: 'Fashion & Style',
+    title: 'Bespoke Tailoring in Abuja: The Artisans Who <em>Dress the Elite</em>',
+    meta: ['LAPEQ Editorial', 'February 2025', '5 min read'],
+    img: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200&q=80',
+    body: `
+      <p>There is a particular confidence that comes from wearing something made specifically for you — cut to your exact measurements, built from fabric you selected, by hands that understand the relationship between cloth and identity. In Abuja, a quiet revolution in bespoke fashion has been underway for several years. LAPEQ has been watching, and now we are ready to share what we have found.</p>
+      <h3>The New Nigerian Tailor</h3>
+      <p>The artisans shaping Abuja's bespoke scene are not what you might expect. They are often young — thirties and younger — trained in a blend of West African traditional craft and international technical education. They work from discreet studios in Maitama, Asokoro, and the quieter corners of Wuse, and their client lists read like a directory of Nigerian power and culture.</p>
+      <div class="af-pull">"The most powerful thing a person can wear is something no one else on earth has."</div>
+      <h3>What LAPEQ Can Arrange</h3>
+      <p>Through our lifestyle and access service, LAPEQ members can request introductions to our vetted network of bespoke tailors and fashion houses. We arrange private consultations, liaise on behalf of clients who value privacy, and can source specific fabrics or materials when requested. For international visitors who need a piece completed within a shorter timeline, we have relationships with artisans who maintain that standard without compromising quality.</p>
+      <div class="af-tip">
+        <strong>LAPEQ Fashion Concierge</strong>
+        <p>Gold and Black members can request a personal style consultation as part of their membership benefits. Our fashion concierge will curate a tailored selection of artisans matched to your aesthetic and requirements.</p>
+      </div>
+    `
+  },
+  apartments: {
+    tag: 'Hospitality',
+    title: "Abuja's Best Serviced Apartments for the <em>Modern Executive</em>",
+    meta: ['LAPEQ Editorial', 'February 2025', '4 min read'],
+    img: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1200&q=80',
+    body: `
+      <p>The executive serviced apartment has become the accommodation of choice for a new generation of Nigerian business travellers and international visitors who find hotels too impersonal and standard rentals too uncertain. In Abuja, the quality of this segment has improved dramatically — and LAPEQ has reviewed the best of them.</p>
+      <h3>What Makes a Great Serviced Apartment</h3>
+      <p>Beyond square footage and furnishings, the best serviced apartments distinguish themselves through responsiveness, cleanliness consistency, reliable utilities, and — crucially — absolute discretion about their guests. The properties we recommend to LAPEQ members meet all of these criteria and are vetted quarterly by our hospitality team.</p>
+      <div class="af-pull">"The right apartment is not just a place to sleep. It is a base of operations for everything that matters."</div>
+      <h3>LAPEQ Member Benefits</h3>
+      <p>Members who book through LAPEQ receive negotiated rates at our partner properties, priority availability during high-demand periods, pre-arrival personalisation — preferred room configurations, specific amenities, dietary requirements — and a dedicated point of contact for the duration of their stay. We treat every LAPEQ member stay as a VIP arrangement, regardless of length.</p>
+    `
+  },
+  events: {
+    tag: 'Events',
+    title: "VIP Access: How to Attend Abuja's Most <em>Coveted Events</em>",
+    meta: ['LAPEQ Editorial', 'February 2025', '3 min read'],
+    img: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&q=80',
+    body: `
+      <p>Some events in Abuja are not advertised. They are not ticketed online. They do not appear on lifestyle blogs or social media pages. They exist — magnificently — for a small group of people who received a message from someone who knows someone. LAPEQ is in that circle, and our members benefit from it every month.</p>
+      <h3>What We Can Access</h3>
+      <p>From private concerts by internationally renowned artists to intimate gallery openings, gala dinners, and exclusive sports viewings, our events access spans the full range of Abuja's private social calendar. We also maintain relationships with promoters across Lagos and Port Harcourt, giving LAPEQ members national coverage for the events that matter most.</p>
+      <div class="af-pull">"The most memorable events are the ones that never made the guest list — until LAPEQ made the call."</div>
+      <div class="af-tip">
+        <strong>How to Request Event Access</strong>
+        <p>Gold and Black members can submit event access requests through their dedicated concierge manager. We require at least 48 hours for standard requests and handle urgent access requests on a best-efforts basis, depending on availability and relationships.</p>
+      </div>
+    `
+  },
+  shopping: {
+    tag: 'Shopping & Lifestyle',
+    title: "The Best Shopping Destinations in Abuja — <em>Curated by LAPEQ</em>",
+    meta: ['LAPEQ Editorial', 'January 2025', '5 min read'],
+    img: 'https://images.unsplash.com/photo-1481437156560-3205f6a55735?w=1200&q=80',
+    body: `
+      <p>Shopping in Abuja has changed. The era of crowded, uninspiring retail has given way — in the right corners of the city — to curated boutique experiences, concept stores with genuine curation, and luxury multi-brand environments that rival their counterparts in Lagos and beyond. LAPEQ has mapped the landscape so you do not have to.</p>
+      <h3>Boutiques Worth Your Time</h3>
+      <p>Several independent boutiques operating out of Maitama and Jabi carry imported and locally-made luxury goods that are simply not available anywhere else in the city. Our concierge team has relationships with the owners of these spaces — which means LAPEQ members can often access pre-launch stock, private sales, and personalised styling appointments before anyone else.</p>
+      <div class="af-pull">"The best shopping experience is never about the transaction. It is about what you discover."</div>
+      <h3>Fashion Houses & Bespoke Labels</h3>
+      <p>Abuja's emerging fashion house scene is producing work that deserves international attention. LAPEQ has partnered with several of these labels to provide our members with curated access — private viewings, bespoke commissions, and exclusive early access to new collections. Contact your concierge for our current partner list.</p>
+    `
+  },
+  dining: {
+    tag: 'Dining Guide',
+    title: "Nigeria's 10 Most Memorable Restaurant <em>Experiences</em> Right Now",
+    meta: ['LAPEQ Editorial', 'January 2025', '8 min read'],
+    img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80',
+    body: `
+      <p>This list is not about Michelin stars — Nigeria does not have them yet, though it deserves them. This is about the restaurants our team has visited, revisited, and genuinely looked forward to returning to. The criteria: culinary excellence, service consistency, atmosphere, and the feeling — difficult to define but unmistakable when you experience it — of being in the right place at the right time.</p>
+      <h3>The LAPEQ Standard</h3>
+      <p>We visit every restaurant on this list anonymously, without announcing our presence in advance. We order widely across the menu, observe service from beginning to end, and compare notes over multiple visits. Only restaurants that consistently meet our standard across all visits make this guide. Several well-known names did not make the cut this year — and a few surprises did.</p>
+      <div class="af-pull">"A great meal is not what you ate. It is how the whole evening made you feel."</div>
+      <h3>LAPEQ Member Benefits at Partner Restaurants</h3>
+      <p>Several of the restaurants featured in our guide are LAPEQ partners. Members who book through our concierge service receive priority reservations, complimentary amuse-bouche or palate cleansers from the kitchen, preferential table placement, and — in some cases — the opportunity to meet the chef and discuss the menu personally. These are the moments that make dining memorable.</p>
+      <div class="af-tip">
+        <strong>Budget-Friendly Premium Dining</strong>
+        <p>LAPEQ negotiates exclusive member pricing across our partner restaurants, lounges, and dining venues — delivering premium experiences at significantly reduced costs compared to walk-in rates. This is one of the most tangible benefits of LAPEQ membership.</p>
+      </div>
+    `
+  },
+  ladies: {
+    tag: 'Lifestyle · Ladies Section',
+    title: "The LAPEQ Ladies' Section: A Space Designed for <em>Elegance</em>",
+    meta: ['LAPEQ Editorial', 'January 2025', '4 min read'],
+    img: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1200&q=80',
+    body: `
+      <p>LAPEQ's Ladies' Section was created in response to a clear need: Nigerian women of taste and means wanted a concierge experience that understood their world — not as an afterthought, but as a primary consideration. The result is a curated environment of services, venues, and experiences designed around elegance, comfort, and personalization.</p>
+      <h3>What the Ladies' Section Covers</h3>
+      <p>Our Ladies' Section spans spas and wellness centres, fashion boutiques and personal styling, fine dining reservations at women-friendly venues with impeccable service standards, private beauty appointments, and curated social experiences designed for connection and enjoyment. We also handle sensitive personal arrangements with complete discretion.</p>
+      <div class="af-pull">"Elegance is not about what you wear. It is about the quality of the experience you inhabit."</div>
+      <h3>Partner Spas & Wellness Venues</h3>
+      <p>LAPEQ has curated a selection of Abuja's finest spas, beauty clinics, and wellness centres — all vetted for hygiene standards, service quality, and the particular care they take with privacy. Members can book through their concierge and receive priority appointments, member pricing, and a personalised treatment consultation.</p>
+      <div class="af-tip">
+        <strong>Ladies' Section Access</strong>
+        <p>The LAPEQ Ladies' Section is available to all female members across all tiers, including our free community membership. Gold and Black members receive additional priority benefits and dedicated personal styling consultations.</p>
+      </div>
+    `
+  },
+  pairing: {
+    tag: 'Travel · Innovation',
+    title: "LAPEQ's Travel Pairing Feature: Safer, <em>Smarter Journeys</em>",
+    meta: ['LAPEQ Editorial', 'December 2024', '3 min read'],
+    img: 'https://images.unsplash.com/photo-1544620347460-35ea1bf8aced?w=1200&q=80',
+    body: `
+      <p>Travelling alone in Nigeria — whether by road between cities or through airports — involves a degree of uncertainty that most travellers simply accept as unavoidable. LAPEQ disagrees. Our new Travel Pairing feature is the beginning of a solution: a system that connects verified LAPEQ members travelling in the same direction at the same time.</p>
+      <h3>How Travel Pairing Works</h3>
+      <p>When a member submits a travel request — whether it is a road journey from Abuja to Lagos, or an airport transfer in Port Harcourt — our system checks for other verified members making compatible journeys within a similar window. If a match is found and both parties consent, LAPEQ coordinates a shared journey that is safer, more social, and more cost-effective than travelling alone.</p>
+      <div class="af-pull">"The best journeys are the ones you share with someone interesting."</div>
+      <h3>Safety & Verification</h3>
+      <p>Every LAPEQ member is verified before being eligible for travel pairing. Our team reviews identification and membership details to ensure that the pairing environment is trusted and secure. The system is designed first around safety — everything else is a benefit that follows from that foundation.</p>
+      <div class="af-tip">
+        <strong>How to Use Travel Pairing</strong>
+        <p>Simply mention your travel plans to your LAPEQ concierge and request pairing consideration. We will check availability and present options within 2 hours. All communication between paired travellers goes through our concierge team until both parties are comfortable connecting directly.</p>
+      </div>
+    `
+  },
+  spas: {
+    tag: 'Wellness · Hospitality',
+    title: "Abuja's Finest Spas and Wellness Experiences <em>for 2025</em>",
+    meta: ['LAPEQ Editorial', 'December 2024', '5 min read'],
+    img: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=1200&q=80',
+    body: `
+      <p>Wellness in Abuja has undergone a quiet transformation. What was once a limited and inconsistent landscape of beauty salons and basic massage parlours has given way — in the right establishments — to genuinely world-class wellness experiences. LAPEQ has spent the past year reviewing them all, so you can arrive knowing exactly what to expect.</p>
+      <h3>The LAPEQ Wellness Standard</h3>
+      <p>We assess every wellness venue on five criteria: hygiene and cleanliness, therapist skill and training, the quality and safety of products used, the ambience and privacy of the environment, and the overall experience from booking to departure. Only venues that score highly across all five criteria earn a place on our recommended list.</p>
+      <div class="af-pull">"Genuine rest is one of the most productive things you can invest in."</div>
+      <h3>LAPEQ Member Benefits at Wellness Partners</h3>
+      <p>Members who book through our concierge receive priority appointment windows — including out-of-hours access at select venues — as well as exclusive member pricing that is significantly lower than standard walk-in rates. We also handle any special requirements — from specific treatment preferences to medical considerations — with complete discretion and care.</p>
+      <div class="af-tip">
+        <strong>Spa Booking Tip</strong>
+        <p>For the most exclusive treatment experiences, we recommend booking at least 48 hours in advance through your LAPEQ concierge. This allows our team to personalise your experience — preferred pressure, aromatherapy selection, temperature preferences, and any specific focus areas — so your therapist is fully prepared before you arrive.</p>
+      </div>
+    `
+  }
+};
+
+function openArticle(key) {
+  const art = articles[key];
+  if (!art) return;
+  const overlay = document.getElementById('articleOverlay');
+  const content = document.getElementById('articleContent');
+  content.innerHTML = `
+    <span class="af-tag">${art.tag}</span>
+    <h1>${art.title}</h1>
+    <div class="af-meta">
+      ${art.meta.map((m, i) => `<span class="af-meta-item">${m}</span>${i < art.meta.length-1 ? '<div class="af-meta-dot"></div>' : ''}`).join('')}
+    </div>
+    <img class="af-hero" src="${art.img}" alt="Article Image">
+    <div class="af-body">${art.body}</div>
+  `;
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  overlay.scrollTop = 0;
+}
+
+function closeArticle() {
+  document.getElementById('articleOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close on ESC
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeArticle(); });
+
+// Filter
+function filterArticles(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.article-card').forEach(card => {
+    card.style.display = (cat === 'all' || card.dataset.category === cat) ? '' : 'none';
+  });
+}
+
+// Image cycler for all cyclers on this page
+document.querySelectorAll('.feat-cycler, .article-img-wrap').forEach(cycler => {
+  const imgs = Array.from(cycler.querySelectorAll('img'));
+  if (imgs.length < 2) return;
+  let idx = 0;
+  const delay = Math.random() * 3000;
+  setTimeout(() => {
+    setInterval(() => {
+      imgs[idx].classList.remove('cycle-active');
+      idx = (idx + 1) % imgs.length;
+      imgs[idx].classList.add('cycle-active');
+    }, 3500);
+  }, delay);
+});
+
+// Scroll reveal
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); ro.unobserve(e.target); }});
+}, {threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+</script>
+</body>
+</html>
