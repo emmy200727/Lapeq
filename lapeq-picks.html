@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LAPEQ Picks — Monthly Spotlight Reviews</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#C9A84C; --gold-light:#E8C97A; --gold-dark:#A07830;
+  --black:#080808; --black-2:#111111; --black-3:#181612;
+  --white:#F8F6F0; --white-dim:rgba(248,246,240,0.65);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:'Montserrat',sans-serif;font-weight:300;overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--black);}::-webkit-scrollbar-thumb{background:var(--gold);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:22px 64px;background:rgba(8,8,8,0.95);border-bottom:1px solid rgba(201,168,76,0.1);backdrop-filter:blur(12px);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;letter-spacing:7px;color:var(--gold);text-decoration:none;}
+.nav-back{display:flex;align-items:center;gap:10px;color:rgba(248,246,240,0.6);text-decoration:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;transition:color 0.3s;}
+.nav-back:hover{color:var(--gold);}
+.nav-back::before{content:'←';font-size:14px;}
+.nav-cta{padding:10px 26px;border:1px solid var(--gold);color:var(--gold);text-decoration:none;font-size:9px;letter-spacing:3px;text-transform:uppercase;transition:all 0.3s;}
+.nav-cta:hover{background:var(--gold);color:var(--black);}
+
+/* REVIEW OVERLAY */
+.review-overlay{position:fixed;inset:0;z-index:500;background:var(--black);overflow-y:auto;opacity:0;pointer-events:none;transition:opacity 0.5s;}
+.review-overlay.open{opacity:1;pointer-events:all;}
+.overlay-close{position:fixed;top:28px;right:40px;z-index:600;width:44px;height:44px;border:1px solid rgba(201,168,76,0.3);background:rgba(8,8,8,0.9);color:var(--gold);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;}
+.overlay-close:hover{background:var(--gold);color:var(--black);}
+.review-full{max-width:800px;margin:0 auto;padding:120px 40px 100px;}
+.review-full .rf-tag{font-size:9px;letter-spacing:5px;text-transform:uppercase;display:block;margin-bottom:14px;}
+.review-full h1{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5vw,58px);font-weight:300;line-height:1.1;color:var(--white);margin-bottom:12px;}
+.review-full h1 em{font-style:italic;color:var(--gold);}
+.rf-location{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(248,246,240,0.35);display:block;margin-bottom:28px;}
+.rf-rating-block{display:flex;align-items:center;gap:20px;padding:20px 24px;background:var(--black-2);border:1px solid rgba(201,168,76,0.1);margin-bottom:32px;flex-wrap:wrap;}
+.rf-score{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;color:var(--gold);line-height:1;}
+.rf-score-detail{display:flex;flex-direction:column;gap:6px;}
+.rf-score-detail .rf-stars{display:flex;gap:4px;}
+.rf-star{width:12px;height:12px;background:var(--gold);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);}
+.rf-star.dim{opacity:0.2;}
+.rf-verdict{font-size:13px;color:var(--white-dim);font-style:italic;}
+.rf-hero{width:100%;height:400px;object-fit:cover;filter:brightness(0.65) saturate(0.8);margin-bottom:48px;display:block;}
+.rf-sub-ratings{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:rgba(201,168,76,0.07);margin-bottom:48px;}
+.rf-sub{background:var(--black-2);padding:20px 16px;text-align:center;}
+.rf-sub-score{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);display:block;line-height:1;}
+.rf-sub-label{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(248,246,240,0.4);display:block;margin-top:6px;}
+.rf-body{font-size:14px;line-height:2;color:rgba(248,246,240,0.8);font-family:'Cormorant Garamond',serif;}
+.rf-body p{margin-bottom:24px;}
+.rf-body h3{font-size:24px;color:var(--white);margin:40px 0 16px;font-weight:400;}
+.rf-pull{font-size:20px;font-style:italic;color:var(--gold-light);padding:28px 0 28px 24px;border-left:2px solid var(--gold);margin:36px 0;line-height:1.65;}
+.rf-tip{background:var(--black-2);border:1px solid rgba(201,168,76,0.1);padding:22px 24px;margin:32px 0;}
+.rf-tip strong{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:8px;font-family:'Montserrat',sans-serif;}
+.rf-tip p{font-size:12px;color:var(--white-dim);margin:0;font-family:'Montserrat',sans-serif;line-height:1.8;}
+.rf-book-btn{display:inline-block;padding:14px 36px;background:var(--gold);color:var(--black);font-size:9px;letter-spacing:3px;text-transform:uppercase;font-weight:600;text-decoration:none;margin-top:36px;transition:background 0.3s;cursor:pointer;border:none;}
+.rf-book-btn:hover{background:var(--gold-light);}
+
+/* HERO */
+.picks-hero{padding:160px 64px 60px;max-width:1400px;margin:0 auto;}
+.picks-eyebrow{display:flex;align-items:center;gap:16px;margin-bottom:24px;}
+.picks-eyebrow span{font-size:9px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);}
+.picks-eyebrow .ey-line{height:1px;width:48px;background:var(--gold);opacity:0.4;}
+.picks-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,7vw,100px);font-weight:300;line-height:0.95;color:var(--white);margin-bottom:36px;}
+.picks-hero h1 em{font-style:italic;color:var(--gold);}
+.picks-hero-sub{display:flex;gap:64px;flex-wrap:wrap;align-items:flex-start;}
+.picks-hero-sub p{font-size:14px;line-height:1.9;color:var(--white-dim);max-width:460px;}
+.picks-stats{display:flex;gap:40px;flex-wrap:wrap;}
+.picks-stat{display:flex;flex-direction:column;gap:4px;}
+.picks-stat-num{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:var(--gold);line-height:1;}
+.picks-stat-label{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(248,246,240,0.35);}
+.gold-divider{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--gold) 20%,var(--gold) 80%,transparent);opacity:0.15;}
+
+/* CATEGORY TABS */
+.cat-tabs{padding:28px 64px;background:var(--black-2);border-bottom:1px solid rgba(201,168,76,0.07);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.cat-tab-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,168,76,0.5);margin-right:16px;}
+.cat-tab{padding:8px 20px;border:1px solid rgba(201,168,76,0.15);color:rgba(248,246,240,0.5);font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.3s;background:none;font-family:'Montserrat',sans-serif;}
+.cat-tab:hover,.cat-tab.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.05);}
+
+/* WINNER BANNER */
+.winner-banner{max-width:1400px;margin:64px auto 0;padding:0 64px;}
+.winner-card{display:grid;grid-template-columns:1.3fr 1fr;overflow:hidden;background:var(--black-2);border:1px solid rgba(201,168,76,0.15);cursor:pointer;transition:border-color 0.4s;}
+.winner-card:hover{border-color:rgba(201,168,76,0.4);}
+.winner-img{position:relative;min-height:460px;overflow:hidden;}
+.winner-img-cycler{position:absolute;inset:0;}
+.winner-img-cycler img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.4s ease,transform 9s ease;transform:scale(1.06);filter:brightness(0.55) saturate(0.75);}
+.winner-img-cycler img.cycle-active{opacity:1;transform:scale(1);}
+.winner-card:hover .winner-img-cycler img.cycle-active{filter:brightness(0.68) saturate(0.9);}
+.winner-badge{position:absolute;top:24px;left:24px;z-index:2;}
+.wb-category{display:inline-block;padding:6px 16px;font-size:8px;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;display:block;}
+.wb-cat-restaurant{background:rgba(180,80,40,0.92);color:#fff;}
+.wb-cat-hotel{background:rgba(40,90,170,0.92);color:#fff;}
+.wb-cat-event{background:rgba(110,40,170,0.92);color:#fff;}
+.wb-cat-lounge{background:rgba(30,150,110,0.92);color:#fff;}
+.wb-cat-hostel{background:rgba(160,120,30,0.92);color:#fff;}
+.winner-score{position:absolute;top:24px;right:24px;z-index:2;background:rgba(8,8,8,0.9);border:1px solid rgba(201,168,76,0.5);padding:12px 16px;text-align:center;}
+.ws-num{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--gold);line-height:1;display:block;}
+.ws-label{font-size:7px;letter-spacing:2px;color:rgba(201,168,76,0.6);text-transform:uppercase;}
+.winner-crown{position:absolute;bottom:24px;left:24px;z-index:2;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px;}
+.winner-crown::before{content:'★';font-size:12px;}
+.winner-body{padding:56px 52px;display:flex;flex-direction:column;justify-content:space-between;}
+.winner-meta{margin-bottom:auto;}
+.winner-overline{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:18px;}
+.winner-card h2{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3vw,40px);font-weight:300;color:var(--white);line-height:1.2;margin-bottom:10px;}
+.winner-location{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(248,246,240,0.3);display:block;margin-bottom:22px;}
+.winner-card p{font-size:13px;line-height:1.95;color:var(--white-dim);margin-bottom:28px;}
+.winner-sub-scores{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(201,168,76,0.07);margin:32px 0;}
+.wss-item{background:var(--black-2);padding:16px 12px;text-align:center;}
+.wss-score{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);display:block;line-height:1;}
+.wss-label{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:rgba(248,246,240,0.3);display:block;margin-top:4px;}
+.winner-stars{display:flex;gap:4px;margin-bottom:8px;}
+.w-star{width:10px;height:10px;background:var(--gold);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);}
+.w-star.dim{opacity:0.2;}
+.winner-read{display:inline-flex;align-items:center;gap:8px;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;transition:gap 0.3s;}
+.winner-read::after{content:'→';}
+.winner-read:hover{gap:14px;}
+
+/* REVIEWS GRID */
+.reviews-wrap{max-width:1400px;margin:2px auto 0;padding:0 64px;}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(201,168,76,0.07);}
+.review-card{background:var(--black-2);overflow:hidden;cursor:pointer;transition:background 0.3s;position:relative;}
+.review-card:hover{background:var(--black-3);}
+/* image cycler in review cards */
+.rc-img{position:relative;height:200px;overflow:hidden;}
+.rc-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.4s ease,transform 9s ease;transform:scale(1.06);filter:brightness(0.55) saturate(0.7);}
+.rc-img img.cycle-active{opacity:1;transform:scale(1);}
+.review-card:hover .rc-img img.cycle-active{filter:brightness(0.68) saturate(0.88);}
+.rc-cat-badge{position:absolute;top:14px;left:14px;padding:4px 12px;font-size:8px;letter-spacing:3px;text-transform:uppercase;z-index:2;}
+.rc-score-badge{position:absolute;top:14px;right:14px;width:40px;height:40px;background:rgba(8,8,8,0.88);border:1px solid rgba(201,168,76,0.4);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2;}
+.rc-score-badge .rsb-num{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--gold);line-height:1;}
+.rc-score-badge .rsb-den{font-size:6px;letter-spacing:1px;color:rgba(201,168,76,0.6);text-transform:uppercase;}
+.rc-body{padding:22px 24px 26px;}
+.rc-category{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:8px;}
+.review-card h3{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:var(--white);line-height:1.3;margin-bottom:5px;}
+.rc-location{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(248,246,240,0.3);margin-bottom:10px;display:block;}
+.review-card p{font-size:11px;line-height:1.8;color:var(--white-dim);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:14px;}
+.rc-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid rgba(201,168,76,0.07);}
+.rc-stars{display:flex;gap:2px;}
+.rc-star{width:7px;height:7px;background:var(--gold);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);}
+.rc-star.dim{opacity:0.2;}
+.rc-read{font-size:9px;letter-spacing:2px;color:var(--gold);text-decoration:none;text-transform:uppercase;display:flex;align-items:center;gap:4px;transition:gap 0.3s;}
+.rc-read::after{content:'→';}
+.rc-read:hover{gap:8px;}
+
+/* RATING METHODOLOGY */
+.methodology{max-width:1400px;margin:2px auto 0;padding:64px;background:var(--black-2);border-top:2px solid rgba(201,168,76,0.07);}
+.method-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1.5fr;gap:64px;align-items:center;}
+.method-left .section-tag{font-size:9px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:18px;}
+.method-left h3{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--white);line-height:1.2;}
+.method-left h3 em{font-style:italic;color:var(--gold);}
+.method-criteria{display:flex;flex-direction:column;gap:18px;}
+.mc-item{display:flex;align-items:flex-start;gap:16px;}
+.mc-num{font-family:'Cormorant Garamond',serif;font-size:24px;color:rgba(201,168,76,0.3);flex-shrink:0;line-height:1;width:28px;}
+.mc-text strong{display:block;font-size:11px;color:var(--white);font-weight:500;margin-bottom:4px;letter-spacing:0.5px;}
+.mc-text span{font-size:11px;color:var(--white-dim);line-height:1.7;}
+
+/* ARCHIVE STRIP */
+.archive-strip{padding:64px;max-width:1400px;margin:0 auto;}
+.archive-label{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:32px;opacity:0.8;}
+.archive-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;background:rgba(201,168,76,0.07);}
+.archive-month{background:var(--black-2);padding:24px 18px;cursor:pointer;transition:background 0.3s;}
+.archive-month:hover,.archive-month.current{background:rgba(201,168,76,0.06);}
+.archive-month.current{border-bottom:2px solid var(--gold);}
+.am-month{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--white);display:block;margin-bottom:4px;}
+.am-year{font-size:8px;letter-spacing:2px;color:rgba(248,246,240,0.3);text-transform:uppercase;display:block;margin-bottom:10px;}
+.am-count{font-size:9px;letter-spacing:2px;color:var(--gold);opacity:0.7;}
+
+/* NEWSLETTER */
+.picks-newsletter{background:linear-gradient(135deg,#0d0b05,#131008);border-top:1px solid rgba(201,168,76,0.1);border-bottom:1px solid rgba(201,168,76,0.1);padding:80px 64px;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;}
+.pn-text h3{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--white);margin-bottom:8px;}
+.pn-text p{font-size:13px;color:var(--white-dim);}
+.pn-form{display:flex;flex:1;max-width:440px;min-width:280px;}
+.pn-input{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.2);border-right:none;color:var(--white);padding:14px 18px;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:300;outline:none;transition:border-color 0.3s;}
+.pn-input:focus{border-color:rgba(201,168,76,0.5);}
+.pn-input::placeholder{color:rgba(248,246,240,0.3);}
+.pn-btn{padding:14px 26px;background:var(--gold);color:var(--black);font-size:9px;letter-spacing:3px;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;transition:background 0.3s;white-space:nowrap;}
+.pn-btn:hover{background:var(--gold-light);}
+
+/* FOOTER */
+.page-footer{background:#060606;border-top:1px solid rgba(201,168,76,0.07);padding:36px 64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;}
+.page-footer span{font-size:10px;color:rgba(248,246,240,0.2);letter-spacing:1px;}
+.page-footer a{color:var(--gold);text-decoration:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.75s ease,transform 0.75s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* MOBILE */
+@media(max-width:960px){
+  nav{padding:18px 24px;}
+  .picks-hero{padding:120px 24px 60px;}
+  .winner-banner,.reviews-wrap,.methodology,.archive-strip{padding:40px 24px 0;}
+  .winner-card{grid-template-columns:1fr;}
+  .winner-img{min-height:280px;}
+  .reviews-grid{grid-template-columns:1fr;}
+  .method-inner{grid-template-columns:1fr;gap:32px;}
+  .archive-grid{grid-template-columns:repeat(3,1fr);}
+  .cat-tabs{padding:20px 24px;}
+  .picks-newsletter{padding:60px 24px;flex-direction:column;}
+  .pn-form{max-width:100%;width:100%;}
+  .page-footer{padding:28px 24px;}
+  .review-full,.article-full{padding:100px 24px 80px;}
+  .overlay-close{top:20px;right:20px;}
+  .rf-sub-ratings{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="lapeq-website.html" class="nav-back">Back to LAPEQ</a>
+  <a href="lapeq-website.html" class="nav-logo">LAPEQ</a>
+  <a href="lapeq-website.html#contact" class="nav-cta">Book Now</a>
+</nav>
+
+<!-- REVIEW READING OVERLAY -->
+<div class="review-overlay" id="reviewOverlay">
+  <div class="overlay-close" onclick="closeReview()">✕</div>
+  <div class="review-full" id="reviewContent"></div>
+</div>
+
+<!-- HERO -->
+<div class="picks-hero reveal">
+  <div class="picks-eyebrow">
+    <span>LAPEQ Picks</span>
+    <div class="ey-line"></div>
+    <span style="color:rgba(248,246,240,0.3);font-size:9px;letter-spacing:3px;">Monthly Spotlight</span>
+  </div>
+  <h1>February<br><em>2025</em><br>Picks</h1>
+  <div class="picks-hero-sub">
+    <p>Every month, our concierge team visits and independently reviews the best restaurants, hotels, hostels, lounges, and events across Abuja, Lagos, Port Harcourt, and Jos.</p>
+    <div class="picks-stats">
+      <div class="picks-stat"><span class="picks-stat-num">6</span><span class="picks-stat-label">Reviews This Month</span></div>
+      <div class="picks-stat"><span class="picks-stat-num">4</span><span class="picks-stat-label">Cities Covered</span></div>
+      <div class="picks-stat"><span class="picks-stat-num">9.2</span><span class="picks-stat-label">Top Score</span></div>
+    </div>
+  </div>
+</div>
+<div class="gold-divider"></div>
+
+<!-- CATEGORY TABS -->
+<div class="cat-tabs">
+  <span class="cat-tab-label">Filter By</span>
+  <button class="cat-tab active" onclick="filterPicks('all',this)">All</button>
+  <button class="cat-tab" onclick="filterPicks('restaurant',this)">Restaurants</button>
+  <button class="cat-tab" onclick="filterPicks('hotel',this)">Hotels</button>
+  <button class="cat-tab" onclick="filterPicks('event',this)">Events</button>
+  <button class="cat-tab" onclick="filterPicks('lounge',this)">Lounges</button>
+  <button class="cat-tab" onclick="filterPicks('hostel',this)">Stays</button>
+</div>
+
+<!-- WINNER / TOP PICK -->
+<div class="winner-banner reveal" data-pick-cat="restaurant">
+  <div class="winner-card" onclick="openReview('signatures')">
+    <div class="winner-img">
+      <!-- CHANGE IMAGES: replace src values with your preferred restaurant images -->
+      <div class="winner-img-cycler">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=1200&q=80" alt="Restaurant">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80" alt="Fine Dining">
+        <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?w=1200&q=80" alt="Interior">
+        <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=1200&q=80" alt="Table">
+      </div>
+      <div class="winner-badge">
+        <span class="wb-category wb-cat-restaurant">Restaurant</span>
+      </div>
+      <div class="winner-score">
+        <span class="ws-num">9.2</span>
+        <span class="ws-label">/ 10</span>
+      </div>
+      <div class="winner-crown">Pick of the Month</div>
+    </div>
+    <div class="winner-body">
+      <div class="winner-meta">
+        <span class="winner-overline">Restaurant of the Month</span>
+        <h2>Signatures Restaurant, Abuja</h2>
+        <span class="winner-location">Transcorp Hilton, Maitama, Abuja</span>
+        <p>An exceptional fine dining experience that continues to set the benchmark for luxury dining in the Nigerian capital. The tasting menu is a masterclass in modern Nigerian-international cuisine with impeccable service standards that rival any international restaurant.</p>
+        <div class="winner-sub-scores">
+          <div class="wss-item"><span class="wss-score">9.4</span><span class="wss-label">Food</span></div>
+          <div class="wss-item"><span class="wss-score">9.2</span><span class="wss-label">Service</span></div>
+          <div class="wss-item"><span class="wss-score">9.0</span><span class="wss-label">Ambience</span></div>
+          <div class="wss-item"><span class="wss-score">9.1</span><span class="wss-label">Value</span></div>
+        </div>
+        <div class="winner-stars">
+          <div class="w-star"></div><div class="w-star"></div><div class="w-star"></div><div class="w-star"></div><div class="w-star"></div>
+        </div>
+        <a href="#" class="winner-read" onclick="event.stopPropagation(); openReview('signatures'); return false;">Read Full Review</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEWS GRID -->
+<div class="reviews-wrap">
+  <div class="reviews-grid" id="reviewsGrid">
+
+    <!-- Hotel -->
+    <div class="review-card" data-pick-cat="hotel" onclick="openReview('eko')">
+      <!-- CHANGE IMAGES: replace src values with your preferred hotel images -->
+      <div class="rc-img">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=700&q=80" alt="Hotel">
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=700&q=80" alt="Lobby">
+        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=700&q=80" alt="Room">
+        <span class="rc-cat-badge" style="background:rgba(40,90,170,0.92);color:#fff;">Hotel</span>
+        <div class="rc-score-badge"><span class="rsb-num">9.0</span><span class="rsb-den">/10</span></div>
+      </div>
+      <div class="rc-body">
+        <span class="rc-category">Hotel of the Month</span>
+        <h3>Eko Hotels &amp; Suites, Lagos</h3>
+        <span class="rc-location">Victoria Island, Lagos</span>
+        <p>Lagos's landmark luxury hotel delivers consistently across every touchpoint — from the suites to world-class event facilities and poolside dining.</p>
+        <div class="rc-footer">
+          <div class="rc-stars"><div class="rc-star"></div><div class="rc-star"></div><div class="rc-star"></div><div class="rc-star"></div><div class="rc-star dim"></div></div>
+          <a href="#" class="rc-read" onclick="event.stopPropagation(); openReview('eko'); return false;">Read</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Event -->
+    <div class="review-card" data-pick-cat="event" onclick="openReview('jazz')">
+      <!-- CHANGE IMAGES: replace src values with your preferred event images -->
+      <div class="rc-img">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=700&q=80" alt="Jazz Festival">
+        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=700&q=80" alt="Concert">
+        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=700&q=80" alt="Event">
+        <span class="rc-cat-badge" style="background:rgba(110,40,170,0.92);color:#fff;">Event</span>
+        <div class="rc-score-badge"><span class="rsb-num">8.8</span><span class="rsb-den">/10</span></div>
+      </div>
+      <div class="rc-body">
+        <span class="rc-category">Event of the Month</span>
+        <h3>Abuja Jazz Festival 2025</h3>
+        <span class="rc-location">Millennium Park, Abuja</span>
+        <p>A landmark cultural evening featuring world-class performances in a beautifully curated outdoor setting. VIP access was arranged for LAPEQ members.</p>
+        <div class="rc-footer">
+          <div class="rc-stars"><div class="rc-star"></div><div class="rc-star"></div><div class="rc-star"></div><div class="rc-star"></div><div class="rc-star dim"></div></div>
+          <a href="#" class="rc-read" onclick="event.stopPropagation(); openReview('jazz'); return false;">Read</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lounge -->
+    <div class="review-card" data-pick-cat="lounge" onclick="openReview('zinc')">
+      <!-- CHANGE IMAGES: replace src values with your preferred lounge images -->
+      <div class="rc-img">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=700&q=80" alt="Lounge">
+        <img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=700&q=80" alt="Bar">
+        <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=700&q=80" alt="Cocktails">
+        <span class="rc-cat-badge" style="background:rgba(30,150,110,0.92);color:#fff;">Lounge</span>
+        <div class="rc-score-badge"><span class="rsb-num">8.5</span><span class="rsb-den">/10</span></div>
+      </div>
+      <div class="rc-body">
+        <span class="rc-category">Lounge of the Month</span>
+        <h3>Zinc Lounge, Port Harcourt</h3>
+        <span class="rc-location">GRA Phase 2, Port Harcourt</span>
+        <p>Port Harcourt's most refined lounge experience. Exceptional cocktail programme, intimate atmosphere, and a crowd that knows how to enjoy themselves properly.</p>
+        <div class="rc-footer">
+          <div class="rc-stars"><div class="rc-star"></div><div class="rc-star"></div><div class="rc-star"></div><div class="rc-star"></div><div class="rc-star dim"></div></div>
+          <a href="#" class="rc-read" onclick="event.stopPropagation(); openReview('zinc'); return false;">Read</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hostel -->
+    <div class="review-card" data-pick-cat="hostel" onclick="openReview('hillside')">
+      <!-- CHANGE IMAGES: replace src values with your preferred hostel images -->
+      <div class="rc-img">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=700&q=80" alt="Hostel">
+        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=700&q=80" alt="Room">
+        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=700&q=80" alt="Interior">
+        <span class="rc-cat-badge" style="background:rgba(160,120,30,0.92);color:#fff;">Hostel</span>
+        <div class="rc-score-badge"><span class="rsb-num">8.3</span><span class="rsb-den">/10</span></div>
+      </div>
+      <div class="rc-body">
+        <span class="rc-category">Stay of the Month</span>
+        <h3>The Hillside Boutique, Jos</h3>
+        <span class="rc-location">Rayfield, Jos</span>
+        <p>Jos's best-kept secret for quality-conscious travellers. Stylish, clean, and wonderfully positioned in the city's most appealing neighbourhood.</p>
+        <div class="rc-footer">
+          <div class="rc-stars"><div class="rc-star"></div><div class="rc-star"></div><div class="rc-star"></div><div class="rc-star"></div><div class="rc-star dim"></div></div>
+          <a href="#" class="rc-read" onclick="event.stopPropagation(); openReview('hillside'); return false;">Read</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Restaurant 2 -->
+    <div class="review-card" data-pick-cat="restaurant" onclick="openReview('nok')">
+      <!-- CHANGE IMAGES: replace src values with your preferred Lagos restaurant images -->
+      <div class="rc-img">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1544148103-0773bf10d330?w=700&q=80" alt="Restaurant Lagos">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=80" alt="Dining">
+        <img src="https://images.unsplash.com/photo-1550966871-3ed3cfd6dcea?w=700&q=80" alt="Interior">
+        <span class="rc-cat-badge" style="background:rgba(180,80,40,0.92);color:#fff;">Restaurant</span>
+        <div class="rc-score-badge"><span class="rsb-num">8.7</span><span class="rsb-den">/10</span></div>
+      </div>
+      <div class="rc-body">
+        <span class="rc-category">Lagos Pick of the Month</span>
+        <h3>Nok by Alara, Lagos</h3>
+        <span class="rc-location">Alara Concept Store, Lagos</span>
+        <p>A uniquely Lagos dining experience blending pan-African cuisine with stunning interior design. Creative, vibrant, and consistently excellent every visit.</p>
+        <div class="rc-footer">
+          <div class="rc-stars"><div class="rc-star"></div><div class="rc-star"></div><div class="rc-star"></div><div class="rc-star"></div><div class="rc-star dim"></div></div>
+          <a href="#" class="rc-read" onclick="event.stopPropagation(); openReview('nok'); return false;">Read</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bonus: Concierge Pick -->
+    <div class="review-card" data-pick-cat="lounge" onclick="openReview('status')">
+      <!-- CHANGE IMAGES: replace src values with your preferred Abuja lounge images -->
+      <div class="rc-img">
+        <img class="cycle-active" src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=700&q=80" alt="Lounge Abuja">
+        <img src="https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=700&q=80" alt="Bar">
+        <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=700&q=80" alt="Cocktail">
+        <span class="rc-cat-badge" style="background:rgba(30,150,110,0.92);color:#fff;">Lounge</span>
+        <div class="rc-score-badge"><span class="rsb-num">8.4</span><span class="rsb-den">/10</span></div>
+      </div>
+      <div class="rc-body">
+        <span class="rc-category">Concierge's Pick · Abuja</span>
+        <h3>Status Lounge, Abuja</h3>
+        <span class="rc-location">Wuse 2, Abuja</span>
+        <p>Our concierge team's personal recommendation this month. An Abuja institution that continues to reinvent itself — sophisticated, attentive, and reliably excellent.</p>
+        <div class="rc-footer">
+          <div class="rc-stars"><div class="rc-star"></div><div class="rc-star"></div><div class="rc-star"></div><div class="rc-star"></div><div class="rc-star dim"></div></div>
+          <a href="#" class="rc-read" onclick="event.stopPropagation(); openReview('status'); return false;">Read</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="gold-divider" style="margin-top:2px;"></div>
+
+<!-- METHODOLOGY -->
+<div class="methodology reveal">
+  <div class="method-inner">
+    <div class="method-left">
+      <span class="section-tag">Our Approach</span>
+      <h3>How We <em>Rate</em></h3>
+    </div>
+    <div class="method-criteria">
+      <div class="mc-item"><span class="mc-num">01</span><div class="mc-text"><strong>Anonymous Visits</strong><span>Our team visits every venue without announcing our presence. What you read is what a real guest experiences.</span></div></div>
+      <div class="mc-item"><span class="mc-num">02</span><div class="mc-text"><strong>Multiple Touchpoints</strong><span>We score food, service, ambience, value, and the intangible — that feeling of being in the right place.</span></div></div>
+      <div class="mc-item"><span class="mc-num">03</span><div class="mc-text"><strong>Repeat Verification</strong><span>No venue makes this guide on a single visit. We return at least twice before publishing a score.</span></div></div>
+      <div class="mc-item"><span class="mc-num">04</span><div class="mc-text"><strong>Member Feedback</strong><span>LAPEQ member experiences inform our scoring — real people, real visits, real opinions.</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ARCHIVE -->
+<div class="archive-strip reveal">
+  <span class="archive-label">Past Editions</span>
+  <div class="archive-grid">
+    <div class="archive-month current"><span class="am-month">February</span><span class="am-year">2025</span><span class="am-count">6 Reviews</span></div>
+    <div class="archive-month"><span class="am-month">January</span><span class="am-year">2025</span><span class="am-count">5 Reviews</span></div>
+    <div class="archive-month"><span class="am-month">December</span><span class="am-year">2024</span><span class="am-count">6 Reviews</span></div>
+    <div class="archive-month"><span class="am-month">November</span><span class="am-year">2024</span><span class="am-count">5 Reviews</span></div>
+    <div class="archive-month"><span class="am-month">October</span><span class="am-year">2024</span><span class="am-count">6 Reviews</span></div>
+    <div class="archive-month"><span class="am-month">September</span><span class="am-year">2024</span><span class="am-count">4 Reviews</span></div>
+  </div>
+</div>
+<div class="gold-divider"></div>
+
+<!-- NEWSLETTER -->
+<div class="picks-newsletter reveal">
+  <div class="pn-text">
+    <h3>Get the Monthly Spotlight</h3>
+    <p>Free LAPEQ members receive the full Picks guide every month — plus member-exclusive discounts at every venue we review.</p>
+  </div>
+  <div class="pn-form">
+    <input type="email" class="pn-input" placeholder="Enter your email address">
+    <button class="pn-btn">Subscribe Free</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="page-footer">
+  <span>&copy; 2025 LAPEQ. All rights reserved.</span>
+  <a href="lapeq-website.html">← Return to Main Site</a>
+</div>
+
+<script>
+const reviews = {
+  signatures: {
+    tag: 'Restaurant · Pick of the Month',
+    tagColor: 'rgba(180,80,40,0.9)',
+    title: 'Signatures Restaurant, <em>Abuja</em>',
+    location: 'Transcorp Hilton, Maitama, Abuja',
+    score: '9.2',
+    stars: 5,
+    verdict: 'The finest restaurant experience in Abuja right now. Essential.',
+    img: 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=1200&q=80',
+    subs: [{s:'9.4',l:'Food'},{s:'9.2',l:'Service'},{s:'9.0',l:'Ambience'},{s:'9.1',l:'Value'}],
+    body: `
+      <p>Signatures Restaurant at the Transcorp Hilton has long been Abuja's default answer for high-stakes dining — the kind of restaurant you take someone to when the impression you make matters. After multiple visits over the past month, we can confirm that its reputation is not only deserved; it is, if anything, understated.</p>
+      <h3>The Food</h3>
+      <p>The tasting menu — six courses with optional wine pairing — is a confident statement of intent. The kitchen draws on both Nigerian culinary tradition and classical French technique, producing dishes that feel simultaneously rooted and cosmopolitan. A suya-glazed lamb rack was the standout of our February visit: impeccably rested, intensely flavoured, and served with a jollof-inspired reduction that stopped our table mid-conversation.</p>
+      <div class="rf-pull">"This is Nigerian hospitality operating at the level the world should be talking about."</div>
+      <h3>The Service</h3>
+      <p>Service at Signatures is among the best we have experienced anywhere in Nigeria. Our server on both visits demonstrated an unusual depth of menu knowledge — able to describe provenance, preparation method, and pairing rationale for every dish without consulting notes. This is training, and it shows.</p>
+      <div class="rf-tip">
+        <strong>LAPEQ Concierge Note</strong>
+        <p>LAPEQ members booking through our concierge service receive priority table allocation, including window and private dining room availability. Our team will personalise your menu in advance — dietary requirements, celebration arrangements, and wine selection can all be curated before you arrive.</p>
+      </div>
+      <h3>The Verdict</h3>
+      <p>If you are in Abuja and you care about food, Signatures should be on your list. If you are a LAPEQ member, it should be on your calendar. This is the benchmark against which everything else in the city is measured.</p>
+    `
+  },
+  eko: {
+    tag: 'Hotel · Pick of the Month',
+    tagColor: 'rgba(40,90,170,0.9)',
+    title: 'Eko Hotels &amp; Suites, <em>Lagos</em>',
+    location: 'Victoria Island, Lagos',
+    score: '9.0',
+    stars: 4,
+    verdict: 'Lagos\'s most reliable luxury hotel. Consistently excellent.',
+    img: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80',
+    subs: [{s:'9.1',l:'Rooms'},{s:'9.0',l:'Service'},{s:'8.9',l:'Facilities'},{s:'8.9',l:'Location'}],
+    body: `
+      <p>Eko Hotels is not the newest luxury hotel in Lagos. It is, however, the most reliably excellent. After staying across three different suite categories over the course of our review process, we came away with a consistent impression: this is a hotel that understands what its guests need and delivers it without fuss.</p>
+      <h3>The Rooms</h3>
+      <p>The Eko Signature Tower suites are a genuine step above standard luxury hotel accommodation. Well-proportioned, thoughtfully furnished, and maintained to a standard that holds up under close inspection. Housekeeping is meticulous. Turndown service is personalised. The beds are excellent.</p>
+      <div class="rf-pull">"In a city where luxury claims are made easily, Eko delivers consistently."</div>
+      <h3>The Facilities</h3>
+      <p>The pool complex at Eko Hotels is among the finest hotel pool environments in Lagos — well-maintained, properly staffed, and managed to ensure the kind of atmosphere that makes a two-hour afternoon swim feel like a deliberate luxury rather than a noisy inconvenience. The fitness centre is properly equipped and available 24 hours.</p>
+      <div class="rf-tip">
+        <strong>LAPEQ Member Rates</strong>
+        <p>LAPEQ members booking through our concierge receive negotiated rates at Eko Hotels, along with priority upgrades during periods of availability, early check-in and late checkout where possible, and personalised pre-arrival preferences confirmation.</p>
+      </div>
+    `
+  },
+  jazz: {
+    tag: 'Event · Pick of the Month',
+    tagColor: 'rgba(110,40,170,0.9)',
+    title: 'Abuja Jazz Festival <em>2025</em>',
+    location: 'Millennium Park, Abuja',
+    score: '8.8',
+    stars: 4,
+    verdict: 'An increasingly world-class cultural event. VIP access is the only way to go.',
+    img: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1200&q=80',
+    subs: [{s:'9.0',l:'Talent'},{s:'8.5',l:'Production'},{s:'8.8',l:'Venue'},{s:'8.9',l:'Experience'}],
+    body: `
+      <p>The Abuja Jazz Festival continues its quiet rise toward international relevance. This year's edition — held across two evenings at Millennium Park — featured a lineup that would not look out of place at a European jazz festival, delivered in an outdoor Nigerian setting that lent the entire event a particular warmth and cultural specificity that no European venue could replicate.</p>
+      <h3>The Experience</h3>
+      <p>VIP access — which LAPEQ arranged for our team and for members who requested it — included a private viewing area with dedicated bar service, canapé service throughout the evening, and a post-performance networking reception with several of the performing artists. This is categorically a different event from the general admission experience, and it is worth noting that the two experiences happen simultaneously in the same venue.</p>
+      <div class="rf-pull">"There is a version of this event that is unforgettable. It is the VIP version. LAPEQ will get you there."</div>
+      <div class="rf-tip">
+        <strong>Event Access Through LAPEQ</strong>
+        <p>LAPEQ members receive advance notice of major cultural events across our four cities and can request VIP access arrangements through their concierge. For recurring annual events like the Jazz Festival, we recommend requesting access at least two weeks in advance to secure the best positioning.</p>
+      </div>
+    `
+  },
+  zinc: {
+    tag: 'Lounge · Pick of the Month',
+    tagColor: 'rgba(30,150,110,0.9)',
+    title: 'Zinc Lounge, <em>Port Harcourt</em>',
+    location: 'GRA Phase 2, Port Harcourt',
+    score: '8.5',
+    stars: 4,
+    verdict: 'Port Harcourt\'s finest lounge. Understated, excellent, and worth the visit.',
+    img: 'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=1200&q=80',
+    subs: [{s:'8.7',l:'Cocktails'},{s:'8.5',l:'Atmosphere'},{s:'8.4',l:'Service'},{s:'8.4',l:'Music'}],
+    body: `
+      <p>Port Harcourt's lounge scene has always been underestimated by outsiders. Zinc is the establishment most responsible for making that underestimation embarrassing. Over three visits in as many weeks, we found a venue that operates with an uncommon level of consistency — the cocktail list, the service, the atmosphere, the music — all maintained to a standard that would be impressive anywhere in Nigeria.</p>
+      <h3>The Cocktails</h3>
+      <p>Zinc's cocktail programme is the best in Port Harcourt and among the best we have encountered in Nigeria. The bar team clearly trains seriously — techniques are correct, ratios are precise, and the house specials show genuine creativity without the kind of overwrought complexity that makes cocktails exhausting rather than enjoyable. The Zinc Signature — a rum-forward cocktail with tamarind and fresh ginger — is one of the best drinks we have had this review season.</p>
+      <div class="rf-pull">"Zinc makes Port Harcourt feel like a world city. That is a remarkable thing for a lounge to achieve."</div>
+      <div class="rf-tip">
+        <strong>LAPEQ Reservations</strong>
+        <p>LAPEQ members can book reserved seating at Zinc through our Port Harcourt concierge service. We recommend booking in advance for weekend evenings and can arrange dedicated table service and personalised cocktail consultation on request.</p>
+      </div>
+    `
+  },
+  hillside: {
+    tag: 'Hostel/Stay · Pick of the Month',
+    tagColor: 'rgba(160,120,30,0.9)',
+    title: 'The Hillside Boutique Hostel, <em>Jos</em>',
+    location: 'Rayfield, Jos, Plateau State',
+    score: '8.3',
+    stars: 4,
+    verdict: 'Jos\'s best budget-luxury option. Surprisingly excellent.',
+    img: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=1200&q=80',
+    subs: [{s:'8.5',l:'Cleanliness'},{s:'8.2',l:'Service'},{s:'8.4',l:'Location'},{s:'9.0',l:'Value'}],
+    body: `
+      <p>Jos occupies a peculiar position in the Nigerian travel landscape: a city of genuine beauty and character, often overlooked by travellers who do not have a specific reason to be there. The Hillside Boutique is one of several good reasons to find one. What it offers — boutique aesthetics, attentive service, and an extraordinary natural setting — at a price point that is significantly below comparable experiences in Lagos or Abuja, makes it one of the strongest value propositions in our entire review portfolio.</p>
+      <h3>The Setting</h3>
+      <p>The property sits in Rayfield — Jos's most appealing neighbourhood — within walking distance of several excellent restaurants and the kind of natural landscape that reminds you why Jos has always attracted people who care about their surroundings. The plateau air, the cooler temperatures, and the quality of light at this altitude are things no review can adequately convey.</p>
+      <div class="rf-pull">"Jos is one of Nigeria's great undiscovered travel destinations. The Hillside is the right place to experience it from."</div>
+      <div class="rf-tip">
+        <strong>Jos City Guide</strong>
+        <p>LAPEQ members receive a curated Jos city guide as part of their monthly lifestyle digest — covering the best restaurants, activities, and experiences the city has to offer. Our Jos concierge support is available upon request.</p>
+      </div>
+    `
+  },
+  nok: {
+    tag: 'Restaurant · Lagos Pick',
+    tagColor: 'rgba(180,80,40,0.9)',
+    title: 'Nok by Alara, <em>Lagos</em>',
+    location: 'Alara Concept Store, Lagos Island',
+    score: '8.7',
+    stars: 4,
+    verdict: 'Uniquely Lagos. Creative, beautiful, and consistently excellent.',
+    img: 'https://images.unsplash.com/photo-1544148103-0773bf10d330?w=1200&q=80',
+    subs: [{s:'8.8',l:'Cuisine'},{s:'8.7',l:'Service'},{s:'9.1',l:'Design'},{s:'8.2',l:'Value'}],
+    body: `
+      <p>Nok by Alara is the kind of restaurant that could only exist in Lagos — deeply specific to its context, unwilling to be easily categorised, and operating with a confidence that comes from knowing exactly what it is and who it is for. Our team has visited four times across the review period and found a restaurant that improves with familiarity.</p>
+      <h3>The Cuisine</h3>
+      <p>The menu draws on pan-African culinary traditions with a lightness of touch that prevents the cultural references from becoming heavy-handed. Dishes are beautifully presented, portions are generous by Lagos fine-dining standards, and the kitchen demonstrates an unusual level of consistency across both their lunch and dinner services — something that many Lagos restaurants struggle to maintain.</p>
+      <div class="rf-pull">"Nok understands something important: the best restaurant experiences are not about the food alone. They are about the total feeling of the place."</div>
+      <h3>The Design</h3>
+      <p>The Alara building itself is one of Lagos Island's most architecturally interesting spaces, and Nok inhabits it with confidence. The interior design is the work of serious minds — layered, intentional, and visually engaging without being overwhelming. Sitting inside Nok for two hours feels like a cultural experience alongside a culinary one.</p>
+      <div class="rf-tip">
+        <strong>Booking Through LAPEQ</strong>
+        <p>Nok is consistently in demand. LAPEQ members booking through our Lagos concierge receive priority reservation access, particularly for weekend services. We also handle special occasion arrangements — birthday setups, anniversary dinners, and group bookings — directly with the Nok team.</p>
+      </div>
+    `
+  },
+  status: {
+    tag: 'Lounge · Concierge\'s Pick',
+    tagColor: 'rgba(30,150,110,0.9)',
+    title: 'Status Lounge, <em>Abuja</em>',
+    location: 'Wuse 2, Abuja',
+    score: '8.4',
+    stars: 4,
+    verdict: 'An Abuja institution that still earns its reputation every evening.',
+    img: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=1200&q=80',
+    subs: [{s:'8.5',l:'Cocktails'},{s:'8.4',l:'Atmosphere'},{s:'8.3',l:'Service'},{s:'8.3',l:'Music'}],
+    body: `
+      <p>Status Lounge is one of Abuja's most enduring nightlife institutions — a venue that has outlasted trends, ownership changes, and a competitive landscape that has claimed several of its peers. Our concierge team returns regularly enough to call it a genuine recommendation rather than a review obligation, and this month we are making it official.</p>
+      <h3>What Makes Status Work</h3>
+      <p>Consistency. In a city where venue quality fluctuates dramatically from evening to evening, Status delivers a reliably excellent experience — from the arrival to the departure. The bar team is skilled, the music curation is attentive without being intrusive, and the service standard holds up even on a busy Friday evening when lesser venues begin to wobble.</p>
+      <div class="rf-pull">"You can take someone to Status with confidence. That is a rarer quality in Abuja nightlife than it should be."</div>
+      <div class="rf-tip">
+        <strong>LAPEQ Abuja Concierge</strong>
+        <p>Our Abuja concierge team can arrange reserved seating at Status with 24 hours notice. For private groups and birthday arrangements, we work directly with the venue management to ensure your evening is properly set up in advance.</p>
+      </div>
+    `
+  }
+};
+
+function openReview(key) {
+  const rv = reviews[key];
+  if (!rv) return;
+  const starsHTML = Array.from({length:5},(_,i)=>`<div class="rf-star${i>=(rv.stars||4)?' dim':''}"></div>`).join('');
+  const subHTML = (rv.subs||[]).map(s=>`<div class="rf-sub"><span class="rf-sub-score">${s.s}</span><span class="rf-sub-label">${s.l}</span></div>`).join('');
+  document.getElementById('reviewContent').innerHTML = `
+    <span class="rf-tag" style="color:${rv.tagColor||'var(--gold)'};">${rv.tag}</span>
+    <h1>${rv.title}</h1>
+    <span class="rf-location">${rv.location}</span>
+    <div class="rf-rating-block">
+      <span class="rf-score">${rv.score}</span>
+      <div class="rf-score-detail">
+        <div class="rf-stars">${starsHTML}</div>
+        <span class="rf-verdict">${rv.verdict}</span>
+      </div>
+    </div>
+    <img class="rf-hero" src="${rv.img}" alt="Review">
+    ${rv.subs ? `<div class="rf-sub-ratings">${subHTML}</div>` : ''}
+    <div class="rf-body">${rv.body}</div>
+    <button class="rf-book-btn" onclick="window.location='lapeq-website.html#contact'">Book Through LAPEQ Concierge</button>
+  `;
+  const overlay = document.getElementById('reviewOverlay');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  overlay.scrollTop = 0;
+}
+
+function closeReview() {
+  document.getElementById('reviewOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeReview(); });
+
+function filterPicks(cat, btn) {
+  document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // Filter winner banner
+  const wb = document.querySelector('.winner-banner');
+  if(wb) wb.style.display = (cat==='all' || wb.dataset.pickCat===cat) ? '' : 'none';
+  // Filter review cards
+  document.querySelectorAll('.review-card').forEach(c => {
+    c.style.display = (cat==='all' || c.dataset.pickCat===cat) ? '' : 'none';
+  });
+}
+
+// Image cyclers
+document.querySelectorAll('.winner-img-cycler, .rc-img').forEach(cycler => {
+  const imgs = Array.from(cycler.querySelectorAll('img'));
+  if(imgs.length < 2) return;
+  let idx = 0;
+  setTimeout(() => {
+    setInterval(() => {
+      imgs[idx].classList.remove('cycle-active');
+      idx = (idx+1) % imgs.length;
+      imgs[idx].classList.add('cycle-active');
+    }, 3500);
+  }, Math.random()*3000);
+});
+
+// Scroll reveal
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); ro.unobserve(e.target); }});
+}, {threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+</script>
+</body>
+</html>
