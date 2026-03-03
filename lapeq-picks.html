@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LAPEQ Picks — March 2026 | Nigeria's Best Restaurants, Lounges, Hotels & Events</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#C9A84C; --gold-light:#E8C97A; --gold-dark:#A07830;
+  --black:#080808; --black-2:#111111; --black-3:#161410; --black-4:#0d0b07;
+  --white:#F8F6F0; --white-dim:rgba(248,246,240,0.6); --white-faint:rgba(248,246,240,0.22);
+  --lagos:#C9A84C; --abuja:#8BA5C9; --ph:#A8C98B;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:'Montserrat',sans-serif;font-weight:300;overflow-x:hidden;}
+::-webkit-scrollbar{width:2px;}::-webkit-scrollbar-track{background:var(--black);}::-webkit-scrollbar-thumb{background:var(--gold);}
+a{text-decoration:none;}
+img{display:block;max-width:100%;}
+.section-tag{font-size:8px;letter-spacing:7px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:14px;}
+.gold-divider{width:100%;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,0.3) 20%,rgba(201,168,76,0.3) 80%,transparent);}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 0.75s ease,transform 0.75s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:22px 64px;transition:all 0.4s;}
+nav.scrolled{background:rgba(8,8,8,0.97);border-bottom:1px solid rgba(201,168,76,0.1);padding:14px 64px;backdrop-filter:blur(16px);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;letter-spacing:8px;color:var(--gold);}
+.nav-links{display:flex;gap:0;list-style:none;align-items:center;}
+.nav-links li a{color:rgba(248,246,240,0.65);font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:8px 14px;display:block;transition:color 0.3s;}
+.nav-links li a:hover{color:var(--gold);}
+.nav-cta{padding:9px 22px;border:1px solid rgba(201,168,76,0.45);color:var(--gold);font-size:8px;letter-spacing:3px;text-transform:uppercase;transition:all 0.3s;margin-left:12px;}
+.nav-cta:hover{background:var(--gold);color:var(--black);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+.hamburger span{width:22px;height:1px;background:var(--gold);display:block;}
+
+/* HERO BANNER */
+.picks-hero{
+  padding:160px 80px 80px;
+  background:linear-gradient(160deg,#0a0800 0%,#0e0c04 60%,#090800 100%);
+  position:relative;overflow:hidden;
+}
+.picks-hero::before{
+  content:'';position:absolute;top:-200px;right:-200px;
+  width:900px;height:900px;
+  background:radial-gradient(circle,rgba(201,168,76,0.055) 0%,transparent 55%);
+  pointer-events:none;
+}
+.picks-hero-inner{max-width:1400px;margin:0 auto;position:relative;z-index:1;}
+.picks-hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:22px;}
+.picks-hero-eyebrow span{font-size:8px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);}
+.picks-hero-eyebrow::before{content:'';width:24px;height:1px;background:var(--gold);}
+.picks-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(44px,6vw,88px);font-weight:300;line-height:1.05;color:var(--white);margin-bottom:28px;}
+.picks-hero h1 em{font-style:italic;color:var(--gold);}
+.picks-hero-desc{font-size:13px;line-height:2;color:var(--white-dim);max-width:560px;margin-bottom:60px;}
+.city-tabs{display:flex;gap:2px;background:rgba(201,168,76,0.07);}
+.city-tab{
+  padding:14px 32px;font-size:9px;letter-spacing:4px;text-transform:uppercase;
+  background:var(--black-2);color:var(--white-faint);cursor:pointer;transition:all 0.3s;
+  border:none;font-family:'Montserrat',sans-serif;
+}
+.city-tab:hover,.city-tab.active{color:var(--gold);background:var(--black-3);}
+.city-tab.active{border-bottom:2px solid var(--gold);}
+.picks-edition{
+  margin-top:48px;display:flex;align-items:center;gap:32px;flex-wrap:wrap;
+}
+.edition-badge{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 20px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);
+}
+.edition-badge span{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);}
+.pro-tip-bar{
+  background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.15);
+  border-left:3px solid var(--gold);
+  padding:16px 24px;flex:1;
+  font-size:11px;line-height:1.7;color:var(--white-dim);
+}
+.pro-tip-bar strong{color:var(--gold);font-weight:500;}
+
+/* CITY SECTIONS */
+.city-section{padding:100px 80px;}
+.city-header{
+  display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start;
+  max-width:1400px;margin:0 auto 72px;padding-bottom:36px;
+  border-bottom:1px solid rgba(201,168,76,0.08);
+}
+.city-icon{
+  font-family:'Cormorant Garamond',serif;font-size:48px;
+  color:rgba(201,168,76,0.08);line-height:1;
+}
+.city-header h2{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,58px);font-weight:300;line-height:1.1;margin-bottom:12px;}
+.city-header h2 em{font-style:italic;color:var(--gold);}
+.city-header p{font-size:13px;line-height:1.9;color:var(--white-dim);max-width:560px;margin-top:14px;}
+.city-tag-lagos{color:#C9A84C;}
+.city-tag-abuja{color:#8BA5C9;}
+.city-tag-ph{color:#A8C98B;}
+
+/* CATEGORY LABEL */
+.cat-label{
+  max-width:1400px;margin:0 auto 28px;
+  display:flex;align-items:center;gap:16px;
+}
+.cat-label-text{font-size:8px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);opacity:0.7;}
+.cat-label-line{flex:1;height:1px;background:rgba(201,168,76,0.08);}
+
+/* VENUE CARDS GRID */
+.venues-grid{max-width:1400px;margin:0 auto 64px;display:grid;gap:2px;background:rgba(201,168,76,0.07);}
+.venues-grid.three{grid-template-columns:repeat(3,1fr);}
+.venues-grid.two{grid-template-columns:2fr 1fr;}
+.venues-grid.featured{grid-template-columns:1.7fr 1fr;}
+
+.venue-card{background:var(--black-2);overflow:hidden;position:relative;transition:background 0.35s;}
+.venue-card:hover{background:var(--black-3);}
+.venue-card.rank-1{position:relative;}
+.venue-card.rank-1::before{
+  content:'#1';position:absolute;top:16px;left:16px;z-index:10;
+  font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:3px;
+  color:var(--gold);background:rgba(8,8,8,0.85);padding:4px 10px;
+  border:1px solid rgba(201,168,76,0.3);
+}
+
+/* VENUE PHOTO */
+.venue-photo{width:100%;height:260px;overflow:hidden;position:relative;}
+.venue-card.large .venue-photo{height:340px;}
+.venue-card.small .venue-photo{height:180px;}
+.venue-photo img{width:100%;height:100%;object-fit:cover;transition:transform 0.7s ease;filter:brightness(0.82);}
+.venue-card:hover .venue-photo img{transform:scale(1.04);}
+.venue-photo-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,8,0.75) 0%,transparent 50%);pointer-events:none;}
+
+/* VENUE TYPE BADGE */
+.venue-type{
+  position:absolute;top:16px;right:16px;z-index:5;
+  padding:4px 12px;font-size:7px;letter-spacing:4px;text-transform:uppercase;
+  background:rgba(8,8,8,0.85);backdrop-filter:blur(8px);
+}
+.vt-restaurant{border:1px solid rgba(201,168,76,0.5);color:var(--gold);}
+.vt-lounge{border:1px solid rgba(100,180,255,0.4);color:rgba(140,200,255,0.9);}
+.vt-hotel{border:1px solid rgba(200,150,255,0.4);color:rgba(200,160,255,0.9);}
+.vt-event{border:1px solid rgba(100,220,140,0.4);color:rgba(120,220,140,0.9);}
+
+/* VENUE RATING */
+.venue-rating{
+  position:absolute;bottom:16px;right:16px;z-index:5;
+  background:rgba(8,8,8,0.9);border:1px solid rgba(201,168,76,0.3);
+  padding:6px 12px;text-align:center;
+}
+.venue-rating-score{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);display:block;line-height:1;}
+.venue-rating-max{font-size:7px;letter-spacing:2px;color:var(--white-faint);display:block;}
+
+/* VENUE BODY */
+.venue-body{padding:28px 32px 32px;}
+.venue-num{font-family:'Cormorant Garamond',serif;font-size:52px;color:rgba(201,168,76,0.07);line-height:1;float:right;margin:-8px -4px 0 0;}
+.venue-address{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,168,76,0.5);margin-bottom:10px;display:block;}
+.venue-body h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;color:var(--white);margin-bottom:8px;line-height:1.25;}
+.venue-why{
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);opacity:0.8;margin-bottom:14px;display:block;
+}
+.venue-body > p{font-size:12px;line-height:1.85;color:var(--white-dim);margin-bottom:18px;}
+.venue-reviews{display:flex;flex-direction:column;gap:10px;margin-top:18px;border-top:1px solid rgba(201,168,76,0.06);padding-top:18px;}
+.venue-review{
+  background:rgba(255,255,255,0.02);
+  padding:12px 16px;font-size:11px;font-style:italic;
+  color:rgba(248,246,240,0.45);line-height:1.7;
+  border-left:2px solid rgba(201,168,76,0.15);
+  position:relative;
+}
+.venue-review::before{content:'"';font-family:'Cormorant Garamond',serif;font-size:28px;color:rgba(201,168,76,0.2);position:absolute;top:4px;left:8px;line-height:1;}
+.venue-review p{padding-left:12px;}
+.venue-review-author{font-style:normal;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.4);margin-top:6px;display:block;padding-left:12px;}
+.venue-hours{font-size:10px;color:var(--white-faint);margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.04);}
+.venue-hours strong{color:rgba(100,220,140,0.6);font-weight:500;}
+.venue-meta{display:flex;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap;}
+.venue-meta-tag{font-size:7px;letter-spacing:3px;text-transform:uppercase;padding:4px 10px;border:1px solid rgba(201,168,76,0.12);color:var(--white-faint);}
+.venue-cta{display:inline-block;margin-top:18px;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);border-bottom:1px solid rgba(201,168,76,0.3);padding-bottom:2px;transition:border-color 0.3s;}
+.venue-cta:hover{border-color:var(--gold);}
+
+/* EVENTS SECTION */
+.events-grid{max-width:1400px;margin:0 auto 64px;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(201,168,76,0.07);}
+.event-card{background:var(--black-2);padding:36px 32px;transition:background 0.3s;}
+.event-card:hover{background:var(--black-3);}
+.event-season{font-size:7px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);opacity:0.6;margin-bottom:10px;display:block;}
+.event-card h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--white);margin-bottom:10px;}
+.event-card p{font-size:12px;line-height:1.8;color:var(--white-dim);}
+.event-why{
+  margin-top:14px;padding:10px 16px;
+  background:rgba(201,168,76,0.05);border-left:2px solid rgba(201,168,76,0.3);
+  font-size:11px;color:rgba(201,168,76,0.7);font-style:italic;
+}
+
+/* FIFA PROMO */
+.fifa-banner{
+  max-width:1400px;margin:0 auto 80px;
+  background:linear-gradient(135deg,#0e0c04 0%,#141008 50%,#0a0800 100%);
+  border:1px solid rgba(201,168,76,0.15);
+  padding:48px 56px;display:flex;align-items:center;gap:48px;flex-wrap:wrap;
+}
+.fifa-icon{
+  font-family:'Cormorant Garamond',serif;
+  font-size:80px;color:rgba(201,168,76,0.08);line-height:1;flex-shrink:0;
+  width:100px;text-align:center;
+}
+.fifa-text{}
+.fifa-text .section-tag{margin-bottom:10px;}
+.fifa-text h3{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--white);margin-bottom:12px;line-height:1.2;}
+.fifa-text h3 em{font-style:italic;color:var(--gold);}
+.fifa-text p{font-size:13px;line-height:1.9;color:var(--white-dim);max-width:600px;}
+.fifa-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;}
+.fifa-tag{padding:5px 14px;border:1px solid rgba(201,168,76,0.2);font-size:7px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,168,76,0.6);}
+
+/* FOOTER */
+footer{
+  background:#060606;border-top:1px solid rgba(201,168,76,0.06);
+  padding:56px 80px 32px;
+  display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;
+}
+.footer-brand p{font-size:11px;color:rgba(248,246,240,0.2);margin-top:14px;line-height:1.8;max-width:240px;}
+.footer-col h5{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:0.7;margin-bottom:18px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.footer-col ul li a{font-size:11px;color:rgba(248,246,240,0.28);transition:color 0.3s;}
+.footer-col ul li a:hover{color:var(--gold);}
+.footer-bottom{grid-column:1/-1;border-top:1px solid rgba(201,168,76,0.06);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.footer-bottom span{font-size:10px;color:rgba(248,246,240,0.18);}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  nav{padding:16px 24px;}
+  .nav-links,.nav-cta{display:none;}
+  .hamburger{display:flex;}
+  .picks-hero{padding:120px 32px 60px;}
+  .city-section{padding:72px 32px;}
+  .venues-grid.three,.venues-grid.two,.venues-grid.featured{grid-template-columns:1fr;}
+  .events-grid{grid-template-columns:1fr;}
+  .city-header{grid-template-columns:1fr;}
+  .city-tabs{flex-wrap:wrap;}
+  .city-tab{flex:1 1 auto;}
+  .fifa-banner{padding:36px 32px;flex-direction:column;gap:24px;}
+  footer{grid-template-columns:1fr 1fr;padding:48px 32px 24px;}
+}
+@media(max-width:600px){
+  footer{grid-template-columns:1fr;}
+  .picks-edition{flex-direction:column;gap:14px;}
+}
+
+/* ── VENUE MODAL ───────────────────────────────────────────────────── */
+.vmodal-bg{
+  position:fixed;inset:0;z-index:5000;
+  background:rgba(0,0,0,0);
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+  pointer-events:none;
+  transition:background 0.35s ease;
+}
+.vmodal-bg.open{
+  background:rgba(0,0,0,0.88);
+  pointer-events:all;
+  backdrop-filter:blur(6px);
+}
+.vmodal{
+  background:var(--black-2);
+  width:100%;max-width:960px;
+  max-height:90vh;
+  overflow-y:auto;
+  position:relative;
+  transform:translateY(40px) scale(0.97);
+  opacity:0;
+  transition:transform 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.4s ease;
+  border:1px solid rgba(201,168,76,0.12);
+  scrollbar-width:thin;scrollbar-color:rgba(201,168,76,0.3) transparent;
+}
+.vmodal::-webkit-scrollbar{width:3px;}
+.vmodal::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.3);}
+.vmodal-bg.open .vmodal{transform:translateY(0) scale(1);opacity:1;}
+
+.vmodal-hero{position:relative;height:320px;overflow:hidden;flex-shrink:0;}
+.vmodal-hero img{width:100%;height:100%;object-fit:cover;filter:brightness(0.6);}
+.vmodal-hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(17,17,17,0.98) 0%,rgba(0,0,0,0.25) 60%,transparent 100%);
+}
+.vmodal-hero-content{
+  position:absolute;bottom:0;left:0;right:0;padding:36px 48px 32px;
+}
+.vmodal-city-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:7px;letter-spacing:5px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:10px;
+}
+.vmodal-city-badge::before{content:'';width:14px;height:1px;background:var(--gold);}
+.vmodal-type-pill{
+  display:inline-block;padding:3px 12px;
+  font-size:7px;letter-spacing:4px;text-transform:uppercase;
+  background:rgba(8,8,8,0.7);border:1px solid rgba(201,168,76,0.35);color:var(--gold);
+  margin-bottom:14px;backdrop-filter:blur(8px);
+}
+.vmodal-hero-content h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,4vw,46px);font-weight:300;
+  color:var(--white);line-height:1.1;
+}
+.vmodal-hero-content .vmodal-address{
+  font-size:10px;letter-spacing:2px;color:rgba(201,168,76,0.6);
+  margin-top:8px;display:block;
+}
+
+.vmodal-close{
+  position:absolute;top:20px;right:20px;
+  width:40px;height:40px;
+  background:rgba(8,8,8,0.7);border:1px solid rgba(201,168,76,0.2);
+  color:rgba(248,246,240,0.7);font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all 0.25s;z-index:10;
+  backdrop-filter:blur(8px);
+}
+.vmodal-close:hover{background:rgba(201,168,76,0.15);color:var(--gold);}
+
+.vmodal-body{padding:40px 48px 48px;display:grid;grid-template-columns:1fr 320px;gap:40px;}
+
+.vmodal-main{}
+.vmodal-why{
+  font-size:8px;letter-spacing:5px;text-transform:uppercase;
+  color:var(--gold);display:block;margin-bottom:12px;
+}
+.vmodal-desc{
+  font-size:14px;line-height:2;color:var(--white-dim);
+  margin-bottom:28px;
+}
+.vmodal-reviews-title{
+  font-size:8px;letter-spacing:4px;text-transform:uppercase;
+  color:rgba(248,246,240,0.3);margin-bottom:16px;display:block;
+}
+.vmodal-reviews{display:flex;flex-direction:column;gap:14px;}
+.vmodal-review{
+  padding:16px 20px;
+  background:rgba(255,255,255,0.025);
+  border-left:2px solid rgba(201,168,76,0.2);
+}
+.vmodal-review p{
+  font-size:13px;font-style:italic;
+  color:rgba(248,246,240,0.55);line-height:1.8;
+  margin-bottom:8px;
+}
+.vmodal-review p::before{content:'“';color:rgba(201,168,76,0.25);font-family:'Cormorant Garamond',serif;font-size:20px;margin-right:2px;}
+.vmodal-review p::after{content:'”';color:rgba(201,168,76,0.25);font-family:'Cormorant Garamond',serif;font-size:20px;margin-left:2px;}
+.vmodal-review-author{
+  font-size:8px;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(201,168,76,0.4);
+}
+.vmodal-no-reviews{
+  font-size:12px;color:rgba(248,246,240,0.2);font-style:italic;
+  padding:16px 0;
+}
+
+.vmodal-sidebar{}
+.vmodal-info-block{
+  background:var(--black-3);
+  border:1px solid rgba(201,168,76,0.07);
+  padding:28px;margin-bottom:14px;
+}
+.vmodal-rating-display{
+  text-align:center;padding-bottom:20px;border-bottom:1px solid rgba(201,168,76,0.07);margin-bottom:18px;
+}
+.vmodal-rating-score{
+  font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;
+  color:var(--gold);line-height:1;display:block;
+}
+.vmodal-rating-label{
+  font-size:8px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(248,246,240,0.3);display:block;margin-top:4px;
+}
+.vmodal-info-row{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.03);
+}
+.vmodal-info-row:last-child{border-bottom:none;padding-bottom:0;}
+.vmodal-info-icon{
+  width:28px;height:28px;flex-shrink:0;
+  border:1px solid rgba(201,168,76,0.15);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--gold);
+}
+.vmodal-info-content{}
+.vmodal-info-label{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:rgba(248,246,240,0.25);display:block;margin-bottom:3px;}
+.vmodal-info-value{font-size:12px;color:var(--white-dim);line-height:1.5;}
+
+.vmodal-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+.vmodal-tag{
+  padding:5px 12px;font-size:7px;letter-spacing:3px;text-transform:uppercase;
+  border:1px solid rgba(201,168,76,0.12);color:rgba(248,246,240,0.4);
+}
+
+.vmodal-cta{
+  display:block;width:100%;text-align:center;
+  padding:14px;background:var(--gold);
+  color:var(--black);font-size:8px;letter-spacing:3px;text-transform:uppercase;
+  font-weight:600;font-family:'Montserrat',sans-serif;
+  transition:background 0.3s;
+}
+.vmodal-cta:hover{background:var(--gold-light);}
+
+@media(max-width:760px){
+  .vmodal-body{grid-template-columns:1fr;gap:28px;}
+  .vmodal-hero{height:240px;}
+  .vmodal-hero-content{padding:24px 28px 20px;}
+  .vmodal-body{padding:28px 28px 36px;}
+  .vmodal-sidebar{order:-1;}
+}
+@media(max-width:500px){
+  .vmodal-hero-content{padding:20px 20px 16px;}
+  .vmodal-body{padding:24px 20px 32px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">LAPEQ</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="lapeq-membership.html">Membership</a></li>
+    <li><a href="lapeq-picks.html" style="color:var(--gold)">Monthly Picks</a></li>
+    <li><a href="lapeq-journal.html">Journal</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a href="index.html#contact" class="nav-cta">Book Now</a>
+  <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<div class="picks-hero">
+  <div class="picks-hero-inner">
+    <div class="picks-hero-eyebrow reveal"><span>Monthly Spotlight</span></div>
+    <h1 class="reveal">LAPEQ Picks<br><em>March 2026</em></h1>
+    <p class="picks-hero-desc reveal">Nigeria's Big Three cities are in full swing. Our concierge team has visited, tested, and curated the absolute best restaurants, lounges, hotels, and unmissable events for this season — so you arrive knowing exactly where to go.</p>
+    <div class="city-tabs reveal">
+      <button class="city-tab active" onclick="scrollToCity('lagos')">Lagos</button>
+      <button class="city-tab" onclick="scrollToCity('abuja')">Abuja</button>
+      <button class="city-tab" onclick="scrollToCity('ph')">Port Harcourt</button>
+    </div>
+    <div class="picks-edition reveal">
+      <div class="edition-badge"><span>Edition: March 2026</span></div>
+      <div class="edition-badge"><span>Personally Curated by LAPEQ Concierge</span></div>
+      <div class="pro-tip-bar"><strong>Pro Tip:</strong> FIFA World Cup 2026 Fan Zones at Landmark Beach and Eko Atlantic, Lagos — expected to be the biggest viewing parties on the continent, June/July 2026.</div>
+    </div>
+  </div>
+</div>
+<div class="gold-divider"></div>
+
+<!-- ==================== LAGOS ==================== -->
+<section class="city-section" id="lagos" style="background:var(--black-4);">
+  <div class="city-header">
+    <div>
+      <span class="section-tag city-tag-lagos">Lagos — The Entertainment Capital</span>
+      <h2>The Island Rules<br><em>Waterfront Dining is King</em></h2>
+      <p>Lagos in 2026 is defined by the Island vs. Mainland luxury divide, with waterfront dining leading the charge. Victoria Island has never been more alive — or more expensive. These are the spots worth every naira.</p>
+    </div>
+    <div class="city-icon">L</div>
+  </div>
+
+  <!-- RESTAURANTS -->
+  <div class="cat-label reveal"><span class="cat-label-text">Restaurants</span><div class="cat-label-line"></div></div>
+  <div class="venues-grid featured reveal">
+
+    <!-- Slow Lagos -->
+    <div class="venue-card large rank-1" data-vid="0" onclick="openVenue(0)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900&q=80" alt="SLoW Lagos Restaurant">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-restaurant">Restaurant</span>
+        <div class="venue-rating"><span class="venue-rating-score">9.4</span><span class="venue-rating-max">/ 10</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">01</span>
+        <span class="venue-address">2 Musa Yar'Adua St, Victoria Island</span>
+        <h3>SLoW Lagos</h3>
+        <span class="venue-why">The "It" Spot for Dinner</span>
+        <p>Still the definitive reservation in Lagos. SLoW combines bohemian-chic design with food serious enough to justify the wait. Live music, thoughtful service, and an outdoor area that breathes. Book days ahead — this one fills up fast.</p>
+        <div class="venue-reviews">
+          <div class="venue-review">
+            <p>One of the best places to go for great food, service and ambiance. SLoW makes me feel like I'm abroad due to the level of hospitality and atmosphere.</p>
+            <span class="venue-review-author">Google Review — Verified Visit</span>
+          </div>
+          <div class="venue-review">
+            <p>A spot you visit and don't feel like leaving. Staffs have good knowledge of the menu. The music is perfect for a bohemian themed spot. Great for group hangouts and solo dates.</p>
+            <span class="venue-review-author">Google Review — Verified Visit</span>
+          </div>
+        </div>
+        <div class="venue-meta">
+          <span class="venue-meta-tag">Live Music</span>
+          <span class="venue-meta-tag">Outdoor Seating</span>
+          <span class="venue-meta-tag">Victoria Island</span>
+          <span class="venue-meta-tag">Reservation Required</span>
+        </div>
+        <div class="venue-hours">Opens: <strong>Mon–Thu 10am–12am &middot; Fri–Sun 10:30am–1am</strong></div>
+        <a href="index.html#contact" class="venue-cta">Request a Reservation via LAPEQ</a>
+      </div>
+    </div>
+
+    <!-- Euphoria -->
+    <div style="display:flex;flex-direction:column;gap:2px;background:rgba(201,168,76,0.07);">
+      <div class="venue-card" data-vid="1" onclick="openVenue(1)" style="cursor:pointer;">
+        <div class="venue-photo" style="height:200px;">
+          <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=80" alt="Euphoria by Sujimoto">
+          <div class="venue-photo-overlay"></div>
+          <span class="venue-type vt-restaurant">Restaurant</span>
+          <div class="venue-rating"><span class="venue-rating-score">4.6</span><span class="venue-rating-max">GMaps</span></div>
+        </div>
+        <div class="venue-body">
+          <span class="venue-num">02</span>
+          <span class="venue-address">23 MacDonalds Road, Ikoyi</span>
+          <h3>Euphoria by Sujimoto</h3>
+          <span class="venue-why">Ultra-Luxury Poolside Dining</span>
+          <p>Hidden inside Ikoyi with no signage — you have to know where to go. Beautiful greens, attentive staff, and a lounge perfect for private celebrations of up to 40 guests.</p>
+          <div class="venue-meta">
+            <span class="venue-meta-tag">Poolside</span>
+            <span class="venue-meta-tag">Private Events</span>
+            <span class="venue-meta-tag">Ikoyi</span>
+          </div>
+          <a href="index.html#contact" class="venue-cta">Enquire with LAPEQ</a>
+        </div>
+      </div>
+      <div class="venue-card" data-vid="2" onclick="openVenue(2)" style="cursor:pointer;">
+        <div class="venue-photo" style="height:180px;">
+          <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=700&q=80" alt="The Delborough">
+          <div class="venue-photo-overlay"></div>
+          <span class="venue-type vt-hotel">Hotel &amp; Restaurant</span>
+          <div class="venue-rating"><span class="venue-rating-score">4.7</span><span class="venue-rating-max">GMaps</span></div>
+        </div>
+        <div class="venue-body">
+          <span class="venue-num">03</span>
+          <span class="venue-address">Victoria Island, Lagos</span>
+          <h3>The Delborough Lagos</h3>
+          <span class="venue-why">Most Exclusive Address in VI</span>
+          <p>Five-star service with international standards. Ultra-responsive staff, impeccable ambiance, and consistently ranked among Lagos's most exclusive stays and dining experiences.</p>
+          <div class="venue-meta">
+            <span class="venue-meta-tag">Fine Dining</span>
+            <span class="venue-meta-tag">Hotel</span>
+            <span class="venue-meta-tag">Events</span>
+          </div>
+          <a href="index.html#contact" class="venue-cta">Book via LAPEQ</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOUNGES -->
+  <div class="cat-label reveal"><span class="cat-label-text">Lounges</span><div class="cat-label-line"></div></div>
+  <div class="venues-grid three reveal">
+
+    <div class="venue-card rank-1" data-vid="3" onclick="openVenue(3)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?w=700&q=80" alt="W Bar Lagos">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-lounge">Lounge &amp; Bar</span>
+        <div class="venue-rating"><span class="venue-rating-score">4.5</span><span class="venue-rating-max">GMaps &middot; 2K+</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">01</span>
+        <span class="venue-address">Cowries Terminal, Falomo Bridge, Ikoyi</span>
+        <h3>W Bar</h3>
+        <span class="venue-why">Ocean Breeze &amp; Waterfront Vibes</span>
+        <p>Perched on the water with a stunning view. The food is genuinely excellent — not just a bar. Come before it fills up or book your table. A reservation gets you the right spot with the ocean beneath you.</p>
+        <div class="venue-review" style="margin-top:16px;">
+          <p>The food was AMAZING, like who on earth is the chef!? Everything we ordered was fantastic. The service was absolutely professional and did not miss any detail.</p>
+          <span class="venue-review-author">Google Review — Verified Visit</span>
+        </div>
+        <div class="venue-hours">Opens: <strong>Fri–Sun 8:30pm–3am</strong> (Closed Mon–Thu)</div>
+        <div class="venue-meta" style="margin-top:12px;">
+          <span class="venue-meta-tag">Reservation Required</span>
+          <span class="venue-meta-tag">Waterfront</span>
+          <span class="venue-meta-tag">Cocktails</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="venue-card" data-vid="4" onclick="openVenue(4)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=700&q=80" alt="The View Twinwaters Lagos">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-lounge">Rooftop Lounge</span>
+        <div class="venue-rating"><span class="venue-rating-score">4.4</span><span class="venue-rating-max">GMaps</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">02</span>
+        <span class="venue-address">Twinwaters Lagos, Off Remi Olowude St, Lekki</span>
+        <h3>The View — Twinwaters</h3>
+        <span class="venue-why">Atlantic Ocean on All Sides</span>
+        <p>Rooftop dining with the Atlantic Ocean as your backdrop. The food — particularly calamari, snails, and the platter — consistently impresses. Breezy, garden-themed, and unforgettable at sunset.</p>
+        <div class="venue-review" style="margin-top:16px;">
+          <p>The view of the Atlantic from the top is beautiful to behold. The food was delicious. Ambience 4/5, food 5/5, location 4/5.</p>
+          <span class="venue-review-author">Google Review — Verified Visit</span>
+        </div>
+        <div class="venue-hours">Opens: <strong>Daily 12pm–10:30pm</strong></div>
+        <div class="venue-meta" style="margin-top:12px;">
+          <span class="venue-meta-tag">Rooftop</span>
+          <span class="venue-meta-tag">Ocean View</span>
+          <span class="venue-meta-tag">Lekki</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="venue-card" data-vid="5" onclick="openVenue(5)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1545579133-99bb5ab189bd?w=700&q=80" alt="Vaniti Lagos">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-lounge">Nightclub &amp; Lounge</span>
+        <div class="venue-rating"><span class="venue-rating-score">4.4</span><span class="venue-rating-max">GMaps &middot; 1.6K</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">03</span>
+        <span class="venue-address">17 Adeola Odeku St, Victoria Island</span>
+        <h3>Vaniti Lagos</h3>
+        <span class="venue-why">High-Energy "Big Boy" Nightlife</span>
+        <p>The place to be seen in Lagos after midnight. Sophisticated design, great layout for both dancing and socializing, and DJs who consistently read the room. Premier nightlife — top-tier music selection and exceptional service.</p>
+        <div class="venue-review" style="margin-top:16px;">
+          <p>An absolute gem in the Lagos nightlife scene. The club is well-designed, the music selection is consistently top-tier. What truly sets Vaniti apart is the exceptional service.</p>
+          <span class="venue-review-author">Google Review — Verified Visit</span>
+        </div>
+        <div class="venue-meta" style="margin-top:12px;">
+          <span class="venue-meta-tag">Late Night</span>
+          <span class="venue-meta-tag">Live DJs</span>
+          <span class="venue-meta-tag">Table Service</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOTELS -->
+  <div class="cat-label reveal"><span class="cat-label-text">Hotels</span><div class="cat-label-line"></div></div>
+  <div class="venues-grid three reveal">
+
+    <div class="venue-card rank-1" data-vid="6" onclick="openVenue(6)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=700&q=80" alt="The Delborough Lagos Hotel">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-hotel">Hotel</span>
+        <div class="venue-rating"><span class="venue-rating-score">4.7</span><span class="venue-rating-max">GMaps &middot; 480+</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">01</span>
+        <span class="venue-address">Plot 1501 Itirin Court, Victoria Island</span>
+        <h3>The Delborough Lagos</h3>
+        <span class="venue-why">The Most Exclusive Stay in Lagos</span>
+        <p>The most exclusive address in Victoria Island. Staff respond in under three minutes. Turkish-inspired interiors, premium scent throughout, and security standards that set it apart from everything else on the island.</p>
+        <div class="venue-meta" style="margin-top:14px;">
+          <span class="venue-meta-tag">5-Star</span>
+          <span class="venue-meta-tag">24/7 Service</span>
+          <span class="venue-meta-tag">Fine Dining</span>
+          <span class="venue-meta-tag">Victoria Island</span>
+        </div>
+        <a href="index.html#contact" class="venue-cta">Book via LAPEQ</a>
+      </div>
+    </div>
+
+    <div class="venue-card" data-vid="7" onclick="openVenue(7)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=700&q=80" alt="Lagos Continental Hotel">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-hotel">Hotel</span>
+        <div class="venue-rating"><span class="venue-rating-score">4.7</span><span class="venue-rating-max">GMaps &middot; 17K+</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">02</span>
+        <span class="venue-address">52a Kofo Abayomi St, Victoria Island</span>
+        <h3>Lagos Continental Hotel</h3>
+        <span class="venue-why">World-Class Standards, Nigerian Heart</span>
+        <p>A world-class hotel that reflects international standards from the moment you step in. The Executive Lounge offers a quiet, panoramic experience. Consistently praised for its exceptional staff culture and lobby ambassador Ebube — now legendary among regulars.</p>
+        <div class="venue-meta" style="margin-top:14px;">
+          <span class="venue-meta-tag">Executive Lounge</span>
+          <span class="venue-meta-tag">Business Travel</span>
+          <span class="venue-meta-tag">Victoria Island</span>
+        </div>
+        <a href="index.html#contact" class="venue-cta">Book via LAPEQ</a>
+      </div>
+    </div>
+
+    <div class="venue-card" data-vid="8" onclick="openVenue(8)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=700&q=80" alt="Eko Hotels Suites">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-hotel">Hotel &amp; Convention</span>
+        <div class="venue-rating"><span class="venue-rating-score">4.5</span><span class="venue-rating-max">GMaps &middot; 28K+</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">03</span>
+        <span class="venue-address">1415 Adetokunbo Ademola St, Victoria Island</span>
+        <h3>Eko Hotels &amp; Suites</h3>
+        <span class="venue-why">A City Within a City</span>
+        <p>The grand institution of Lagos hospitality. Rooftop restaurant, multiple event halls, a vibrant poolside, and the scale to host anything from a private dinner to a major concert. Iconic for a reason.</p>
+        <div class="venue-meta" style="margin-top:14px;">
+          <span class="venue-meta-tag">Large Events</span>
+          <span class="venue-meta-tag">Rooftop Dining</span>
+          <span class="venue-meta-tag">Convention</span>
+        </div>
+        <a href="index.html#contact" class="venue-cta">Book via LAPEQ</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENTS -->
+  <div class="cat-label reveal"><span class="cat-label-text">Events — Lagos 2026</span><div class="cat-label-line"></div></div>
+  <div class="events-grid reveal">
+    <div class="event-card">
+      <span class="event-season">December 2026</span>
+      <h3>Flytime Music Festival</h3>
+      <p>The peak of "Detty December" 2026. Lagos's biggest concert series — multiple nights, multiple stages, every major Nigerian and international act. The social event of the year-end season.</p>
+      <div class="event-why">Book your Lagos hotel through LAPEQ before September. Rooms sell out during Flytime week.</div>
+    </div>
+    <div class="event-card">
+      <span class="event-season">October 2026</span>
+      <h3>Lagos Fashion Week</h3>
+      <p>The continent's premier fashion event. Runway shows, designer launches, press evenings, and the networking that defines the African creative industry. Victoria Island transforms every October.</p>
+      <div class="event-why">VIP passes and front-row access available through LAPEQ Gold and Black members.</div>
+    </div>
+    <div class="event-card">
+      <span class="event-season">December 2026</span>
+      <h3>The Experience — Lagos</h3>
+      <p>Africa's largest gospel music concert, drawing 500,000+ to Lagos annually. A genuinely unmissable cultural event regardless of faith — the atmosphere, production, and scale are unlike anything on the continent.</p>
+      <div class="event-why">Transport coordination and accommodation packages available through LAPEQ.</div>
+    </div>
+  </div>
+</section>
+<div class="gold-divider"></div>
+
+<!-- ==================== ABUJA ==================== -->
+<section class="city-section" id="abuja" style="background:var(--black);">
+  <div class="city-header">
+    <div>
+      <span class="section-tag city-tag-abuja">Abuja — The Power City</span>
+      <h2>Curated. Discreet.<br><em>Where Deals Are Made</em></h2>
+      <p>Abuja does not do loud. The city's best venues reward those who know where to look — cave restaurants, rooftop skylines, and the most consequential lounge in West Africa. This is where Nigeria's power brokers meet.</p>
+    </div>
+    <div class="city-icon">A</div>
+  </div>
+
+  <!-- RESTAURANTS -->
+  <div class="cat-label reveal"><span class="cat-label-text">Restaurants</span><div class="cat-label-line"></div></div>
+  <div class="venues-grid three reveal">
+
+    <div class="venue-card rank-1" data-vid="9" onclick="openVenue(9)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=700&q=80" alt="Kapadoccia Abuja">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-restaurant">Restaurant</span>
+        <div class="venue-rating"><span class="venue-rating-score">4.3</span><span class="venue-rating-max">GMaps &middot; 776</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">01</span>
+        <span class="venue-address">2 Kinda Street, Wuse 2</span>
+        <h3>Kapadoccia Abuja</h3>
+        <span class="venue-why">The Cave Experience — Abuja's Most Unique Dining</span>
+        <p>Styled after the cave cities of Cappadocia, Turkey — this is Abuja's most architecturally distinctive restaurant. Cool, intimate, and perfectly suited for those special events or quiet, important lunches. The Linguine and Midnight Goblet cocktail are the orders to make.</p>
+        <div class="venue-reviews">
+          <div class="venue-review">
+            <p>The cave-styled architectural design is nothing short of enchanting. It must have required a great deal of creativity — the setting gives you the delightful illusion of actually sitting inside a cave.</p>
+            <span class="venue-review-author">Google Review — Verified Visit</span>
+          </div>
+        </div>
+        <div class="venue-hours">Opens: <strong>Mon–Fri 11am–11pm &middot; Sat–Sun 11am–12am</strong></div>
+        <div class="venue-meta" style="margin-top:12px;">
+          <span class="venue-meta-tag">Cave Interior</span>
+          <span class="venue-meta-tag">Intimate Dining</span>
+          <span class="venue-meta-tag">Wuse 2</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="venue-card" data-vid="10" onclick="openVenue(10)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=700&q=80" alt="The Charcoal Grill Abuja">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-restaurant">Restaurant</span>
+        <div class="venue-rating"><span class="venue-rating-score">4.3</span><span class="venue-rating-max">GMaps &middot; 2.8K</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">02</span>
+        <span class="venue-address">7 Lingu Crescent, Wuse</span>
+        <h3>The Charcoal Grill</h3>
+        <span class="venue-why">Hidden Gem — Exceptional Quality at Fair Prices</span>
+        <p>Abuja's best-kept local secret. Spotlessly clean, consistently excellent food, and a courteous team that keeps to reservation times — rare in the city. Great cocktails and a menu that rewards exploration. The snails are extraordinary.</p>
+        <div class="venue-review" style="margin-top:16px;">
+          <p>A hidden gem. The food was absolutely delicious — every dish was full of flavour, beautifully presented, and clearly made with care. Hygiene standards are top-notch.</p>
+          <span class="venue-review-author">Google Review — Verified Visit</span>
+        </div>
+        <div class="venue-hours">Opens: <strong>Mon–Sat 8am–11pm &middot; Sun 10am–11pm</strong></div>
+        <div class="venue-meta" style="margin-top:12px;">
+          <span class="venue-meta-tag">Affordable Luxury</span>
+          <span class="venue-meta-tag">Cocktails</span>
+          <span class="venue-meta-tag">Wuse</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="venue-card" data-vid="11" onclick="openVenue(11)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=80" alt="Zuma Grill Abuja">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-restaurant">Fine Dining</span>
+        <div class="venue-rating"><span class="venue-rating-score">4.6</span><span class="venue-rating-max">GMaps</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">03</span>
+        <span class="venue-address">Ground Floor, Transcorp Hilton, Maitama</span>
+        <h3>Zuma Grill</h3>
+        <span class="venue-why">Where Business Deals Are Closed</span>
+        <p>Located inside the Transcorp Hilton — the undisputed power address of Abuja. Roses, a live piano, champagne, and fine dining that sets the bar for the capital. Probably the best fine dining experience you can have in Abuja, any night of the week.</p>
+        <div class="venue-review" style="margin-top:16px;">
+          <p>The ambience of the restaurant on a weekend night is magical. Roses, champagne glasses and melody from the piano. A fine dining experience — probably the best in the capital.</p>
+          <span class="venue-review-author">Google Review — Verified Visit</span>
+        </div>
+        <div class="venue-hours">Opens: <strong>Daily 4:30pm–10:30pm</strong></div>
+        <div class="venue-meta" style="margin-top:12px;">
+          <span class="venue-meta-tag">Fine Dining</span>
+          <span class="venue-meta-tag">Business Dinners</span>
+          <span class="venue-meta-tag">Transcorp Hilton</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOUNGES -->
+  <div class="cat-label reveal"><span class="cat-label-text">Lounges</span><div class="cat-label-line"></div></div>
+  <div class="venues-grid three reveal">
+    <div class="venue-card rank-1" data-vid="12" onclick="openVenue(12)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=700&q=80" alt="Sofa Leather Lounge Abuja">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-lounge">Luxury Lounge</span>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">01</span>
+        <span class="venue-address">S.L. Akintola Boulevard, Garki</span>
+        <h3>Sofa Leather Lounge</h3>
+        <span class="venue-why">The Gold Standard for Mature Luxury in Abuja</span>
+        <p>Abuja's definitive lounge for those who appreciate quiet elegance over noise. Premium leather interiors, excellent service, and a clientele that reflects the city's senior professional class. The benchmark against which all other Abuja lounges are measured.</p>
+        <div class="venue-meta" style="margin-top:14px;">
+          <span class="venue-meta-tag">Premium Seating</span>
+          <span class="venue-meta-tag">Corporate Crowd</span>
+          <span class="venue-meta-tag">Mature Atmosphere</span>
+        </div>
+        <a href="index.html#contact" class="venue-cta">Reserve via LAPEQ</a>
+      </div>
+    </div>
+    <div class="venue-card" data-vid="13" onclick="openVenue(13)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=700&q=80" alt="Play Imperial Lounge Abuja">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-lounge">Nightclub &amp; Lounge</span>
+        <div class="venue-rating"><span class="venue-rating-score">4.3</span><span class="venue-rating-max">GMaps &middot; 640</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">02</span>
+        <span class="venue-address">Adetokunbo Ademola Crescent, Wuse 2</span>
+        <h3>Play Imperial Lounge</h3>
+        <span class="venue-why">Rooftop Energy — Abuja's Best Night Out</span>
+        <p>Beautiful rooftop setup with Abuja city views. Well-furnished, great DJ energy, and one of the most consistently popular nights in the city on weekends. The Friday-to-Sunday crowd is a who's-who of Abuja's young professional class.</p>
+        <div class="venue-review" style="margin-top:14px;">
+          <p>Beautiful place on the roof with amazing views. The vibe is good and the place is well set up.</p>
+          <span class="venue-review-author">Google Review — Verified Visit</span>
+        </div>
+        <div class="venue-hours">Opens: <strong>Daily 9am–1am &middot; Thu–Sat until 4am</strong></div>
+      </div>
+    </div>
+    <div class="venue-card" data-vid="14" onclick="openVenue(14)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=700&q=80" alt="The Vue Abuja">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-lounge">Rooftop Restaurant &amp; Lounge</span>
+        <div class="venue-rating"><span class="venue-rating-score">4.4</span><span class="venue-rating-max">GMaps &middot; 1.4K</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">03</span>
+        <span class="venue-address">Novare Central Mall, Wuse</span>
+        <h3>The Vue</h3>
+        <span class="venue-why">Best Skyline View in Abuja</span>
+        <p>Stunning indoor and outdoor dining above Novare Mall. Modern, stylish interiors perfectly suited for photos, birthdays, and celebrations. Open, airy, and quiet enough for actual conversation. The Naan bread is not to be missed.</p>
+        <div class="venue-review" style="margin-top:14px;">
+          <p>This place is absolutely gorgeous. The service was very good, waiters were nice and respectful. Honestly, the food was pretty okay — the naan bread was absolutely divine.</p>
+          <span class="venue-review-author">Google Review — Verified Visit</span>
+        </div>
+        <div class="venue-hours">Opens: <strong>Daily 11am–10:30pm</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOTELS -->
+  <div class="cat-label reveal"><span class="cat-label-text">Hotels</span><div class="cat-label-line"></div></div>
+  <div class="venues-grid three reveal">
+    <div class="venue-card rank-1" data-vid="15" onclick="openVenue(15)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=700&q=80" alt="Transcorp Hilton Abuja">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-hotel">Hotel</span>
+        <div class="venue-rating"><span class="venue-rating-score">4.6</span><span class="venue-rating-max">GMaps &middot; 28K+</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">01</span>
+        <span class="venue-address">1 Aguiyi Ironsi St, Maitama</span>
+        <h3>Transcorp Hilton Abuja</h3>
+        <span class="venue-why">Non-Negotiable for Power Players</span>
+        <p>The undisputed address of power in Abuja. Zuma Grill, the Piano Lounge, Suya Spot, tennis, badminton, an exceptional pool, and the executive suite floor. Every president, minister, and diplomat passes through these doors. Being here is its own statement.</p>
+        <div class="venue-review" style="margin-top:14px;">
+          <p>Feels like a home away from home. Excellent service, enjoyable music, and entertainment everywhere. Sports options, a lovely pool — never a dull moment.</p>
+          <span class="venue-review-author">Google Review — Verified Visit</span>
+        </div>
+        <div class="venue-meta" style="margin-top:12px;">
+          <span class="venue-meta-tag">Power Address</span>
+          <span class="venue-meta-tag">Executive Suites</span>
+          <span class="venue-meta-tag">5-Star</span>
+        </div>
+        <a href="index.html#contact" class="venue-cta">Book via LAPEQ</a>
+      </div>
+    </div>
+    <div class="venue-card" data-vid="16" onclick="openVenue(16)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1560347876-aeef00ee58a1?w=700&q=80" alt="The Nordic Abuja">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-hotel">Boutique Hotel</span>
+        <div class="venue-rating"><span class="venue-rating-score">5.0</span><span class="venue-rating-max">GMaps</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">02</span>
+        <span class="venue-address">Plot 795, Off Shehu Yar'adua Way, Jabi</span>
+        <h3>The Nordic Abuja</h3>
+        <span class="venue-why">For the Design-Obsessed</span>
+        <p>Currently rated 5.0 on Google Maps — one of the most acclaimed hotels in Abuja right now. Beautifully designed with original African art, a rooftop lounge, and an elegantly built gym. Service is genuinely exceptional, not just technically competent.</p>
+        <div class="venue-review" style="margin-top:14px;">
+          <p>It would be 6 stars if there was such a thing. What an amazing hotel — attention to detail and making the whole experience one to never forget is top-class.</p>
+          <span class="venue-review-author">Google Review — Verified Visit</span>
+        </div>
+        <div class="venue-meta" style="margin-top:12px;">
+          <span class="venue-meta-tag">Boutique</span>
+          <span class="venue-meta-tag">5.0 Rated</span>
+          <span class="venue-meta-tag">Rooftop Lounge</span>
+        </div>
+        <a href="index.html#contact" class="venue-cta">Book via LAPEQ</a>
+      </div>
+    </div>
+    <div class="venue-card" data-vid="17" onclick="openVenue(17)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=700&q=80" alt="Fraser Suites Abuja">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-hotel">Hotel &amp; Suites</span>
+        <div class="venue-rating"><span class="venue-rating-score">4.6</span><span class="venue-rating-max">GMaps &middot; 6K+</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">03</span>
+        <span class="venue-address">294 Leventis Close, Central Business District</span>
+        <h3>Fraser Suites Abuja</h3>
+        <span class="venue-why">The Long-Stay Standard</span>
+        <p>Consistently praised as one of the finest extended stays in Abuja. Quiet, serene, and exceptionally maintained. Ideal for business travellers who need a genuine home-away-from-home rather than just a room.</p>
+        <div class="venue-review" style="margin-top:14px;">
+          <p>I have stayed in over 50 countries and can confidently say this is a very good hotel based on real, lived experience. The staff culture is genuinely outstanding.</p>
+          <span class="venue-review-author">Google Review — Verified Visit (13-day stay)</span>
+        </div>
+        <div class="venue-meta" style="margin-top:12px;">
+          <span class="venue-meta-tag">Extended Stay</span>
+          <span class="venue-meta-tag">Business Travel</span>
+          <span class="venue-meta-tag">CBD</span>
+        </div>
+        <a href="index.html#contact" class="venue-cta">Book via LAPEQ</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENTS -->
+  <div class="cat-label reveal"><span class="cat-label-text">Events — Abuja 2026</span><div class="cat-label-line"></div></div>
+  <div class="events-grid reveal">
+    <div class="event-card">
+      <span class="event-season">November 2026</span>
+      <h3>Abuja Carnival</h3>
+      <p>One of West Africa's most colourful cultural festivals. A city-wide celebration of music, dance, fashion, and Nigerian cultural identity — the streets of Abuja transform completely over carnival weekend.</p>
+      <div class="event-why">LAPEQ can arrange VIP hospitality packages and accommodation for the full carnival weekend.</div>
+    </div>
+    <div class="event-card">
+      <span class="event-season">Nov / Dec 2026</span>
+      <h3>The Abuja Polo Tournament</h3>
+      <p>The social event of the year in Abuja. A meeting point for Nigeria's most senior professionals, diplomats, and public figures. Attendance at the polo tournament is as much about the networking as the sport itself.</p>
+      <div class="event-why">Corporate hospitality and guest appearances arranged through LAPEQ Black and Gold tiers.</div>
+    </div>
+    <div class="event-card">
+      <span class="event-season">October 2026</span>
+      <h3>The Unity Concert — Abuja</h3>
+      <p>A flagship national music event bringing together Nigeria's biggest artists for a night that celebrates cultural unity. The FCT backdrop gives this concert a gravitas that other Nigerian events rarely achieve.</p>
+      <div class="event-why">VIP access, transport, and after-party arrangements available through LAPEQ.</div>
+    </div>
+  </div>
+</section>
+<div class="gold-divider"></div>
+
+<!-- ==================== PORT HARCOURT ==================== -->
+<section class="city-section" id="ph" style="background:var(--black-4);">
+  <div class="city-header">
+    <div>
+      <span class="section-tag city-tag-ph">Port Harcourt — The Garden City</span>
+      <h2>Industrial-Cool Meets<br><em>Soulful Nightlife</em></h2>
+      <p>Port Harcourt is having its moment in 2026. "Garden City" aesthetics are meeting an upscale nightlife scene that is drawing visitors from Lagos and Abuja. The city's energy is raw, warm, and entirely its own.</p>
+    </div>
+    <div class="city-icon">P</div>
+  </div>
+
+  <!-- RESTAURANTS -->
+  <div class="cat-label reveal"><span class="cat-label-text">Restaurants</span><div class="cat-label-line"></div></div>
+  <div class="venues-grid three reveal">
+    <div class="venue-card rank-1" data-vid="18" onclick="openVenue(18)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?w=700&q=80" alt="Asia Town Port Harcourt">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-restaurant">Asian Fusion</span>
+        <div class="venue-rating"><span class="venue-rating-score">4.4</span><span class="venue-rating-max">GMaps &middot; 1.7K</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">01</span>
+        <span class="venue-address">38 Forces Avenue, Old GRA</span>
+        <h3>Asia Town Restaurant</h3>
+        <span class="venue-why">PH's Classic Fine Dining Choice</span>
+        <p>The finest and most established fine dining experience in Port Harcourt. Reflective 3D wall interiors, Asian fusion cuisine, and a service team that personalises the experience — including displaying guests' names on the large screen for celebrations. The pork sauce is reportedly transcendent.</p>
+        <div class="venue-review" style="margin-top:14px;">
+          <p>Fantastic interior atmosphere that surpasses the impression from outside. Intrigued when our hosts surprised us seeing our names on the large screen — the group photo was amazing.</p>
+          <span class="venue-review-author">Google Review — Verified Visit</span>
+        </div>
+        <div class="venue-hours">Opens: <strong>Daily 12pm–10:30pm</strong></div>
+        <div class="venue-meta" style="margin-top:12px;">
+          <span class="venue-meta-tag">Fine Dining</span>
+          <span class="venue-meta-tag">Asian Fusion</span>
+          <span class="venue-meta-tag">Old GRA</span>
+        </div>
+      </div>
+    </div>
+    <div class="venue-card" data-vid="19" onclick="openVenue(19)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=700&q=80" alt="Bole King Port Harcourt">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-restaurant">Local Cuisine</span>
+        <div class="venue-rating"><span class="venue-rating-score">3.3</span><span class="venue-rating-max">GMaps</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">02</span>
+        <span class="venue-address">10A Omoku Street, Woji</span>
+        <h3>Bole King</h3>
+        <span class="venue-why">Elevated Local Staple — PH's Signature Dish</span>
+        <p>Port Harcourt's most famous street food — bole (roasted plantain with fish) — elevated for the dining experience. This is a cultural pilgrimage as much as a meal. Organic, fresh ingredients and the flavour PH natives have grown up on. An essential stop for any first-time visitor.</p>
+        <div class="venue-review" style="margin-top:14px;">
+          <p>Great place to experience a natural treat — roasted plantain sandwiched with fish barbecue. Great place for 100% organic food.</p>
+          <span class="venue-review-author">Google Reviews — Multiple Verified Visits</span>
+        </div>
+        <div class="venue-meta" style="margin-top:12px;">
+          <span class="venue-meta-tag">Local Cuisine</span>
+          <span class="venue-meta-tag">Cultural Experience</span>
+          <span class="venue-meta-tag">Organic</span>
+        </div>
+      </div>
+    </div>
+    <div class="venue-card" data-vid="20" onclick="openVenue(20)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=700&q=80" alt="Spice Route Port Harcourt">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-restaurant">Restaurant</span>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">03</span>
+        <span class="venue-address">Port Harcourt, Rivers State</span>
+        <h3>Spice Route</h3>
+        <span class="venue-why">Garden City Meets Global Cuisine</span>
+        <p>A rising favourite on the PH dining scene — combining international flavours with the warmth of Garden City hospitality. The 2026 pick for a complete dinner experience that goes beyond the familiar.</p>
+        <div class="venue-meta" style="margin-top:14px;">
+          <span class="venue-meta-tag">International</span>
+          <span class="venue-meta-tag">Full Service</span>
+        </div>
+        <a href="index.html#contact" class="venue-cta">Get LAPEQ Concierge Access</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOUNGES -->
+  <div class="cat-label reveal"><span class="cat-label-text">Lounges</span><div class="cat-label-line"></div></div>
+  <div class="venues-grid three reveal">
+    <div class="venue-card rank-1" data-vid="21" onclick="openVenue(21)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1559329255-0a1a14e63f34?w=700&q=80" alt="The Vineyard Port Harcourt">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-lounge">Lounge &amp; Entertainment</span>
+        <div class="venue-rating"><span class="venue-rating-score">3.9</span><span class="venue-rating-max">GMaps &middot; 802</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">01</span>
+        <span class="venue-address">88 Woji Road, GRA Phase 2</span>
+        <h3>The Vineyard</h3>
+        <span class="venue-why">Perfect for a Breezy PH Evening</span>
+        <p>A beloved PH institution for evenings that don't need to be loud to be memorable. Breezy, family-friendly for the early hours, with enough nightlife energy to carry into the evening. The venue also hosts private events for up to 1,000 guests.</p>
+        <div class="venue-review" style="margin-top:14px;">
+          <p>A nice place located at the heart of the city. KFC, 22-0spot and more all in the same compound. Cool environment for event coverage.</p>
+          <span class="venue-review-author">Google Review — Verified Visit</span>
+        </div>
+        <div class="venue-meta" style="margin-top:12px;">
+          <span class="venue-meta-tag">Event Space</span>
+          <span class="venue-meta-tag">GRA</span>
+          <span class="venue-meta-tag">Family Friendly</span>
+        </div>
+      </div>
+    </div>
+    <div class="venue-card" data-vid="22" onclick="openVenue(22)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=700&q=80" alt="Cipher Lounge Port Harcourt">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-lounge">Nightclub &amp; Bar</span>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">02</span>
+        <span class="venue-address">Port Harcourt</span>
+        <h3>Cipher Lounge</h3>
+        <span class="venue-why">The Current Pulse of PH Nightlife</span>
+        <p>The most talked-about club in Port Harcourt right now. Cipher has become the central address for PH's nightlife scene in 2026 — and the energy is impossible to replicate anywhere else in the city. If you're in PH on a Friday night, this is where the city goes.</p>
+        <div class="venue-meta" style="margin-top:14px;">
+          <span class="venue-meta-tag">Late Night</span>
+          <span class="venue-meta-tag">High Energy</span>
+          <span class="venue-meta-tag">VIP Tables</span>
+        </div>
+        <a href="index.html#contact" class="venue-cta">Reserve VIP via LAPEQ</a>
+      </div>
+    </div>
+    <div class="venue-card" data-vid="23" onclick="openVenue(23)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=700&q=80" alt="Codigo Lounge Port Harcourt">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-lounge">Lounge &amp; Bar</span>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">03</span>
+        <span class="venue-address">Port Harcourt</span>
+        <h3>Codigo</h3>
+        <span class="venue-why">Garden City's Rising Lounge</span>
+        <p>A newer entry on the PH scene that is gaining rapid traction. Codigo blends sophisticated lounge aesthetics with the infectious warmth that defines Port Harcourt's hospitality — a venue on its way to becoming a staple.</p>
+        <div class="venue-meta" style="margin-top:14px;">
+          <span class="venue-meta-tag">Rising Venue</span>
+          <span class="venue-meta-tag">Cocktails</span>
+        </div>
+        <a href="index.html#contact" class="venue-cta">Reserve via LAPEQ</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOTELS -->
+  <div class="cat-label reveal"><span class="cat-label-text">Hotels</span><div class="cat-label-line"></div></div>
+  <div class="venues-grid three reveal">
+    <div class="venue-card rank-1" data-vid="24" onclick="openVenue(24)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1519449556851-5720b33024e7?w=700&q=80" alt="Hotel Presidential Port Harcourt">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-hotel">Hotel</span>
+        <div class="venue-rating"><span class="venue-rating-score">4.2</span><span class="venue-rating-max">GMaps &middot; 5.5K</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">01</span>
+        <span class="venue-address">1 Birabi Street, New GRA</span>
+        <h3>Hotel Presidential</h3>
+        <span class="venue-why">The Historic Icon of PH</span>
+        <p>Port Harcourt's most legendary address. Minutes from the airport, adjacent to the business district, and connected to the city's most prestigious events. Five-star rooms, world-class dining, nightlife, and the scale that only a true landmark hotel can deliver.</p>
+        <div class="venue-review" style="margin-top:14px;">
+          <p>With five-star rooms, executive suites, world-class dining, and vibrant nightlife — it is the destination of choice for both business and leisure travelers in PH.</p>
+          <span class="venue-review-author">Google Review — Verified Visit</span>
+        </div>
+        <div class="venue-meta" style="margin-top:12px;">
+          <span class="venue-meta-tag">Historic</span>
+          <span class="venue-meta-tag">Airport Proximity</span>
+          <span class="venue-meta-tag">Events</span>
+        </div>
+        <a href="index.html#contact" class="venue-cta">Book via LAPEQ</a>
+      </div>
+    </div>
+    <div class="venue-card" data-vid="25" onclick="openVenue(25)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=700&q=80" alt="Radisson Blu Port Harcourt">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-hotel">Hotel</span>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">02</span>
+        <span class="venue-address">Port Harcourt, Rivers State</span>
+        <h3>Radisson Blu Port Harcourt</h3>
+        <span class="venue-why">The Modern Luxury Choice — Just Opened</span>
+        <p>The newest premium hotel address in PH and already turning heads. Radisson Blu's entry into Port Harcourt signals the city's arrival as a serious luxury travel destination. Fresh interiors, international standards, and a brand reputation that speaks for itself.</p>
+        <div class="venue-meta" style="margin-top:14px;">
+          <span class="venue-meta-tag">New Opening</span>
+          <span class="venue-meta-tag">International Brand</span>
+          <span class="venue-meta-tag">Modern Luxury</span>
+        </div>
+        <a href="index.html#contact" class="venue-cta">Book via LAPEQ</a>
+      </div>
+    </div>
+    <div class="venue-card" data-vid="26" onclick="openVenue(26)" style="cursor:pointer;">
+      <div class="venue-photo">
+        <img src="https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=700&q=80" alt="Swiss Spirit Hotel Port Harcourt">
+        <div class="venue-photo-overlay"></div>
+        <span class="venue-type vt-hotel">Hotel</span>
+        <div class="venue-rating"><span class="venue-rating-score">4.2</span><span class="venue-rating-max">GMaps &middot; 2.6K</span></div>
+      </div>
+      <div class="venue-body">
+        <span class="venue-num">03</span>
+        <span class="venue-address">79 Ken Saro-Wiwa Road, Rumuola</span>
+        <h3>Sweet Spirit Hotel</h3>
+        <span class="venue-why">A Hidden Gem — Underrated &amp; Spacious</span>
+        <p>PH's best-kept hotel secret. Deceptively large inside despite a narrow entrance, impeccably clean, and a kitchen that consistently surprises. The pricing is fair and the hospitality is genuine. A strong choice for those who prefer character over brand name.</p>
+        <div class="venue-review" style="margin-top:14px;">
+          <p>A gracious use of space — like a hidden gem. Very beautiful and tidy, commendable customer service, and they cook real good here. Genuinely surprised by the food.</p>
+          <span class="venue-review-author">Google Review — Verified Visit</span>
+        </div>
+        <div class="venue-meta" style="margin-top:12px;">
+          <span class="venue-meta-tag">Underrated</span>
+          <span class="venue-meta-tag">Great Value</span>
+          <span class="venue-meta-tag">Local Favourite</span>
+        </div>
+        <a href="index.html#contact" class="venue-cta">Book via LAPEQ</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENTS -->
+  <div class="cat-label reveal"><span class="cat-label-text">Events — Port Harcourt 2026</span><div class="cat-label-line"></div></div>
+  <div class="events-grid reveal">
+    <div class="event-card">
+      <span class="event-season">September 2026</span>
+      <h3>The PH Food Festival</h3>
+      <p>A celebration of Rivers State's extraordinary culinary heritage. Street food, premium dining, live cooking, and cultural performances — the food festival is Port Harcourt at its most hospitable and colourful.</p>
+      <div class="event-why">Accommodation and transport packages for the full festival weekend available through LAPEQ.</div>
+    </div>
+    <div class="event-card">
+      <span class="event-season">October 2026</span>
+      <h3>Bole Festival</h3>
+      <p>Now a massive regional draw, the Bole Festival has become the cultural anchor of Port Harcourt's calendar. Celebrating the city's famous street food with music, community, and an atmosphere that visitors never forget.</p>
+      <div class="event-why">This one fills accommodation weeks in advance. Let LAPEQ secure your stay before the rush.</div>
+    </div>
+    <div class="event-card">
+      <span class="event-season">November 2026</span>
+      <h3>Garden City Literary Festival</h3>
+      <p>One of Nigeria's most respected literary and cultural events. Writers, artists, and thinkers gather in PH for a festival that positions the Garden City as a serious home of Nigerian intellectual culture.</p>
+      <div class="event-why">LAPEQ can arrange full visit logistics including accommodation, transport, and private venue access.</div>
+    </div>
+  </div>
+</section>
+<div class="gold-divider"></div>
+
+<!-- FIFA PRO TIP -->
+<section style="padding:80px 80px;background:var(--black);">
+  <div class="fifa-banner reveal">
+    <div class="fifa-icon">W</div>
+    <div class="fifa-text">
+      <span class="section-tag">LAPEQ Pro Tip — June / July 2026</span>
+      <h3>FIFA World Cup <em>Fan Zone Lagos</em></h3>
+      <p>The FIFA World Cup 2026 is hosted in North America — but Lagos is hosting the continent's biggest watch parties. The Fan Zones at Landmark Beach and Eko Atlantic are expected to draw massive crowds for every Super Eagles match and beyond. Book your Lagos accommodation and transport now — this will sell out.</p>
+      <div class="fifa-tags">
+        <span class="fifa-tag">Landmark Beach</span>
+        <span class="fifa-tag">Eko Atlantic</span>
+        <span class="fifa-tag">June / July 2026</span>
+        <span class="fifa-tag">Super Eagles</span>
+        <span class="fifa-tag">Fan Zone Experience</span>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="gold-divider"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <a href="index.html" class="nav-logo">LAPEQ</a>
+    <p>Premium concierge and lifestyle management. Based in Abuja, Nigeria. Delivering seamless, luxurious experiences across four cities.</p>
+  </div>
+  <div class="footer-col">
+    <h5>Cities</h5>
+    <ul>
+      <li><a href="#lagos">Lagos</a></li>
+      <li><a href="#abuja">Abuja</a></li>
+      <li><a href="#ph">Port Harcourt</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h5>Membership</h5>
+    <ul>
+      <li><a href="lapeq-membership.html">Free — Join Now</a></li>
+      <li><a href="lapeq-membership.html#silver">Silver</a></li>
+      <li><a href="lapeq-membership.html#gold">Gold</a></li>
+      <li><a href="lapeq-membership.html#black">Black</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h5>LAPEQ</h5>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="lapeq-journal.html">Journal</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><a href="index.html#faq">FAQ</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 LAPEQ. All rights reserved.</span>
+    <span>Abuja &middot; Lagos &middot; Port Harcourt &middot; Jos</span>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);
+});
+const ro=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}});
+},{threshold:0.06});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+function scrollToCity(id){
+  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+  document.querySelectorAll('.city-tab').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+}
+</script>
+
+<!-- ── VENUE DETAIL MODAL ── -->
+<div class="vmodal-bg" id="vmodalBg" onclick="handleBgClick(event)">
+  <div class="vmodal" id="vmodal">
+    <button class="vmodal-close" onclick="closeVenue()" aria-label="Close">&times;</button>
+    <div class="vmodal-hero" id="vmodalHero">
+      <img id="vmodalImg" src="" alt="">
+      <div class="vmodal-hero-overlay"></div>
+      <div class="vmodal-hero-content">
+        <div class="vmodal-city-badge" id="vmodalCity"></div>
+        <span class="vmodal-type-pill" id="vmodalType"></span>
+        <h2 id="vmodalName"></h2>
+        <span class="vmodal-address" id="vmodalAddr"></span>
+      </div>
+    </div>
+    <div class="vmodal-body">
+      <div class="vmodal-main">
+        <span class="vmodal-why" id="vmodalWhy"></span>
+        <p class="vmodal-desc" id="vmodalDesc"></p>
+        <span class="vmodal-reviews-title">What Guests Are Saying</span>
+        <div class="vmodal-reviews" id="vmodalReviews"></div>
+      </div>
+      <div class="vmodal-sidebar">
+        <div class="vmodal-info-block">
+          <div class="vmodal-rating-display" id="vmodalRatingWrap">
+            <span class="vmodal-rating-score" id="vmodalRating"></span>
+            <span class="vmodal-rating-label" id="vmodalRatingMax"></span>
+          </div>
+          <div class="vmodal-info-row" id="vmodalCityRow">
+            <div class="vmodal-info-icon">C</div>
+            <div class="vmodal-info-content">
+              <span class="vmodal-info-label">City</span>
+              <span class="vmodal-info-value" id="vmodalCityVal"></span>
+            </div>
+          </div>
+          <div class="vmodal-info-row" id="vmodalCatRow">
+            <div class="vmodal-info-icon">T</div>
+            <div class="vmodal-info-content">
+              <span class="vmodal-info-label">Category</span>
+              <span class="vmodal-info-value" id="vmodalCatVal"></span>
+            </div>
+          </div>
+          <div class="vmodal-info-row" id="vmodalHoursRow" style="display:none">
+            <div class="vmodal-info-icon">H</div>
+            <div class="vmodal-info-content">
+              <span class="vmodal-info-label">Opening Hours</span>
+              <span class="vmodal-info-value" id="vmodalHours"></span>
+            </div>
+          </div>
+          <div class="vmodal-info-row">
+            <div class="vmodal-info-icon">A</div>
+            <div class="vmodal-info-content">
+              <span class="vmodal-info-label">Address</span>
+              <span class="vmodal-info-value" id="vmodalAddrInfo"></span>
+            </div>
+          </div>
+        </div>
+        <div class="vmodal-tags" id="vmodalTags"></div>
+        <a href="index.html#contact" class="vmodal-cta">Reserve via LAPEQ</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const VENUES={0:{name:'SLoW Lagos',address:'2 Musa Yar\'Adua St, Victoria Island',why:'The "It" Spot for Dinner',type:'Restaurant',rating:'9.4',rating_max:'/ 10',img:'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900&q=80',hours:'Mon–Thu 10am–12am &middot; Fri–Sun 10:30am–1am',desc:'Still the definitive reservation in Lagos. SLoW combines bohemian-chic design with food serious enough to justify the wait. Live music, thoughtful service, and an outdoor area that breathes. Book days ahead — this one fills up fast.',reviews:[{text:'One of the best places to go for great food, service and ambiance. SLoW makes me feel like I\'m abroad due to the level of hospitality and atmosphere.',author:'Google Review — Verified Visit'},{text:'A spot you visit and don\'t feel like leaving. Staffs have good knowledge of the menu. The music is perfect for a bohemian themed spot. Great for group hangouts and solo dates.',author:'Google Review — Verified Visit'}],meta:['Live Music','Outdoor Seating','Victoria Island','Reservation Required'],city:'Lagos',cat:'Restaurants'},1:{name:'Euphoria by Sujimoto',address:'23 MacDonalds Road, Ikoyi',why:'Ultra-Luxury Poolside Dining',type:'Restaurant',rating:'4.6',rating_max:'GMaps',img:'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=80',hours:'',desc:'Hidden inside Ikoyi with no signage — you have to know where to go. Beautiful greens, attentive staff, and a lounge perfect for private celebrations of up to 40 guests.',reviews:[],meta:['Poolside','Private Events','Ikoyi'],city:'Lagos',cat:'Restaurants'},2:{name:'The Delborough Lagos',address:'Victoria Island, Lagos',why:'Most Exclusive Address in VI',type:'Hotel &amp; Restaurant',rating:'4.7',rating_max:'GMaps',img:'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=700&q=80',hours:'',desc:'Five-star service with international standards. Ultra-responsive staff, impeccable ambiance, and consistently ranked among Lagos\'s most exclusive stays and dining experiences.',reviews:[],meta:['Fine Dining','Hotel','Events'],city:'Lagos',cat:'Restaurants'},3:{name:'W Bar',address:'Cowries Terminal, Falomo Bridge, Ikoyi',why:'Ocean Breeze &amp; Waterfront Vibes',type:'Lounge &amp; Bar',rating:'4.5',rating_max:'GMaps &middot; 2K+',img:'https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?w=700&q=80',hours:'Fri–Sun 8:30pm–3am',desc:'Perched on the water with a stunning view. The food is genuinely excellent — not just a bar. Come before it fills up or book your table. A reservation gets you the right spot with the ocean beneath you.',reviews:[],meta:['Reservation Required','Waterfront','Cocktails'],city:'Lagos',cat:'Lounges'},4:{name:'The View — Twinwaters',address:'Twinwaters Lagos, Off Remi Olowude St, Lekki',why:'Atlantic Ocean on All Sides',type:'Rooftop Lounge',rating:'4.4',rating_max:'GMaps',img:'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=700&q=80',hours:'Daily 12pm–10:30pm',desc:'Rooftop dining with the Atlantic Ocean as your backdrop. The food — particularly calamari, snails, and the platter — consistently impresses. Breezy, garden-themed, and unforgettable at sunset.',reviews:[],meta:['Rooftop','Ocean View','Lekki'],city:'Lagos',cat:'Lounges'},5:{name:'Vaniti Lagos',address:'17 Adeola Odeku St, Victoria Island',why:'High-Energy "Big Boy" Nightlife',type:'Nightclub &amp; Lounge',rating:'4.4',rating_max:'GMaps &middot; 1.6K',img:'https://images.unsplash.com/photo-1545579133-99bb5ab189bd?w=700&q=80',hours:'',desc:'The place to be seen in Lagos after midnight. Sophisticated design, great layout for both dancing and socializing, and DJs who consistently read the room. Premier nightlife — top-tier music selection and exceptional service.',reviews:[],meta:['Late Night','Live DJs','Table Service'],city:'Lagos',cat:'Lounges'},6:{name:'The Delborough Lagos',address:'Plot 1501 Itirin Court, Victoria Island',why:'The Most Exclusive Stay in Lagos',type:'Hotel',rating:'4.7',rating_max:'GMaps &middot; 480+',img:'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=700&q=80',hours:'',desc:'The most exclusive address in Victoria Island. Staff respond in under three minutes. Turkish-inspired interiors, premium scent throughout, and security standards that set it apart from everything else on the island.',reviews:[],meta:['5-Star','24/7 Service','Fine Dining','Victoria Island'],city:'Lagos',cat:'Hotels'},7:{name:'Lagos Continental Hotel',address:'52a Kofo Abayomi St, Victoria Island',why:'World-Class Standards, Nigerian Heart',type:'Hotel',rating:'4.7',rating_max:'GMaps &middot; 17K+',img:'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=700&q=80',hours:'',desc:'A world-class hotel that reflects international standards from the moment you step in. The Executive Lounge offers a quiet, panoramic experience. Consistently praised for its exceptional staff culture and lobby ambassador Ebube — now legendary among regulars.',reviews:[],meta:['Executive Lounge','Business Travel','Victoria Island'],city:'Lagos',cat:'Hotels'},8:{name:'Eko Hotels &amp; Suites',address:'1415 Adetokunbo Ademola St, Victoria Island',why:'A City Within a City',type:'Hotel &amp; Convention',rating:'4.5',rating_max:'GMaps &middot; 28K+',img:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=700&q=80',hours:'',desc:'The grand institution of Lagos hospitality. Rooftop restaurant, multiple event halls, a vibrant poolside, and the scale to host anything from a private dinner to a major concert. Iconic for a reason.',reviews:[],meta:['Large Events','Rooftop Dining','Convention'],city:'Lagos',cat:'Hotels'},9:{name:'Kapadoccia Abuja',address:'2 Kinda Street, Wuse 2',why:'The Cave Experience — Abuja\'s Most Unique Dining',type:'Restaurant',rating:'4.3',rating_max:'GMaps &middot; 776',img:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=700&q=80',hours:'Mon–Fri 11am–11pm &middot; Sat–Sun 11am–12am',desc:'Styled after the cave cities of Cappadocia, Turkey — this is Abuja\'s most architecturally distinctive restaurant. Cool, intimate, and perfectly suited for those special events or quiet, important lunches. The Linguine and Midnight Goblet cocktail are the orders to make.',reviews:[{text:'The cave-styled architectural design is nothing short of enchanting. It must have required a great deal of creativity — the setting gives you the delightful illusion of actually sitting inside a cave.',author:'Google Review — Verified Visit'}],meta:['Cave Interior','Intimate Dining','Wuse 2'],city:'Abuja',cat:'Restaurants'},10:{name:'The Charcoal Grill',address:'7 Lingu Crescent, Wuse',why:'Hidden Gem — Exceptional Quality at Fair Prices',type:'Restaurant',rating:'4.3',rating_max:'GMaps &middot; 2.8K',img:'https://images.unsplash.com/photo-1544025162-d76694265947?w=700&q=80',hours:'Mon–Sat 8am–11pm &middot; Sun 10am–11pm',desc:'Abuja\'s best-kept local secret. Spotlessly clean, consistently excellent food, and a courteous team that keeps to reservation times — rare in the city. Great cocktails and a menu that rewards exploration. The snails are extraordinary.',reviews:[],meta:['Affordable Luxury','Cocktails','Wuse'],city:'Abuja',cat:'Restaurants'},11:{name:'Zuma Grill',address:'Ground Floor, Transcorp Hilton, Maitama',why:'Where Business Deals Are Closed',type:'Fine Dining',rating:'4.6',rating_max:'GMaps',img:'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=80',hours:'Daily 4:30pm–10:30pm',desc:'Located inside the Transcorp Hilton — the undisputed power address of Abuja. Roses, a live piano, champagne, and fine dining that sets the bar for the capital. Probably the best fine dining experience you can have in Abuja, any night of the week.',reviews:[],meta:['Fine Dining','Business Dinners','Transcorp Hilton'],city:'Abuja',cat:'Restaurants'},12:{name:'Sofa Leather Lounge',address:'S.L. Akintola Boulevard, Garki',why:'The Gold Standard for Mature Luxury in Abuja',type:'Luxury Lounge',rating:'',rating_max:'',img:'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=700&q=80',hours:'',desc:'Abuja\'s definitive lounge for those who appreciate quiet elegance over noise. Premium leather interiors, excellent service, and a clientele that reflects the city\'s senior professional class. The benchmark against which all other Abuja lounges are measured.',reviews:[],meta:['Premium Seating','Corporate Crowd','Mature Atmosphere'],city:'Abuja',cat:'Lounges'},13:{name:'Play Imperial Lounge',address:'Adetokunbo Ademola Crescent, Wuse 2',why:'Rooftop Energy — Abuja\'s Best Night Out',type:'Nightclub &amp; Lounge',rating:'4.3',rating_max:'GMaps &middot; 640',img:'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=700&q=80',hours:'Daily 9am–1am &middot; Thu–Sat until 4am',desc:'Beautiful rooftop setup with Abuja city views. Well-furnished, great DJ energy, and one of the most consistently popular nights in the city on weekends. The Friday-to-Sunday crowd is a who\'s-who of Abuja\'s young professional class.',reviews:[],meta:[],city:'Abuja',cat:'Lounges'},14:{name:'The Vue',address:'Novare Central Mall, Wuse',why:'Best Skyline View in Abuja',type:'Rooftop Restaurant &amp; Lounge',rating:'4.4',rating_max:'GMaps &middot; 1.4K',img:'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=700&q=80',hours:'Daily 11am–10:30pm',desc:'Stunning indoor and outdoor dining above Novare Mall. Modern, stylish interiors perfectly suited for photos, birthdays, and celebrations. Open, airy, and quiet enough for actual conversation. The Naan bread is not to be missed.',reviews:[],meta:[],city:'Abuja',cat:'Lounges'},15:{name:'Transcorp Hilton Abuja',address:'1 Aguiyi Ironsi St, Maitama',why:'Non-Negotiable for Power Players',type:'Hotel',rating:'4.6',rating_max:'GMaps &middot; 28K+',img:'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=700&q=80',hours:'',desc:'The undisputed address of power in Abuja. Zuma Grill, the Piano Lounge, Suya Spot, tennis, badminton, an exceptional pool, and the executive suite floor. Every president, minister, and diplomat passes through these doors. Being here is its own statement.',reviews:[],meta:['Power Address','Executive Suites','5-Star'],city:'Abuja',cat:'Hotels'},16:{name:'The Nordic Abuja',address:'Plot 795, Off Shehu Yar\'adua Way, Jabi',why:'For the Design-Obsessed',type:'Boutique Hotel',rating:'5.0',rating_max:'GMaps',img:'https://images.unsplash.com/photo-1560347876-aeef00ee58a1?w=700&q=80',hours:'',desc:'Currently rated 5.0 on Google Maps — one of the most acclaimed hotels in Abuja right now. Beautifully designed with original African art, a rooftop lounge, and an elegantly built gym. Service is genuinely exceptional, not just technically competent.',reviews:[],meta:['Boutique','5.0 Rated','Rooftop Lounge'],city:'Abuja',cat:'Hotels'},17:{name:'Fraser Suites Abuja',address:'294 Leventis Close, Central Business District',why:'The Long-Stay Standard',type:'Hotel &amp; Suites',rating:'4.6',rating_max:'GMaps &middot; 6K+',img:'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=700&q=80',hours:'',desc:'Consistently praised as one of the finest extended stays in Abuja. Quiet, serene, and exceptionally maintained. Ideal for business travellers who need a genuine home-away-from-home rather than just a room.',reviews:[],meta:['Extended Stay','Business Travel','CBD'],city:'Abuja',cat:'Hotels'},18:{name:'Asia Town Restaurant',address:'38 Forces Avenue, Old GRA',why:'PH\'s Classic Fine Dining Choice',type:'Asian Fusion',rating:'4.4',rating_max:'GMaps &middot; 1.7K',img:'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=700&q=80',hours:'Daily 12pm–10:30pm',desc:'The finest and most established fine dining experience in Port Harcourt. Reflective 3D wall interiors, Asian fusion cuisine, and a service team that personalises the experience — including displaying guests\' names on the large screen for celebrations. The pork sauce is reportedly transcendent.',reviews:[],meta:['Fine Dining','Asian Fusion','Old GRA'],city:'Port Harcourt',cat:'Restaurants'},19:{name:'Bole King',address:'10A Omoku Street, Woji',why:'Elevated Local Staple — PH\'s Signature Dish',type:'Local Cuisine',rating:'3.3',rating_max:'GMaps',img:'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=700&q=80',hours:'',desc:'Port Harcourt\'s most famous street food — bole (roasted plantain with fish) — elevated for the dining experience. This is a cultural pilgrimage as much as a meal. Organic, fresh ingredients and the flavour PH natives have grown up on. An essential stop for any first-time visitor.',reviews:[],meta:['Local Cuisine','Cultural Experience','Organic'],city:'Port Harcourt',cat:'Restaurants'},20:{name:'Spice Route',address:'Port Harcourt, Rivers State',why:'Garden City Meets Global Cuisine',type:'Restaurant',rating:'',rating_max:'',img:'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=700&q=80',hours:'',desc:'A rising favourite on the PH dining scene — combining international flavours with the warmth of Garden City hospitality. The 2026 pick for a complete dinner experience that goes beyond the familiar.',reviews:[],meta:['International','Full Service'],city:'Port Harcourt',cat:'Restaurants'},21:{name:'The Vineyard',address:'88 Woji Road, GRA Phase 2',why:'Perfect for a Breezy PH Evening',type:'Lounge &amp; Entertainment',rating:'3.9',rating_max:'GMaps &middot; 802',img:'https://images.unsplash.com/photo-1559329255-0a1a14e63f34?w=700&q=80',hours:'',desc:'A beloved PH institution for evenings that don\'t need to be loud to be memorable. Breezy, family-friendly for the early hours, with enough nightlife energy to carry into the evening. The venue also hosts private events for up to 1,000 guests.',reviews:[],meta:['Event Space','GRA','Family Friendly'],city:'Port Harcourt',cat:'Lounges'},22:{name:'Cipher Lounge',address:'Port Harcourt',why:'The Current Pulse of PH Nightlife',type:'Nightclub &amp; Bar',rating:'',rating_max:'',img:'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=700&q=80',hours:'',desc:'The most talked-about club in Port Harcourt right now. Cipher has become the central address for PH\'s nightlife scene in 2026 — and the energy is impossible to replicate anywhere else in the city. If you\'re in PH on a Friday night, this is where the city goes.',reviews:[],meta:['Late Night','High Energy','VIP Tables'],city:'Port Harcourt',cat:'Lounges'},23:{name:'Codigo',address:'Port Harcourt',why:'Garden City\'s Rising Lounge',type:'Lounge &amp; Bar',rating:'',rating_max:'',img:'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=700&q=80',hours:'',desc:'A newer entry on the PH scene that is gaining rapid traction. Codigo blends sophisticated lounge aesthetics with the infectious warmth that defines Port Harcourt\'s hospitality — a venue on its way to becoming a staple.',reviews:[],meta:['Rising Venue','Cocktails'],city:'Port Harcourt',cat:'Lounges'},24:{name:'Hotel Presidential',address:'1 Birabi Street, New GRA',why:'The Historic Icon of PH',type:'Hotel',rating:'4.2',rating_max:'GMaps &middot; 5.5K',img:'https://images.unsplash.com/photo-1519449556851-5720b33024e7?w=700&q=80',hours:'',desc:'Port Harcourt\'s most legendary address. Minutes from the airport, adjacent to the business district, and connected to the city\'s most prestigious events. Five-star rooms, world-class dining, nightlife, and the scale that only a true landmark hotel can deliver.',reviews:[],meta:['Historic','Airport Proximity','Events'],city:'Port Harcourt',cat:'Hotels'},25:{name:'Radisson Blu Port Harcourt',address:'Port Harcourt, Rivers State',why:'The Modern Luxury Choice — Just Opened',type:'Hotel',rating:'',rating_max:'',img:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=700&q=80',hours:'',desc:'The newest premium hotel address in PH and already turning heads. Radisson Blu\'s entry into Port Harcourt signals the city\'s arrival as a serious luxury travel destination. Fresh interiors, international standards, and a brand reputation that speaks for itself.',reviews:[],meta:['New Opening','International Brand','Modern Luxury'],city:'Port Harcourt',cat:'Hotels'},26:{name:'Sweet Spirit Hotel',address:'79 Ken Saro-Wiwa Road, Rumuola',why:'A Hidden Gem — Underrated &amp; Spacious',type:'Hotel',rating:'4.2',rating_max:'GMaps &middot; 2.6K',img:'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=700&q=80',hours:'',desc:'PH\'s best-kept hotel secret. Deceptively large inside despite a narrow entrance, impeccably clean, and a kitchen that consistently surprises. The pricing is fair and the hospitality is genuine. A strong choice for those who prefer character over brand name.',reviews:[],meta:['Underrated','Great Value','Local Favourite'],city:'Port Harcourt',cat:'Hotels'}};
+
+function openVenue(id) {
+  const v = VENUES[id];
+  if (!v) return;
+
+  // Fill modal
+  document.getElementById('vmodalImg').src = v.img.replace('w=700','w=1200').replace('w=900','w=1200');
+  document.getElementById('vmodalImg').alt = v.name;
+  document.getElementById('vmodalCity').textContent = v.city;
+  document.getElementById('vmodalType').textContent = v.type;
+  document.getElementById('vmodalName').textContent = v.name;
+  document.getElementById('vmodalAddr').textContent = v.address;
+  document.getElementById('vmodalWhy').textContent = v.why;
+  document.getElementById('vmodalDesc').textContent = v.desc;
+  document.getElementById('vmodalCityVal').textContent = v.city;
+  document.getElementById('vmodalCatVal').textContent = v.cat;
+  document.getElementById('vmodalAddrInfo').textContent = v.address;
+
+  // Rating
+  const rWrap = document.getElementById('vmodalRatingWrap');
+  if (v.rating) {
+    document.getElementById('vmodalRating').textContent = v.rating;
+    document.getElementById('vmodalRatingMax').textContent = v.rating_max || 'LAPEQ Score';
+    rWrap.style.display = '';
+  } else {
+    rWrap.style.display = 'none';
+  }
+
+  // Hours
+  const hRow = document.getElementById('vmodalHoursRow');
+  if (v.hours) {
+    document.getElementById('vmodalHours').textContent = v.hours;
+    hRow.style.display = '';
+  } else {
+    hRow.style.display = 'none';
+  }
+
+  // Reviews
+  const revContainer = document.getElementById('vmodalReviews');
+  if (v.reviews && v.reviews.length > 0) {
+    revContainer.innerHTML = v.reviews.map(r =>
+      `<div class="vmodal-review"><p>${r.text}</p><span class="vmodal-review-author">${r.author}</span></div>`
+    ).join('');
+  } else {
+    revContainer.innerHTML = '<div class="vmodal-no-reviews">Personal LAPEQ concierge notes available on request.</div>';
+  }
+
+  // Meta tags
+  const tagsContainer = document.getElementById('vmodalTags');
+  if (v.meta && v.meta.length > 0) {
+    tagsContainer.innerHTML = v.meta.map(t => `<span class="vmodal-tag">${t}</span>`).join('');
+  } else {
+    tagsContainer.innerHTML = '';
+  }
+
+  // Open modal
+  const bg = document.getElementById('vmodalBg');
+  bg.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // Reset scroll
+  document.getElementById('vmodal').scrollTop = 0;
+}
+
+function closeVenue() {
+  document.getElementById('vmodalBg').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleBgClick(e) {
+  if (e.target === document.getElementById('vmodalBg')) closeVenue();
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeVenue();
+});
+</script>
+</body>
+</html>
