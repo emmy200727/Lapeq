@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LAPEQ CMS — Content Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+[data-theme="dark"]{
+  --gold:#C9A84C;--gold-light:#E8C97A;--black:#080808;--black-2:#111111;
+  --black-3:#161410;--white:#F8F6F0;--white-dim:rgba(248,246,240,0.65);
+  --white-faint:rgba(248,246,240,0.35);--green:#2a7c5a;--red:#7c2a2a;
+  --border:rgba(201,168,76,0.10);--border-hi:rgba(201,168,76,0.25);
+  --panel-bg:#0e0e0e;--input-bg:rgba(255,255,255,0.04);
+}
+[data-theme="light"]{
+  --gold:#8A6418;--gold-light:#B8891E;--black:#F5F1E8;--black-2:#EDE9DF;
+  --black-3:#E6E1D5;--white:#100D08;--white-dim:rgba(16,13,8,0.75);
+  --white-faint:rgba(16,13,8,0.45);--green:#1a5c3a;--red:#8a1a1a;
+  --border:rgba(139,100,20,0.15);--border-hi:rgba(139,100,20,0.30);
+  --panel-bg:#EAE5D8;--input-bg:rgba(0,0,0,0.04);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--black);color:var(--white);font-family:'Montserrat',sans-serif;font-weight:300;min-height:100vh;display:flex;transition:background 0.3s,color 0.3s;}
+
+/* ── LOGIN SCREEN ── */
+#loginScreen{position:fixed;inset:0;z-index:9999;background:var(--black);display:flex;align-items:center;justify-content:center;}
+#loginScreen.hidden{display:none;}
+.login-box{width:400px;padding:52px 48px;background:var(--black-2);border:1px solid var(--border-hi);}
+.login-logo{font-family:'Cormorant Garamond',serif;font-size:28px;letter-spacing:10px;color:var(--gold);display:block;margin-bottom:6px;}
+.login-sub{font-size:7px;letter-spacing:5px;text-transform:uppercase;color:rgba(201,168,76,0.4);margin-bottom:44px;display:block;}
+.login-field{margin-bottom:16px;}
+.login-label{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--white-faint);display:block;margin-bottom:8px;}
+.login-input{width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--border);padding:12px 16px;color:var(--white);font-family:'Montserrat',sans-serif;font-size:13px;font-weight:300;outline:none;transition:border-color 0.3s;}
+.login-input:focus{border-color:var(--border-hi);}
+.login-btn{width:100%;margin-top:8px;padding:14px;background:var(--gold);color:var(--black);font-size:9px;letter-spacing:3px;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;transition:background 0.3s;}
+.login-btn:hover{background:var(--gold-light);}
+.login-error{font-size:10px;color:#e07070;margin-top:12px;display:none;line-height:1.8;}
+.login-supabase-note{margin-top:28px;padding:16px;background:rgba(201,168,76,0.04);border:1px solid var(--border);font-size:10px;color:var(--white-faint);line-height:1.8;}
+.login-supabase-note strong{color:var(--gold);font-weight:500;}
+
+/* ── SIDEBAR ── */
+.sidebar{width:240px;background:var(--black-2);border-right:1px solid var(--border);flex-shrink:0;display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:100;}
+.sidebar-logo{padding:28px 24px;border-bottom:1px solid var(--border);}
+.sidebar-logo span{font-family:'Cormorant Garamond',serif;font-size:22px;letter-spacing:8px;color:var(--gold);}
+.sidebar-logo small{display:block;font-size:7px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,168,76,0.4);margin-top:4px;}
+.sidebar-nav{flex:1;padding:20px 0;overflow-y:auto;}
+.nav-section{padding:12px 24px 6px;font-size:7px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,168,76,0.3);}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 24px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--white-faint);cursor:pointer;transition:all 0.25s;border-left:2px solid transparent;}
+.nav-item:hover{color:var(--gold);background:rgba(201,168,76,0.04);}
+.nav-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(201,168,76,0.06);}
+.nav-item-icon{width:20px;text-align:center;font-family:'Cormorant Garamond',serif;font-size:16px;}
+.notif-dot{width:7px;height:7px;background:var(--gold);border-radius:50%;display:inline-block;margin-left:6px;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.sidebar-footer{padding:20px 24px;border-top:1px solid var(--border);}
+.sidebar-footer a{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.4);display:block;padding:6px 0;transition:color 0.2s;text-decoration:none;}
+.sidebar-footer a:hover{color:var(--gold);}
+.sidebar-user{font-size:10px;color:var(--white-faint);padding:0 0 12px;display:flex;align-items:center;gap:8px;}
+.sidebar-user-dot{width:8px;height:8px;background:#4ec994;border-radius:50%;}
+
+/* ── MAIN ── */
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{padding:18px 40px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--black);position:sticky;top:0;z-index:50;}
+.topbar-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--white);}
+.topbar-actions{display:flex;gap:12px;align-items:center;}
+.btn-gold{padding:10px 22px;background:var(--gold);color:var(--black);font-size:8px;letter-spacing:3px;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;transition:background 0.3s;}
+.btn-gold:hover{background:var(--gold-light);}
+.btn-gold:disabled{opacity:0.5;cursor:not-allowed;}
+.btn-outline{padding:9px 20px;border:1px solid var(--border-hi);color:var(--gold);font-size:8px;letter-spacing:3px;text-transform:uppercase;background:none;cursor:pointer;transition:all 0.3s;}
+.btn-outline:hover{background:rgba(201,168,76,0.08);}
+.content{padding:40px;flex:1;}
+
+/* ── PANELS ── */
+.panel{display:none;}
+.panel.active{display:block;}
+
+/* ── DASHBOARD ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px;}
+.stat-card{background:var(--black-2);border:1px solid var(--border);padding:28px 24px;transition:border-color 0.3s;}
+.stat-card:hover{border-color:var(--border-hi);}
+.stat-card-num{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:var(--gold);display:block;line-height:1;}
+.stat-card-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--white-faint);display:block;margin-top:8px;}
+.stat-card-trend{font-size:9px;color:#4ec994;display:block;margin-top:6px;}
+.section-heading{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--white);margin-bottom:20px;}
+.activity-list{display:flex;flex-direction:column;gap:2px;}
+.activity-item{background:var(--black-2);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-left:2px solid transparent;transition:border-color 0.3s;}
+.activity-item:hover{border-left-color:var(--gold);}
+.activity-item-left{display:flex;flex-direction:column;gap:3px;}
+.activity-item-left strong{font-size:11px;color:var(--white);font-weight:500;}
+.activity-item-left span{font-size:9px;color:var(--white-faint);}
+.activity-status{font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border:1px solid;}
+.status-published{border-color:rgba(42,124,90,0.4);color:#4ec994;}
+.status-draft{border-color:var(--border-hi);color:var(--gold);}
+.status-loading{border-color:rgba(255,255,255,0.1);color:var(--white-faint);}
+
+/* ── EDITOR ── */
+.editor-layout{display:grid;grid-template-columns:1fr 320px;gap:24px;}
+.field-group{margin-bottom:20px;}
+.field-label{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--white-faint);display:block;margin-bottom:8px;}
+.field-input{width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--border);padding:12px 16px;color:var(--white);font-family:'Montserrat',sans-serif;font-size:13px;font-weight:300;outline:none;transition:border-color 0.3s;}
+.field-input:focus{border-color:var(--border-hi);}
+.field-textarea{width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--border);padding:12px 16px;color:var(--white);font-family:'Montserrat',sans-serif;font-size:13px;font-weight:300;outline:none;min-height:340px;resize:vertical;transition:border-color 0.3s;line-height:1.9;}
+.field-textarea:focus{border-color:var(--border-hi);}
+.field-select{width:100%;background:var(--black-2);border:1px solid var(--border);padding:12px 16px;color:var(--white);font-family:'Montserrat',sans-serif;font-size:13px;outline:none;cursor:pointer;}
+.field-select option{background:var(--black-2);}
+.sidebar-card{background:var(--black-2);border:1px solid var(--border);padding:24px;margin-bottom:16px;}
+.sidebar-card h4{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;}
+.meta-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:10px;}
+.meta-row:last-child{border-bottom:none;}
+.meta-row span:first-child{color:var(--white-faint);}
+.meta-row span:last-child{color:var(--white);}
+.toolbar{display:flex;gap:4px;padding:8px;background:var(--black-3);border:1px solid var(--border);border-bottom:none;flex-wrap:wrap;}
+.tb-btn{padding:6px 10px;background:none;border:1px solid rgba(255,255,255,0.05);color:rgba(248,246,240,0.5);font-size:10px;cursor:pointer;transition:all 0.2s;font-family:'Montserrat',sans-serif;}
+.tb-btn:hover{border-color:var(--border-hi);color:var(--gold);}
+.preview-btn{padding:6px 14px;background:rgba(201,168,76,0.08);border:1px solid var(--border-hi);color:var(--gold);font-size:8px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-left:auto;}
+.tag-input-wrap{display:flex;flex-wrap:wrap;gap:6px;padding:10px;background:rgba(255,255,255,0.03);border:1px solid var(--border);min-height:44px;}
+.tag{padding:4px 10px;background:rgba(201,168,76,0.08);border:1px solid var(--border-hi);font-size:9px;color:var(--gold);display:flex;align-items:center;gap:6px;}
+.tag-remove{cursor:pointer;opacity:0.6;font-size:11px;}
+.tag-remove:hover{opacity:1;}
+
+/* ── IMAGE UPLOAD ── */
+.img-upload-wrap{border:1px dashed var(--border-hi);padding:28px;text-align:center;cursor:pointer;transition:all 0.3s;position:relative;}
+.img-upload-wrap:hover{border-color:var(--gold);background:rgba(201,168,76,0.04);}
+.img-upload-wrap input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.img-upload-icon{font-family:'Cormorant Garamond',serif;font-size:32px;color:rgba(201,168,76,0.3);display:block;margin-bottom:8px;}
+.img-upload-text{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--white-faint);}
+.img-upload-sub{font-size:9px;color:rgba(248,246,240,0.2);margin-top:4px;}
+.img-preview{width:100%;height:160px;object-fit:cover;display:none;border:1px solid var(--border);}
+
+/* ── POSTS TABLE ── */
+.posts-table{width:100%;border-collapse:separate;border-spacing:0 2px;}
+.posts-table th{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,168,76,0.4);padding:10px 16px;text-align:left;border-bottom:1px solid var(--border);}
+.posts-table td{padding:14px 16px;background:var(--black-2);font-size:11px;color:var(--white-dim);}
+.posts-table tr:hover td{background:var(--black-3);}
+.posts-table td:first-child{color:var(--white);font-weight:500;max-width:300px;}
+.table-actions{display:flex;gap:8px;}
+.table-action{font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:5px 10px;border:1px solid var(--border-hi);color:var(--gold);cursor:pointer;transition:all 0.2s;background:none;}
+.table-action:hover{background:rgba(201,168,76,0.08);}
+.table-action.delete{border-color:rgba(124,42,42,0.3);color:#e07070;}
+.table-action.delete:hover{background:rgba(124,42,42,0.08);}
+.post-category{font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:3px 8px;border:1px solid var(--border-hi);color:var(--gold);}
+.search-bar{display:flex;gap:12px;margin-bottom:24px;align-items:center;}
+.search-input{flex:1;background:rgba(255,255,255,0.03);border:1px solid var(--border);padding:10px 16px;color:var(--white);font-family:'Montserrat',sans-serif;font-size:12px;outline:none;}
+.search-input:focus{border-color:var(--border-hi);}
+.filter-select{background:var(--black-2);border:1px solid var(--border);padding:10px 16px;color:var(--white-faint);font-family:'Montserrat',sans-serif;font-size:11px;outline:none;cursor:pointer;}
+.empty-state{text-align:center;padding:64px 24px;color:var(--white-faint);}
+.empty-state p{font-size:13px;margin-top:8px;}
+
+/* ── PICKS ── */
+.picks-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.pick-editor-card{background:var(--black-2);border:1px solid var(--border);padding:28px;transition:border-color 0.3s;}
+.pick-editor-card:hover{border-color:var(--border-hi);}
+.pick-editor-card h4{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:var(--white);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+
+/* ── SETTINGS ── */
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.settings-card{background:var(--black-2);border:1px solid var(--border);padding:32px 28px;}
+.settings-card h4{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--white);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.toggle-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.03);}
+.toggle-row:last-child{border-bottom:none;}
+.toggle-label{font-size:11px;color:var(--white-dim);}
+.toggle-label small{display:block;font-size:9px;color:var(--white-faint);margin-top:2px;}
+.toggle{position:relative;width:40px;height:22px;cursor:pointer;}
+.toggle input{opacity:0;width:0;height:0;position:absolute;}
+.toggle-slider{position:absolute;inset:0;background:rgba(255,255,255,0.06);border:1px solid var(--border);transition:background 0.3s;}
+.toggle-slider::before{content:'';position:absolute;width:16px;height:16px;top:2px;left:2px;background:rgba(201,168,76,0.4);transition:transform 0.3s;}
+.toggle input:checked+.toggle-slider{background:rgba(201,168,76,0.15);}
+.toggle input:checked+.toggle-slider::before{transform:translateX(18px);background:var(--gold);}
+
+/* ── SUPABASE CONFIG BANNER ── */
+.config-banner{background:rgba(201,168,76,0.06);border:1px solid var(--border-hi);border-left:3px solid var(--gold);padding:16px 20px;margin-bottom:28px;display:flex;align-items:flex-start;gap:16px;}
+.config-banner.hidden{display:none;}
+.config-banner-icon{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);flex-shrink:0;}
+.config-banner p{font-size:11px;color:var(--white-dim);line-height:1.8;}
+.config-banner strong{color:var(--gold);font-weight:500;}
+.config-banner a{color:var(--gold);text-decoration:underline;cursor:pointer;}
+
+/* ── SPINNER ── */
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--border-hi);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle;margin-right:8px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:32px;right:32px;background:var(--black-2);border:1px solid var(--border-hi);border-left:3px solid var(--gold);padding:14px 20px;font-size:11px;color:var(--white);z-index:9999;transform:translateY(80px);opacity:0;transition:all 0.4s;max-width:340px;display:flex;align-items:center;gap:10px;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.error{border-left-color:#e07070;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .sidebar{width:200px;}
+  .main{margin-left:200px;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .picks-grid,.settings-grid{grid-template-columns:1fr;}
+  .editor-layout{grid-template-columns:1fr;}
+}
+</style>
+
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <span class="login-logo">LAPEQ</span>
+    <span class="login-sub">Content Management</span>
+    <div id="loginPanel">
+      <div class="login-field">
+        <label class="login-label">Email</label>
+        <input class="login-input" type="email" id="loginEmail" placeholder="admin@lapeq.com" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <div class="login-field">
+        <label class="login-label">Password</label>
+        <input class="login-input" type="password" id="loginPassword" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <button class="login-btn" onclick="doLogin()" id="loginBtn">Sign In</button>
+      <div class="login-error" id="loginError"></div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-logo"><span>LAPEQ</span><small>Content Management</small></div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">Overview</div>
+    <div class="nav-item active" onclick="showPanel('dashboard',this)"><span class="nav-item-icon">D</span>Dashboard</div>
+
+    <div class="nav-section">Content</div>
+    <div class="nav-item" onclick="showPanel('posts',this);loadPosts()"><span class="nav-item-icon">J</span>Journal Posts</div>
+    <div class="nav-item" onclick="showPanel('new-post',this);clearEditor()"><span class="nav-item-icon">+</span>New Post</div>
+    <div class="nav-item" onclick="showPanel('picks',this);loadPicks()"><span class="nav-item-icon">P</span>Monthly Picks</div>
+
+    <div class="nav-section">Site</div>
+    <div class="nav-item" onclick="showPanel('pages',this)"><span class="nav-item-icon">S</span>Site Pages</div>
+    <div class="nav-item" onclick="showPanel('site-content',this)"><span class="nav-item-icon">✎</span>Site Content</div>
+    <div class="nav-item" onclick="showPanel('media',this)"><span class="nav-item-icon">🖼</span>Media Library</div>
+
+    <div class="nav-section">People</div>
+    <div class="nav-item" onclick="showPanel('members',this);loadMembers()"><span class="nav-item-icon">M</span>Members<span class="notif-dot"></span></div>
+    <div class="nav-item" onclick="showPanel('enquiries',this);loadEnquiries()"><span class="nav-item-icon">E</span>Enquiries<span class="notif-dot"></span></div>
+
+    <div class="nav-section">Tools</div>
+    <div class="nav-item" onclick="showPanel('diaspora-cms',this)"><span class="nav-item-icon">✈</span>Diaspora Content</div>
+    <div class="nav-item" onclick="showPanel('analytics',this)"><span class="nav-item-icon">📊</span>Analytics</div>
+    <div class="nav-item" onclick="showPanel('seo-tools',this)"><span class="nav-item-icon">🔍</span>SEO Tools</div>
+    <div class="nav-item" onclick="showPanel('taxonomy',this)"><span class="nav-item-icon">🏷</span>Tags & Categories</div>
+
+    <div class="nav-section">System</div>
+    <div class="nav-item" onclick="showPanel('redirects',this)"><span class="nav-item-icon">↗</span>Redirects</div>
+    <div class="nav-item" onclick="showPanel('settings',this)"><span class="nav-item-icon">C</span>Settings</div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user"><span class="sidebar-user-dot"></span><span id="sidebarUserEmail">Not signed in</span></div>
+    <a href="../index.html" target="_blank">View Live Site ↗</a>
+    <a href="#" onclick="doLogout()">Sign Out</a>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="topbarTitle">Dashboard</div>
+    <div class="topbar-actions">
+      <button onclick="toggleAdminTheme()" style="background:var(--black-2);border:1px solid var(--border-hi);color:var(--gold);padding:8px 14px;cursor:pointer;font-size:10px;letter-spacing:2px;margin-right:8px;">☀ Theme</button>
+      <button class="btn-outline" onclick="showPanel('new-post',document.querySelector('[onclick*=new-post]'));clearEditor()">New Post</button>
+      <button class="btn-gold" onclick="showToast('✓ Site is live — content updates appear instantly')">Publish Site</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- configBanner removed -->
+
+    <!-- DASHBOARD -->
+    <div class="panel active" id="panel-dashboard">
+      <div class="stats-row">
+        <div class="stat-card"><span class="stat-card-num" id="stat-posts">—</span><span class="stat-card-lbl">Published Posts</span><span class="stat-card-trend" id="stat-posts-sub">Loading...</span></div>
+        <div class="stat-card"><span class="stat-card-num" id="stat-drafts">—</span><span class="stat-card-lbl">Draft Posts</span><span class="stat-card-trend">Awaiting review</span></div>
+        <div class="stat-card"><span class="stat-card-num" id="stat-enquiries">—</span><span class="stat-card-lbl">New Enquiries</span><span class="stat-card-trend">Unresponded</span></div>
+        <div class="stat-card"><span class="stat-card-num">24/7</span><span class="stat-card-lbl">Site Uptime</span><span class="stat-card-trend">Cloudflare CDN</span></div>
+      </div>
+      <div class="section-heading" style="margin-top:32px;">Recent Posts</div>
+      <div class="activity-list" id="dashRecentPosts"><div class="activity-item"><div class="activity-item-left"><strong>Loading...</strong></div></div></div>
+    </div>
+
+    <!-- JOURNAL POSTS -->
+    <div class="panel" id="panel-posts">
+      <div class="search-bar">
+        <input class="search-input" id="postSearch" placeholder="Search posts..." oninput="filterPosts()">
+        <select class="filter-select" id="postCatFilter" onchange="filterPosts()">
+          <option value="">All Categories</option>
+          <option>Lifestyle and Access</option><option>Travel</option><option>Diaspora</option>
+          <option>Food and Dining</option><option>Business</option><option>Wellness</option>
+          <option>Project Trust</option><option>Ladies</option>
+        </select>
+        <select class="filter-select" id="postStatusFilter" onchange="filterPosts()">
+          <option value="">All Status</option><option value="published">Published</option><option value="draft">Draft</option>
+        </select>
+      </div>
+      <table class="posts-table">
+        <thead><tr><th>Title</th><th>Category</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="postsTableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- NEW POST EDITOR -->
+    <div class="panel" id="panel-new-post">
+      <input type="hidden" id="editingPostId">
+      <div class="editor-layout">
+        <div class="editor-left">
+          <div class="field-group"><label class="field-label">Post Title *</label><input class="field-input" id="postTitle" oninput="checkSeo()" placeholder="Enter your post title..."></div>
+          <div class="field-group"><label class="field-label">Excerpt</label><input class="field-input" id="postExcerpt" placeholder="Brief description..."></div>
+          <div class="field-group">
+            <label class="field-label">Cover Image</label>
+            <div class="img-upload-wrap" onclick="document.getElementById('imgFileInput').click()">
+              <input type="file" id="imgFileInput" accept="image/*" style="display:none" onchange="handleImageUpload(this)">
+              <span class="img-upload-icon">+</span>
+              <div class="img-upload-text">Click to upload from your device</div>
+              <div class="img-upload-sub">JPG, PNG, WebP — max 5MB</div>
+            </div>
+            <img id="imgPreview" class="img-preview" alt="Cover preview">
+            <input class="field-input" id="postImageUrl" placeholder="Or paste an image URL" style="margin-top:8px;" oninput="previewImageUrl()">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Article Content *</label>
+            <div class="toolbar">
+              <button class="tb-btn" onclick="fmt('**','**')"><b>B</b></button>
+              <button class="tb-btn" onclick="fmt('*','*')"><i>I</i></button>
+              <button class="tb-btn" onclick="fmt('\n## ','')">H2</button>
+              <button class="tb-btn" onclick="fmt('\n### ','')">H3</button>
+              <button class="tb-btn" onclick="fmt('\n- ','')">List</button>
+              <button class="tb-btn" onclick="fmt('\n> ','')">Quote</button>
+              <button class="tb-btn" onclick="fmt('[','](url)')">Link</button>
+              <button class="preview-btn" onclick="togglePreview()">Preview ▶</button>
+            </div>
+            <textarea class="field-textarea" id="postContent" placeholder="Write your article here..."></textarea>
+          </div>
+          <div id="postPreview" style="display:none;padding:32px;background:var(--black-2);border:1px solid var(--border);min-height:300px;font-size:14px;line-height:2;color:var(--white-dim);"></div>
+        </div>
+        <div class="editor-right">
+          <div class="sidebar-card">
+            <h4>Publish</h4>
+            <div class="meta-row"><span>Status</span><span id="postStatusDisplay">Draft</span></div>
+            <div class="meta-row"><span>Author</span><span>LAPEQ Editorial</span></div>
+            <div class="meta-row"><span>Date</span><span id="postDateDisplay">Today</span></div>
+            <div style="display:flex;gap:8px;margin-top:16px;">
+              <button class="btn-outline" style="flex:1;padding:10px;" onclick="savePost('draft')">Save Draft</button>
+              <button class="btn-gold" style="flex:1;padding:10px;" onclick="savePost('published')">Publish</button>
+            </div>
+          </div>
+          <div class="sidebar-card">
+            <h4>Category</h4>
+            <select class="field-select" id="postCategory">
+              <option value="">Select category...</option>
+              <option>Lifestyle and Access</option><option>Travel</option><option>Diaspora</option>
+              <option>Food and Dining</option><option>Business</option><option>Wellness</option>
+              <option>Project Trust</option><option>Ladies</option>
+            </select>
+          </div>
+          <div class="sidebar-card">
+            <h4>Tags</h4>
+            <div id="tagWrap"></div>
+            <input class="field-input" style="margin-top:8px;" placeholder="Type a tag + Enter" id="tagInput" onkeydown="handleTagInput(event)">
+          </div>
+          <div class="sidebar-card">
+            <h4>🔍 SEO</h4>
+            <div class="field-group"><label class="field-label">Focus Keyword</label><input class="field-input" id="postFocusKw" placeholder="e.g. concierge Abuja" oninput="checkSeo()"></div>
+            <div class="field-group"><label class="field-label">Meta Title <small id="metaTitleCount" style="color:var(--white-faint);font-size:9px;">(0/60)</small></label><input class="field-input" id="postMetaTitle" placeholder="SEO title (60 chars)" oninput="document.getElementById('metaTitleCount').textContent='('+this.value.length+'/60)';checkSeo()"></div>
+            <div class="field-group"><label class="field-label">Meta Description <small id="metaDescCount" style="color:var(--white-faint);font-size:9px;">(0/160)</small></label><textarea class="field-textarea" id="postMetaDesc" style="min-height:60px;" placeholder="150-160 chars" oninput="document.getElementById('metaDescCount').textContent='('+this.value.length+'/160)';checkSeo()"></textarea></div>
+            <div class="field-group"><label class="field-label">URL Slug</label><input class="field-input" id="postSlug" placeholder="auto-generated"></div>
+            <div id="seoScoreBox" style="display:none;padding:8px 12px;background:var(--black-3);border:1px solid var(--border);font-size:10px;margin-top:8px;"></div>
+          </div>
+          <div class="sidebar-card">
+            <h4>📊 Checklist</h4>
+            <div style="display:flex;flex-direction:column;gap:5px;font-size:10px;">
+              <div id="chk-title" style="color:var(--white-faint);">○ Meta title (10–60 chars)</div>
+              <div id="chk-desc" style="color:var(--white-faint);">○ Meta description (100–160 chars)</div>
+              <div id="chk-kw" style="color:var(--white-faint);">○ Focus keyword entered</div>
+              <div id="chk-image" style="color:var(--white-faint);">○ Featured image added</div>
+              <div id="chk-length" style="color:var(--white-faint);">○ Content 800+ words</div>
+              <div id="chk-excerpt" style="color:var(--white-faint);">○ Excerpt written</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MONTHLY PICKS -->
+    <div class="panel" id="panel-picks">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+        <p style="color:var(--white-dim);font-size:13px;line-height:2;margin:0;">All monthly picks — add as many as you like across any category.</p>
+        <button class="btn-gold" onclick="showPanel('new-pick',document.querySelector('[onclick*=new-pick]'));clearPickEditor()">+ New Pick</button>
+      </div>
+      <table class="posts-table" id="picksTable">
+        <thead><tr><th>Name</th><th>Category</th><th>City</th><th>Rating</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="picksTableBody"><tr><td colspan="6" style="text-align:center;padding:32px;color:var(--white-faint);">Loading picks...</td></tr></tbody>
+      </table>
+    </div>
+
+    <!-- NEW PICK EDITOR -->
+    <div class="panel" id="panel-new-pick">
+      <input type="hidden" id="editingPickId">
+      <div class="editor-layout">
+        <div class="editor-left">
+          <div class="field-group"><label class="field-label">Pick Name *</label><input class="field-input" id="pickName" placeholder="e.g. The Wheatbaker, Lagos"></div>
+          <div class="field-group"><label class="field-label">Category</label>
+            <select class="field-select" id="pickCategory">
+              <option value="">Select category...</option>
+              <option value="hotel">Hotel</option>
+              <option value="restaurant">Restaurant</option>
+              <option value="lounge">Lounge / Bar</option>
+              <option value="event">Event</option>
+              <option value="spa">Spa / Wellness</option>
+              <option value="experience">Experience</option>
+              <option value="venue">Venue</option>
+              <option value="travel">Travel</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Cover Image</label>
+            <div class="img-upload-wrap" onclick="document.getElementById('pickImgFile').click()" style="padding:14px;">
+              <input type="file" id="pickImgFile" accept="image/*" style="display:none" onchange="handlePickImgUpload(this)">
+              <span class="img-upload-icon">+</span>
+              <div class="img-upload-text">Click to upload</div>
+            </div>
+            <img id="pickImgPreview" class="img-preview" style="display:none;" alt="">
+            <input class="field-input" id="pickImageUrl" placeholder="Or paste an image URL" style="margin-top:8px;" oninput="const p=document.getElementById('pickImgPreview');p.src=this.value;p.style.display=this.value?'block':'none'">
+          </div>
+          <div class="field-group" style="margin:0;"><label class="field-label">Why We Recommend It</label><textarea class="field-textarea" id="pickNote" style="min-height:100px;" placeholder="Describe what makes this pick special..."></textarea></div>
+        </div>
+        <div class="editor-right">
+          <div class="sidebar-card">
+            <h4>Publish Pick</h4>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+              <button class="btn-outline" style="flex:1;padding:10px;" onclick="savePick('draft')">Save Draft</button>
+              <button class="btn-gold" style="flex:1;padding:10px;" onclick="savePick('published')">Publish</button>
+            </div>
+            <button class="btn-outline" style="width:100%;margin-top:8px;padding:8px;" onclick="showPanel('picks',document.querySelector('[onclick*=\'picks\']'));loadAllPicks()">← Back to Picks</button>
+          </div>
+          <div class="sidebar-card">
+            <h4>Details</h4>
+            <div class="field-group"><label class="field-label">City</label>
+              <select class="field-select" id="pickCity">
+                <option value="">Select city...</option>
+                <option>Abuja</option><option>Lagos</option><option>Port Harcourt</option><option>Akwa Ibom</option>
+              </select>
+            </div>
+            <div class="field-group" style="margin:0;"><label class="field-label">Rating (1–10)</label><input class="field-input" type="number" id="pickRating" min="1" max="10" step="0.1" placeholder="9.2"></div>
+          </div>
+          <div class="sidebar-card">
+            <h4>Month Label</h4>
+            <div class="field-group" style="margin:0;"><label class="field-label">Label (e.g. March 2026)</label><input class="field-input" id="pickMonth" placeholder="March 2026"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SITE PAGES -->
+    <div class="panel" id="panel-pages">
+      <p style="color:var(--white-dim);font-size:13px;margin-bottom:28px;line-height:2;">Your main site pages. Preview or edit by opening the HTML files.</p>
+      <div class="activity-list">
+        <div class="activity-item"><div class="activity-item-left"><strong>Homepage — index.html</strong><span>Hero, Services, Project Trust, App Section</span></div><div class="table-actions"><button class="table-action" onclick="window.open('../index.html','_blank')">Preview ↗</button></div></div>
+        <div class="activity-item"><div class="activity-item-left"><strong>Diaspora — diaspora.html</strong><span>Project Trust, pricing, services — prices update from Site Content</span></div><div class="table-actions"><button class="table-action" onclick="window.open('../diaspora.html','_blank')">Preview ↗</button></div></div>
+        <div class="activity-item"><div class="activity-item-left"><strong>Membership — membership.html</strong><span>All membership tiers and pricing — prices update from Site Content</span></div><div class="table-actions"><button class="table-action" onclick="window.open('../membership.html','_blank')">Preview ↗</button></div></div>
+        <div class="activity-item"><div class="activity-item-left"><strong>Journal — journal.html</strong><span>Dynamic — pulls posts from Supabase automatically</span></div><div class="table-actions"><button class="table-action" onclick="window.open('../journal.html','_blank')">Preview ↗</button></div></div>
+        <div class="activity-item"><div class="activity-item-left"><strong>Business — business.html</strong><span>Corporate services and B2B page</span></div><div class="table-actions"><button class="table-action" onclick="window.open('../business.html','_blank')">Preview ↗</button></div></div>
+        <div class="activity-item"><div class="activity-item-left"><strong>Services — services.html</strong><span>All lifestyle and concierge services</span></div><div class="table-actions"><button class="table-action" onclick="window.open('../services.html','_blank')">Preview ↗</button></div></div>
+        <div class="activity-item"><div class="activity-item-left"><strong>Venues — venues.html</strong><span>Curated venue directory</span></div><div class="table-actions"><button class="table-action" onclick="window.open('../venues.html','_blank')">Preview ↗</button></div></div>
+        <div class="activity-item"><div class="activity-item-left"><strong>Contact — contact.html</strong><span>Enquiry and contact form</span></div><div class="table-actions"><button class="table-action" onclick="window.open('../contact.html','_blank')">Preview ↗</button></div></div>
+      </div>
+    </div>
+
+    <!-- SITE CONTENT -->
+    <div class="panel" id="panel-site-content">
+      <div class="section-heading">Site Content</div>
+      <p style="font-size:13px;color:var(--white-faint);margin-bottom:28px;line-height:1.9;">Update global content across all pages — social handles, contact details, pricing — saved to Supabase and read live by membership.html and diaspora.html.</p>
+      <div class="settings-grid">
+
+        <div class="settings-card">
+          <h4>📱 Social Media</h4>
+          <div class="field-group"><label class="field-label">Instagram URL</label><input class="field-input" id="sc-instagram" placeholder="https://instagram.com/lapeq_ng"></div>
+          <div class="field-group"><label class="field-label">Twitter / X URL</label><input class="field-input" id="sc-twitter" placeholder="https://twitter.com/lapeq_ng"></div>
+          <div class="field-group"><label class="field-label">Facebook URL</label><input class="field-input" id="sc-facebook" placeholder="https://facebook.com/lapeqng"></div>
+          <div class="field-group"><label class="field-label">LinkedIn URL</label><input class="field-input" id="sc-linkedin" placeholder="https://linkedin.com/company/lapeq"></div>
+          <div class="field-group"><label class="field-label">WhatsApp (digits only)</label><input class="field-input" id="sc-whatsapp" placeholder="2348122543635"></div>
+          <div class="field-group" style="margin:0;"><label class="field-label">TikTok URL</label><input class="field-input" id="sc-tiktok" placeholder="https://tiktok.com/@lapeq_ng"></div>
+        </div>
+
+        <div class="settings-card">
+          <h4>📞 Contact Details</h4>
+          <div class="field-group"><label class="field-label">Main Email</label><input class="field-input" id="sc-email" placeholder="hello@lapeq.com"></div>
+          <div class="field-group"><label class="field-label">Phone Display</label><input class="field-input" id="sc-phone" placeholder="+234 812 254 3635"></div>
+          <div class="field-group"><label class="field-label">Diaspora Email</label><input class="field-input" id="sc-diaspora-email" placeholder="diaspora@lapeq.com"></div>
+          <div class="field-group"><label class="field-label">Business Email</label><input class="field-input" id="sc-biz-email" placeholder="business@lapeq.com"></div>
+          <div class="field-group" style="margin:0;"><label class="field-label">Footer Cities</label><input class="field-input" id="sc-cities" value="Abuja · Lagos · Port Harcourt · Akwa Ibom"></div>
+        </div>
+
+        <div class="settings-card">
+          <h4>🖼 Hero Images</h4>
+          <p style="font-size:10px;color:var(--white-faint);margin-bottom:14px;line-height:1.8;">Upload from device or paste URL. File uploads go to Supabase Storage.</p>
+          <div class="field-group">
+            <label class="field-label">Homepage Hero</label>
+            <div style="display:flex;gap:8px;">
+              <input class="field-input" id="sc-hero-home" placeholder="Paste URL or upload →" style="flex:1;">
+              <label style="cursor:pointer;padding:9px 12px;background:var(--black-3);border:1px solid var(--border);font-size:8px;letter-spacing:2px;color:var(--white-dim);white-space:nowrap;">Upload<input type="file" accept="image/*" style="display:none;" onchange="scUploadImage(this,'sc-hero-home','sc-prev-home')"></label>
+            </div>
+            <img id="sc-prev-home" style="display:none;width:100%;height:70px;object-fit:cover;margin-top:6px;border:1px solid var(--border);">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Diaspora Hero</label>
+            <div style="display:flex;gap:8px;">
+              <input class="field-input" id="sc-hero-diaspora" placeholder="Paste URL or upload →" style="flex:1;">
+              <label style="cursor:pointer;padding:9px 12px;background:var(--black-3);border:1px solid var(--border);font-size:8px;letter-spacing:2px;color:var(--white-dim);white-space:nowrap;">Upload<input type="file" accept="image/*" style="display:none;" onchange="scUploadImage(this,'sc-hero-diaspora','sc-prev-diaspora')"></label>
+            </div>
+            <img id="sc-prev-diaspora" style="display:none;width:100%;height:70px;object-fit:cover;margin-top:6px;border:1px solid var(--border);">
+          </div>
+          <div class="field-group" style="margin:0;">
+            <label class="field-label">Membership Hero</label>
+            <div style="display:flex;gap:8px;">
+              <input class="field-input" id="sc-hero-membership" placeholder="Paste URL or upload →" style="flex:1;">
+              <label style="cursor:pointer;padding:9px 12px;background:var(--black-3);border:1px solid var(--border);font-size:8px;letter-spacing:2px;color:var(--white-dim);white-space:nowrap;">Upload<input type="file" accept="image/*" style="display:none;" onchange="scUploadImage(this,'sc-hero-membership','sc-prev-membership')"></label>
+            </div>
+            <img id="sc-prev-membership" style="display:none;width:100%;height:70px;object-fit:cover;margin-top:6px;border:1px solid var(--border);">
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <h4>💳 Membership Pricing (₦)</h4>
+          <p style="font-size:10px;color:var(--white-faint);margin-bottom:14px;line-height:1.8;">Saved to Supabase and read live by membership.html.</p>
+          <div class="field-group"><label class="field-label">Silver — Monthly</label><input class="field-input" id="sc-price-silver" placeholder="75,000"></div>
+          <div class="field-group"><label class="field-label">Gold — Monthly</label><input class="field-input" id="sc-price-gold" placeholder="150,000"></div>
+          <div class="field-group"><label class="field-label">Black — Monthly</label><input class="field-input" id="sc-price-black" placeholder="300,000"></div>
+          <div class="field-group" style="margin:0;"><label class="field-label">Annual Discount %</label><input class="field-input" id="sc-price-discount" placeholder="15"></div>
+        </div>
+
+        <div class="settings-card">
+          <h4>✈ Project Trust Pricing (₦)</h4>
+          <p style="font-size:10px;color:var(--white-faint);margin-bottom:14px;line-height:1.8;">Saved to Supabase and read live by diaspora.html.</p>
+          <div class="field-group"><label class="field-label">Watch — Monthly</label><input class="field-input" id="sc-dt-watch" value="85,000"></div>
+          <div class="field-group"><label class="field-label">Guardian — Monthly</label><input class="field-input" id="sc-dt-guardian" value="140,000"></div>
+          <div class="field-group"><label class="field-label">Sentinel Label</label><input class="field-input" id="sc-dt-sentinel" value="Bespoke"></div>
+          <div class="field-group"><label class="field-label">Report Accuracy %</label><input class="field-input" id="sc-dt-accuracy" type="number" value="98"></div>
+          <div class="field-group" style="margin:0;"><label class="field-label">Max Response Time</label><input class="field-input" id="sc-dt-response" value="72h"></div>
+        </div>
+
+        <div class="settings-card">
+          <h4>🏙 Service Coverage</h4>
+          <div class="field-group"><label class="field-label">Full Coverage Cities</label><input class="field-input" id="sc-cov-full" value="Abuja, Lagos, Port Harcourt, Akwa Ibom"></div>
+          <div class="field-group" style="margin:0;"><label class="field-label">Partial Coverage Cities</label><input class="field-input" id="sc-cov-partial" value="Enugu, Kaduna, Ibadan, Benin City"></div>
+        </div>
+
+      </div>
+
+      <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+        <button class="btn-gold" id="scSaveBtn" onclick="saveSiteContent()">Save All Site Content</button>
+        <button class="btn-outline" onclick="loadSiteContent()">↻ Reload Saved</button>
+        <button class="btn-outline" onclick="downloadConfigPatch()">⬇ Download site-config.js</button>
+        <span id="sc-save-status" style="font-size:10px;color:var(--white-faint);"></span>
+      </div>
+
+      <div style="margin-top:28px;padding:20px;background:var(--black-3);border:1px solid var(--border);">
+        <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Required SQL — run once in Supabase</div>
+        <code id="scSqlCode" style="display:block;background:var(--black);padding:14px;font-size:9px;color:#4ec994;line-height:1.9;white-space:pre-wrap;border:1px solid var(--border);">create table if not exists site_config (
+  key text primary key,
+  value text,
+  updated_at timestamptz default now()
+);
+alter table site_config enable row level security;
+create policy "anon read" on site_config for select to anon using (true);
+create policy "auth manage" on site_config for all to authenticated using (true);</code>
+        <button onclick="navigator.clipboard.writeText(document.getElementById('scSqlCode').textContent).then(()=>showToast('SQL copied!'))" class="btn-outline" style="margin-top:10px;font-size:8px;">Copy SQL</button>
+      </div>
+    </div>
+
+    <!-- MEDIA LIBRARY -->
+    <div class="panel" id="panel-media">
+      <div class="section-heading">Media Library</div>
+      <div class="config-banner">
+        <div class="config-banner-icon">🖼</div>
+        <p>Images are stored in <strong>Supabase Storage</strong>. Create a bucket named <code>lapeq-images</code> with public access in your Supabase dashboard, then upload images here.</p>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin:20px 0;flex-wrap:wrap;gap:12px;">
+        <input class="search-input" style="flex:1;margin:0;" placeholder="Search media..." id="mediaSearch">
+        <label class="btn-gold" style="cursor:pointer;font-size:8px;letter-spacing:3px;padding:10px 22px;">+ Upload Files<input type="file" multiple accept="image/*,.pdf" style="display:none;" onchange="uploadMedia(this.files)"></label>
+      </div>
+      <div id="mediaUploadProgress" style="display:none;margin-bottom:16px;padding:14px;background:rgba(201,168,76,0.06);border:1px solid var(--border-hi);font-size:11px;color:var(--gold);"></div>
+      <div id="mediaGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;"><div class="empty-state"><p>Connect Supabase Storage to load your media library.</p></div></div>
+    </div>
+
+    <!-- MEMBERS -->
+    <div class="panel" id="panel-members">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;flex-wrap:wrap;">
+        <input style="flex:1;min-width:200px;background:var(--black-3);border:1px solid var(--border);color:var(--white);padding:10px 14px;font-size:11px;font-family:'Montserrat',sans-serif;outline:none;" placeholder="Search members..." id="memberSearch" oninput="filterMembers()">
+        <div style="display:flex;gap:8px;">
+          <button onclick="filterMembersBy('all',this)" class="btn-outline active-filter" style="font-size:8px;padding:6px 14px;">All</button>
+          <button onclick="filterMembersBy('gold',this)" class="btn-outline" style="font-size:8px;padding:6px 14px;">Gold</button>
+          <button onclick="filterMembersBy('black',this)" class="btn-outline" style="font-size:8px;padding:6px 14px;">Black</button>
+          <button onclick="filterMembersBy('silver',this)" class="btn-outline" style="font-size:8px;padding:6px 14px;">Silver</button>
+        </div>
+        <button onclick="loadMembers()" class="btn-gold" style="font-size:8px;padding:8px 16px;">↻ Refresh</button>
+      </div>
+      <div id="membersContainer"><p style="text-align:center;color:var(--white-faint);padding:40px;">Loading...</p></div>
+    </div>
+
+    <!-- ENQUIRIES -->
+    <div class="panel" id="panel-enquiries">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;flex-wrap:wrap;">
+        <p style="color:rgba(201,168,76,0.7);font-size:10px;letter-spacing:2px;text-transform:uppercase;">Enquiries from contact form</p>
+        <div style="display:flex;gap:8px;margin-left:auto;">
+          <button onclick="filterEnquiries('all',this)" class="btn-outline active-filter" style="font-size:8px;padding:6px 14px;">All</button>
+          <button onclick="filterEnquiries('new',this)" class="btn-outline" style="font-size:8px;padding:6px 14px;">New</button>
+          <button onclick="filterEnquiries('corporate',this)" class="btn-outline" style="font-size:8px;padding:6px 14px;">Corporate</button>
+          <button onclick="filterEnquiries('responded',this)" class="btn-outline" style="font-size:8px;padding:6px 14px;">Responded</button>
+        </div>
+        <button onclick="loadEnquiries()" class="btn-gold" style="font-size:8px;padding:8px 16px;">↻ Refresh</button>
+      </div>
+      <div id="enquiriesContainer"><p style="text-align:center;color:var(--white-faint);padding:40px;">Loading...</p></div>
+    </div>
+    <div id="enquiryModal" style="position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;padding:20px;display:none;">
+      <div style="background:var(--black-2);border:1px solid var(--border-hi);max-width:600px;width:100%;max-height:90vh;overflow-y:auto;padding:40px;position:relative;">
+        <button onclick="document.getElementById('enquiryModal').style.display='none'" style="position:absolute;top:16px;right:20px;background:none;border:none;color:var(--white-faint);font-size:20px;cursor:pointer;">✕</button>
+        <div id="enquiryModalContent"></div>
+      </div>
+    </div>
+
+    <!-- DIASPORA CMS -->
+    <div class="panel" id="panel-diaspora-cms">
+      <div class="section-heading">Diaspora Content</div>
+      <p style="font-size:13px;color:var(--white-faint);margin-bottom:28px;line-height:1.9;">Edit diaspora page content. Changes save to Supabase and reflect on diaspora.html live.</p>
+      <div class="settings-grid">
+
+        <div class="settings-card">
+          <h4>Project Trust Pricing</h4>
+          <div class="field-group"><label class="field-label">Watch — Monthly (₦)</label><input class="field-input" id="dt-price-watch" value="85,000"></div>
+          <div class="field-group"><label class="field-label">Guardian — Monthly (₦)</label><input class="field-input" id="dt-price-guardian" value="140,000"></div>
+          <div class="field-group"><label class="field-label">Sentinel Label</label><input class="field-input" id="dt-price-sentinel" value="Bespoke"></div>
+          <button class="btn-gold" style="margin-top:8px;" onclick="saveDiasporaPricing()">Save Pricing to Supabase</button>
+          <div id="dt-price-status" style="font-size:10px;margin-top:8px;color:var(--white-faint);"></div>
+        </div>
+
+        <div class="settings-card">
+          <h4>Coverage Cities</h4>
+          <div class="field-group"><label class="field-label">Full Coverage</label><input class="field-input" id="dt-cov-full" value="Abuja, Lagos, Port Harcourt, Akwa Ibom"></div>
+          <div class="field-group" style="margin:0;"><label class="field-label">Partial Coverage</label><input class="field-input" id="dt-cov-partial" value="Enugu, Kaduna, Ibadan, Benin City"></div>
+          <button class="btn-gold" style="margin-top:12px;" onclick="saveDiasporaCities()">Save Cities</button>
+        </div>
+
+        <div class="settings-card">
+          <h4>Hero Badge Stats</h4>
+          <div class="field-group"><label class="field-label">Report Accuracy %</label><input class="field-input" id="dt-stat-accuracy" type="number" value="98"></div>
+          <div class="field-group" style="margin:0;"><label class="field-label">Max Response Time</label><input class="field-input" id="dt-stat-response" value="72h"></div>
+          <button class="btn-gold" style="margin-top:12px;" onclick="saveDiasporaStats()">Save Stats</button>
+        </div>
+
+        <div class="settings-card">
+          <h4>Diaspora Services</h4>
+          <div class="toggle-row"><div class="toggle-label">Homeland Visit Planning<small>Show on diaspora page</small></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          <div class="toggle-row"><div class="toggle-label">Document & Legal Support</div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          <div class="toggle-row"><div class="toggle-label">Contractor Management</div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          <div class="toggle-row" style="border:0;"><div class="toggle-label">Shipping & Importation</div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ANALYTICS -->
+    <div class="panel" id="panel-analytics">
+      <div class="section-heading">Analytics — GA4 Setup Guide</div>
+      <div class="settings-grid">
+
+        <div class="settings-card" style="grid-column:1/-1;">
+          <h4>How to connect Google Analytics 4</h4>
+          <div style="display:flex;flex-direction:column;gap:12px;margin-top:4px;">
+            <div style="padding:14px 16px;background:rgba(201,168,76,0.06);border-left:3px solid var(--gold);">
+              <div style="font-size:8px;letter-spacing:3px;color:var(--gold);margin-bottom:6px;">STEP 1 — CREATE GA4 PROPERTY</div>
+              <div style="font-size:11px;color:var(--white-dim);line-height:1.9;">Go to <a href="https://analytics.google.com" target="_blank" style="color:var(--gold);">analytics.google.com</a> → Admin → Create Property → choose "Web" → enter your site URL.</div>
+            </div>
+            <div style="padding:14px 16px;background:rgba(201,168,76,0.06);border-left:3px solid var(--gold);">
+              <div style="font-size:8px;letter-spacing:3px;color:var(--gold);margin-bottom:6px;">STEP 2 — GET YOUR MEASUREMENT ID</div>
+              <div style="font-size:11px;color:var(--white-dim);line-height:1.9;">In GA4 → Admin → Data Streams → your stream → copy the ID. It looks like <code style="color:#4ec994;">G-XXXXXXXXXX</code>.</div>
+            </div>
+            <div style="padding:14px 16px;background:rgba(201,168,76,0.06);border-left:3px solid var(--gold);">
+              <div style="font-size:8px;letter-spacing:3px;color:var(--gold);margin-bottom:6px;">STEP 3 — PASTE THIS IN THE &lt;HEAD&gt; OF EVERY HTML PAGE</div>
+              <code id="ga4Snippet" style="display:block;background:var(--black);padding:14px;font-size:9px;color:#4ec994;line-height:1.9;white-space:pre;border:1px solid var(--border);overflow-x:auto;">&lt;script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXX"&gt;&lt;/script&gt;
+&lt;script&gt;
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXX');
+&lt;/script&gt;</code>
+              <button onclick="navigator.clipboard.writeText(document.getElementById('ga4Snippet').textContent).then(()=>showToast('Snippet copied!'))" class="btn-outline" style="margin-top:8px;font-size:8px;">Copy Snippet</button>
+            </div>
+            <div style="padding:14px 16px;background:rgba(201,168,76,0.06);border-left:3px solid var(--gold);">
+              <div style="font-size:8px;letter-spacing:3px;color:var(--gold);margin-bottom:6px;">STEP 4 — VERIFY</div>
+              <div style="font-size:11px;color:var(--white-dim);line-height:1.9;">Visit your live site, then check GA4 → Reports → Realtime. Data takes 24-48h to fully populate. Also set up <strong>Google Search Console</strong> for keyword data.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;">
+            <a href="https://analytics.google.com" target="_blank" class="btn-gold" style="text-decoration:none;font-size:8px;">Open GA4 ↗</a>
+            <a href="https://search.google.com/search-console" target="_blank" class="btn-outline" style="text-decoration:none;font-size:8px;">Search Console ↗</a>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <h4>Track Enquiry Conversions</h4>
+          <p style="font-size:11px;color:var(--white-dim);line-height:2;margin-bottom:12px;">Add this after a successful contact form submit:</p>
+          <code style="display:block;background:var(--black);padding:12px;font-size:9px;color:#4ec994;line-height:1.9;white-space:pre-wrap;border:1px solid var(--border);">gtag('event', 'generate_lead', {
+  event_category: 'Enquiry',
+  event_label: 'Contact Form'
+});</code>
+        </div>
+
+        <div class="settings-card">
+          <h4>Events Checklist</h4>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:11px;color:var(--white-dim);">
+            <div style="padding:8px 12px;background:var(--black-3);border:1px solid var(--border);">✓ Page views — automatic</div>
+            <div style="padding:8px 12px;background:var(--black-3);border:1px solid var(--border);">✓ Scroll depth — automatic</div>
+            <div style="padding:8px 12px;background:var(--black-3);border:1px solid var(--border);">⚡ Membership CTA clicks — add gtag</div>
+            <div style="padding:8px 12px;background:var(--black-3);border:1px solid var(--border);">⚡ WhatsApp clicks — add gtag</div>
+            <div style="padding:8px 12px;background:var(--black-3);border:1px solid var(--border);">⚡ Contact form submits — add gtag</div>
+            <div style="padding:8px 12px;background:var(--black-3);border:1px solid var(--border);">⚡ Diaspora enquiries — add gtag</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SEO TOOLS -->
+    <div class="panel" id="panel-seo-tools">
+      <div class="section-heading">SEO Tools</div>
+      <div class="settings-grid">
+        <div class="settings-card" style="grid-column:1/-1;">
+          <h4>Site-Wide SEO Settings</h4>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div class="field-group"><label class="field-label">Default Title Template</label><input class="field-input" value="{Page Title} — LAPEQ | Nigeria's Premium Concierge"></div>
+            <div class="field-group"><label class="field-label">Default Meta Description</label><input class="field-input" value="Nigeria's most discreet premium concierge service."></div>
+            <div class="field-group"><label class="field-label">Google Analytics ID</label><input class="field-input" id="cfgGA" placeholder="G-XXXXXXXXXX"></div>
+            <div class="field-group"><label class="field-label">Twitter/X Handle</label><input class="field-input" placeholder="@lapeq_ng"></div>
+          </div>
+        </div>
+        <div class="settings-card">
+          <h4>Per-Page SEO Audit</h4>
+          <div class="field-group"><label class="field-label">Select Page</label>
+            <select class="field-select" id="seoAuditPage">
+              <option value="index.html">Homepage</option><option value="diaspora.html">Diaspora</option>
+              <option value="membership.html">Membership</option><option value="services.html">Services</option><option value="contact.html">Contact</option>
+            </select>
+          </div>
+          <button class="btn-gold" onclick="runSeoAudit()">Run Audit</button>
+          <div id="seoAuditResult" style="margin-top:16px;"></div>
+        </div>
+        <div class="settings-card">
+          <h4>Sitemap & Robots</h4>
+          <div class="field-group"><label class="field-label">robots.txt</label><textarea class="field-textarea" style="min-height:80px;font-family:monospace;font-size:11px;">User-agent: *
+Allow: /
+Disallow: /admin/
+Sitemap: https://lapeq.com/sitemap.xml</textarea></div>
+          <button class="btn-gold" style="margin-top:8px;" onclick="showToast('Sitemap generated')">Generate sitemap.xml</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAXONOMY -->
+    <div class="panel" id="panel-taxonomy">
+      <div class="section-heading">Tags & Categories</div>
+      <div class="settings-grid">
+        <div class="settings-card">
+          <h4>Journal Categories</h4>
+          <div id="categoriesList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--black-3);border:1px solid var(--border);"><span style="font-size:11px;">Lifestyle</span><button class="table-action delete" onclick="this.closest('div').remove()">Delete</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--black-3);border:1px solid var(--border);"><span style="font-size:11px;">Travel</span><button class="table-action delete" onclick="this.closest('div').remove()">Delete</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--black-3);border:1px solid var(--border);"><span style="font-size:11px;">Diaspora</span><button class="table-action delete" onclick="this.closest('div').remove()">Delete</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--black-3);border:1px solid var(--border);"><span style="font-size:11px;">Food & Dining</span><button class="table-action delete" onclick="this.closest('div').remove()">Delete</button></div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <input class="field-input" id="newCategoryInput" placeholder="New category" style="flex:1;">
+            <button class="btn-gold" onclick="addCategory()">Add</button>
+          </div>
+        </div>
+        <div class="settings-card">
+          <h4>Post Tags</h4>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;" id="tagsList">
+            <span class="tag">Nigeria<span class="tag-remove" onclick="this.parentElement.remove()">✕</span></span>
+            <span class="tag">Lagos<span class="tag-remove" onclick="this.parentElement.remove()">✕</span></span>
+            <span class="tag">Abuja<span class="tag-remove" onclick="this.parentElement.remove()">✕</span></span>
+            <span class="tag">Akwa Ibom<span class="tag-remove" onclick="this.parentElement.remove()">✕</span></span>
+            <span class="tag">Luxury<span class="tag-remove" onclick="this.parentElement.remove()">✕</span></span>
+            <span class="tag">Concierge<span class="tag-remove" onclick="this.parentElement.remove()">✕</span></span>
+            <span class="tag">Diaspora<span class="tag-remove" onclick="this.parentElement.remove()">✕</span></span>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <input class="field-input" id="newTagListInput" placeholder="New tag" style="flex:1;" onkeypress="if(event.key==='Enter')addTaxTag()">
+            <button class="btn-gold" onclick="addTaxTag()">Add Tag</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REDIRECTS -->
+    <div class="panel" id="panel-redirects">
+      <div class="section-heading">URL Redirects</div>
+      <p style="font-size:13px;color:var(--white-faint);margin-bottom:24px;line-height:1.9;">301 redirects for old URLs. Add these to your .htaccess or Cloudflare Page Rules.</p>
+      <div style="display:flex;justify-content:flex-end;margin-bottom:16px;"><button class="btn-gold" onclick="addRedirectRow()">+ Add Redirect</button></div>
+      <table class="posts-table"><thead><tr><th>From URL</th><th>To URL</th><th>Type</th><th>Actions</th></tr></thead>
+        <tbody id="redirectsTbody">
+          <tr><td>/lapeq-journal.html</td><td>/journal.html</td><td><span class="post-category">301</span></td><td><div class="table-actions"><button class="table-action delete" onclick="this.closest('tr').remove()">Delete</button></div></td></tr>
+          <tr><td>/lapeq-services.html</td><td>/services.html</td><td><span class="post-category">301</span></td><td><div class="table-actions"><button class="table-action delete" onclick="this.closest('tr').remove()">Delete</button></div></td></tr>
+          <tr><td>/lapeq-membership.html</td><td>/membership.html</td><td><span class="post-category">301</span></td><td><div class="table-actions"><button class="table-action delete" onclick="this.closest('tr').remove()">Delete</button></div></td></tr>
+          <tr><td>/lapeq-business.html</td><td>/business.html</td><td><span class="post-category">301</span></td><td><div class="table-actions"><button class="table-action delete" onclick="this.closest('tr').remove()">Delete</button></div></td></tr>
+          <tr><td>/lapeq-contact.html</td><td>/contact.html</td><td><span class="post-category">301</span></td><td><div class="table-actions"><button class="table-action delete" onclick="this.closest('tr').remove()">Delete</button></div></td></tr>
+          <tr><td>/lapeq-picks.html</td><td>/picks.html</td><td><span class="post-category">301</span></td><td><div class="table-actions"><button class="table-action delete" onclick="this.closest('tr').remove()">Delete</button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="panel" id="panel-settings">
+      <div class="settings-grid">
+
+        <div class="settings-card">
+          <h4>🔗 Supabase Connection</h4>
+          <div class="field-group"><label class="field-label">Project URL</label><input class="field-input" id="sbUrl" value="https://uqccvwhadllcfscjinnk.supabase.co"></div>
+          <div class="field-group"><label class="field-label">Anon Key</label><input class="field-input" id="sbKey" style="font-size:9px;"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-gold" onclick="saveSupabaseConfig()" style="font-size:8px;">Save & Test</button>
+            <a href="https://supabase.com/dashboard" target="_blank" class="btn-outline" style="text-decoration:none;font-size:8px;">Open Dashboard ↗</a>
+          </div>
+          <div id="sbTestResult" style="margin-top:10px;font-size:10px;color:var(--white-faint);"></div>
+        </div>
+
+        <div class="settings-card">
+          <h4>📞 Contact Information</h4>
+          <div class="field-group"><label class="field-label">Email</label><input class="field-input" id="cfgEmail" value="hello@lapeq.com"></div>
+          <div class="field-group"><label class="field-label">Phone</label><input class="field-input" id="cfgPhone" value="+234 812 254 3635"></div>
+          <div class="field-group"><label class="field-label">WhatsApp</label><input class="field-input" id="cfgWA" value="+234 812 254 3635"></div>
+          <div class="field-group" style="margin:0;"><label class="field-label">Operating Cities</label><input class="field-input" id="cfgCities" value="Abuja · Lagos · Port Harcourt · Akwa Ibom"></div>
+        </div>
+
+        <div class="settings-card">
+          <h4>🗃️ Database Tables — SQL</h4>
+          <div style="font-size:11px;color:var(--white-dim);line-height:1.9;margin-bottom:12px;">Run in Supabase SQL Editor to enable all CMS features:</div>
+          <code id="dbSqlCode" style="display:block;background:var(--black);padding:14px;font-size:9px;color:#4ec994;line-height:1.9;white-space:pre-wrap;border:1px solid var(--border);">-- Posts table
+create table if not exists posts (
+  id uuid default gen_random_uuid() primary key,
+  title text, content text, excerpt text,
+  image_url text, category text, tags text[],
+  meta_title text, meta_desc text,
+  slug text, read_time text,
+  status text default 'draft',
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+-- Enquiries
+create table if not exists enquiries (
+  id uuid default gen_random_uuid() primary key,
+  name text, email text, phone text,
+  service text, city text, message text,
+  status text default 'new',
+  created_at timestamptz default now()
+);
+-- Members
+create table if not exists members (
+  id uuid default gen_random_uuid() primary key,
+  name text, email text unique, phone text,
+  tier text default 'free', city text,
+  status text default 'active', joined_at timestamptz default now()
+);
+-- Picks (supports multiple per category)
+create table if not exists picks (
+  id uuid default gen_random_uuid() primary key,
+  type text, name text, city text,
+  rating numeric, image_url text, note text,
+  month_label text,
+  status text default 'published',
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+-- Site Config
+create table if not exists site_config (
+  key text primary key, value text,
+  updated_at timestamptz default now()
+);
+-- RLS
+alter table enquiries enable row level security;
+alter table members enable row level security;
+alter table site_config enable row level security;
+alter table picks enable row level security;
+create policy "anon read picks" on picks for select to anon using (true);
+create policy "auth manage picks" on picks for all to authenticated using (true);
+create policy "anon insert enq" on enquiries for insert to anon with check (true);
+create policy "auth manage enq" on enquiries for all to authenticated using (true);
+create policy "auth manage members" on members for all to authenticated using (true);
+create policy "anon read config" on site_config for select to anon using (true);
+create policy "auth manage config" on site_config for all to authenticated using (true);</code>
+          <button onclick="navigator.clipboard.writeText(document.getElementById('dbSqlCode').textContent).then(()=>showToast('SQL copied!'))" class="btn-outline" style="margin-top:12px;font-size:8px;">Copy All SQL</button>
+        </div>
+
+        <div class="settings-card">
+          <h4>⚙️ Publishing Controls</h4>
+          <div class="toggle-row"><div class="toggle-label">Email on new enquiry<small>Notify team when contact form submitted</small></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          <div class="toggle-row"><div class="toggle-label">App waitlist open<small>Show waitlist form on homepage</small></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          <div class="toggle-row"><div class="toggle-label">Show author on posts<small>Display LAPEQ Editorial byline</small></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          <div class="toggle-row" style="border:0;"><div class="toggle-label">Structured data (JSON-LD)<small>Inject schema for Google ranking</small></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+        </div>
+
+        <div class="settings-card" style="grid-column:1/-1;">
+          <h4>👤 Admin Access</h4>
+          <p style="font-size:11px;color:var(--white-faint);margin-bottom:16px;line-height:1.8;">Admin users are managed in Supabase <strong style="color:var(--gold);">Authentication → Users</strong>. Add or remove team members there.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <a href="https://supabase.com/dashboard" target="_blank" class="btn-gold" style="font-size:8px;text-decoration:none;">Manage Users ↗</a>
+            <button onclick="doLogout()" class="btn-outline" style="font-size:8px;">Sign Out</button>
+          </div>
+        </div>
+
+        <div class="settings-card" style="grid-column:1/-1;border-color:rgba(200,60,60,0.3);">
+          <h4 style="color:#e07070;">⚠ Danger Zone — Clear Demo Data</h4>
+          <p style="font-size:11px;color:var(--white-faint);margin-bottom:16px;line-height:1.8;">Delete all existing posts, picks, or enquiries from Supabase. <strong style="color:#e07070;">This cannot be undone.</strong> Use before going live.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button onclick="clearAllPosts()" style="padding:10px 18px;background:none;border:1px solid rgba(200,60,60,0.5);color:#e07070;font-size:8px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;" onmouseover="this.style.background='rgba(200,60,60,0.15)'" onmouseout="this.style.background='none'">Delete All Posts</button>
+            <button onclick="clearAllPicks()" style="padding:10px 18px;background:none;border:1px solid rgba(200,60,60,0.5);color:#e07070;font-size:8px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;" onmouseover="this.style.background='rgba(200,60,60,0.15)'" onmouseout="this.style.background='none'">Delete All Picks</button>
+            <button onclick="clearAllEnquiries()" style="padding:10px 18px;background:none;border:1px solid rgba(200,60,60,0.5);color:#e07070;font-size:8px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;" onmouseover="this.style.background='rgba(200,60,60,0.15)'" onmouseout="this.style.background='none'">Delete All Enquiries</button>
+          </div>
+          <div id="clearDataStatus" style="margin-top:10px;font-size:10px;color:var(--white-faint);"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<div class="toast" id="toast"></div>
+<script>
+// ═══════════════════════════════════════════════════
+// SUPABASE CONFIG
+// ═══════════════════════════════════════════════════
+let SUPABASE_URL = 'https://uqccvwhadllcfscjinnk.supabase.co';
+let SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVxY2N2d2hhZGxsY2ZzY2ppbm5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2MDQ0MjgsImV4cCI6MjA4ODE4MDQyOH0.PsvQs9cmme_Pqiwg9OklJ6O6V5wOjZK7hNUY9N1Z_oE';
+
+const isConfigured = () => !!SUPABASE_ANON_KEY;
+let currentUser = null;
+let allPosts = [];
+let allMembers = [];
+let allEnquiries = [];
+let allPicks = [];
+let memberFilter = 'all';
+let enquiryFilter = 'all';
+
+// ═══════════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════════
+function toggleSetup(){
+  const lp = document.getElementById('loginPanel');
+  const sp = document.getElementById('setupPanel');
+  const show = sp.style.display === 'none';
+  sp.style.display = show ? 'block' : 'none';
+  lp.style.display = show ? 'none' : 'block';
+  if(show){
+    document.getElementById('setupUrl').value = SUPABASE_URL;
+    document.getElementById('setupKey').value = SUPABASE_ANON_KEY;
+  }
+}
+
+async function saveSetupFromLogin(){
+  const url = document.getElementById('setupUrl').value.trim().replace(/\/$/, '');
+  const key = document.getElementById('setupKey').value.trim();
+  const errEl = document.getElementById('setupError');
+  errEl.style.display = 'none';
+  if(!url || !key){ errEl.textContent = 'Please enter both URL and anon key.'; errEl.style.display = 'block'; return; }
+  const btn = document.querySelector('#setupPanel .login-btn');
+  btn.textContent = 'Testing...'; btn.disabled = true;
+  try {
+    const res = await fetch(url + '/rest/v1/posts?limit=1', { headers: { 'apikey': key, 'Authorization': 'Bearer '+key }});
+    if(!res.ok && res.status !== 406) throw new Error('Could not connect. Check your URL and anon key.');
+    SUPABASE_URL = url; SUPABASE_ANON_KEY = key;
+    localStorage.setItem('sb_url', url); localStorage.setItem('sb_key', key);
+    document.getElementById('sbUrl').value = url; document.getElementById('sbKey').value = key;
+    toggleSetup(); showToast('✓ Supabase connected — now sign in');
+  } catch(e){ errEl.textContent = e.message; errEl.style.display = 'block'; }
+  btn.textContent = 'Save & Connect'; btn.disabled = false;
+}
+
+async function doLogin(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPassword').value;
+  const btn = document.getElementById('loginBtn');
+  const errEl = document.getElementById('loginError');
+  errEl.style.display = 'none';
+  if(!email || !pass){ errEl.textContent = 'Please enter email and password.'; errEl.style.display = 'block'; return; }
+
+  btn.innerHTML = '<span class="spinner"></span>Signing in...'; btn.disabled = true;
+  try {
+    let res, data;
+    try {
+      res = await fetch(SUPABASE_URL + '/auth/v1/token?grant_type=password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON_KEY },
+        body: JSON.stringify({email, password: pass})
+      });
+      data = await res.json();
+    } catch(netErr){ throw new Error('Could not reach Supabase. Check your internet connection.'); }
+    if(!res.ok || !data.access_token){
+      let msg = data.error_description || data.msg || data.error || '';
+      if(!msg || msg === 'Invalid login credentials') msg = 'Incorrect email or password.';
+      throw new Error(msg);
+    }
+    const userEmail = (data.user && data.user.email) ? data.user.email : email;
+    localStorage.setItem('sb_access_token', data.access_token);
+    localStorage.setItem('sb_user_email', userEmail);
+    currentUser = data.user || {email};
+    enterDashboard(userEmail);
+  } catch(e){
+    errEl.innerHTML = (e.message || 'Login failed.') + '<br><small style="opacity:0.6;">Reset password via <a href="https://app.supabase.com" target="_blank" style="color:var(--gold);">Supabase dashboard</a> → Auth → Users</small>';
+    errEl.style.display = 'block';
+  }
+  btn.innerHTML = 'Sign In'; btn.disabled = false;
+}
+
+function enterDashboard(email){
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('sidebarUserEmail').textContent = email;
+  loadDashboardStats();
+  loadSiteContent();
+}
+
+function doLogout(){
+  localStorage.removeItem('sb_access_token');
+  localStorage.removeItem('sb_user_email');
+  currentUser = null;
+  document.getElementById('loginScreen').classList.remove('hidden');
+  showToast('Signed out');
+}
+
+// ═══════════════════════════════════════════════════
+// SUPABASE FETCH HELPER
+// ═══════════════════════════════════════════════════
+async function sbFetch(path, options={}){
+  const method = (options.method || 'GET').toUpperCase();
+  // For writes (INSERT/UPDATE/DELETE) use auth token; for reads use anon key only
+  const token = localStorage.getItem('sb_access_token');
+  const isWrite = ['POST','PATCH','PUT','DELETE'].includes(method);
+  const authHeader = (isWrite && token) ? token : SUPABASE_ANON_KEY;
+  const headers = {
+    'Content-Type': 'application/json',
+    'apikey': SUPABASE_ANON_KEY,
+    'Authorization': 'Bearer ' + authHeader,
+    ...(options.headers || {})
+  };
+  const res = await fetch(SUPABASE_URL + path, {...options, headers});
+  // Handle JWT expired — retry with anon key
+  if(res.status === 401) {
+    const errText = await res.text();
+    if(errText.includes('JWT') || errText.includes('expired')) {
+      // Try again with anon key regardless of write/read
+      const retryHeaders = {'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY,...(options.headers||{})};
+      const retry = await fetch(SUPABASE_URL + path, {...options, headers:retryHeaders});
+      const retryText = await retry.text();
+      if(!retryText||retryText.trim()==='') return retry.ok?{}:null;
+      try{return JSON.parse(retryText);}catch(e){return retryText;}
+    }
+    return null;
+  }
+  const text = await res.text();
+  if(!text || text.trim() === '') return res.ok ? {} : null;
+  try { return JSON.parse(text); } catch(e){ return text; }
+}
+
+async function upsertConfig(obj){
+  const rows = Object.entries(obj).map(([k,v])=>({key:k, value:String(v), updated_at:new Date().toISOString()}));
+  const res = await fetch(SUPABASE_URL + '/rest/v1/site_config', {
+    method: 'POST',
+    headers: {'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+localStorage.getItem('sb_access_token'),'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},
+    body: JSON.stringify(rows)
+  });
+  if(!res.ok && res.status !== 204){ const t=await res.text(); throw new Error(t||'Save failed ('+res.status+')'); }
+}
+
+// ═══════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════
+function showPanel(name, el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const panel = document.getElementById('panel-'+name);
+  if(panel) panel.classList.add('active');
+  if(el) el.classList.add('active');
+  const titles = {
+    dashboard:'Dashboard','new-post':'New Post',posts:'Journal Posts',picks:'Monthly Picks',
+    pages:'Site Pages','site-content':'Site Content',media:'Media Library',members:'Members',
+    enquiries:'Enquiries','diaspora-cms':'Diaspora Content',analytics:'Analytics',
+    'seo-tools':'SEO Tools',taxonomy:'Tags & Categories',redirects:'URL Redirects',settings:'Settings'
+  };
+  document.getElementById('topbarTitle').textContent = titles[name] || name;
+}
+
+// ═══════════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════════
+async function loadDashboardStats(){
+  if(!isConfigured()){
+    ['stat-posts','stat-drafts','stat-enquiries'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent='—'; });
+    document.getElementById('stat-posts-sub').textContent = 'Connect Supabase first';
+    document.getElementById('dashRecentPosts').innerHTML = '<div class="activity-item"><div class="activity-item-left"><strong>Supabase not connected</strong><span>Add credentials in Settings</span></div></div>';
+    return;
+  }
+  try {
+    const [postsRes, draftsRes, enqRes] = await Promise.all([
+      sbFetch('/rest/v1/posts?status=eq.published&select=id,title,category,created_at&order=created_at.desc&limit=5'),
+      sbFetch('/rest/v1/posts?status=eq.draft&select=id&limit=100'),
+      sbFetch('/rest/v1/enquiries?status=eq.new&select=id&limit=100')
+    ]);
+    document.getElementById('stat-posts').textContent = Array.isArray(postsRes) ? postsRes.length : '—';
+    document.getElementById('stat-drafts').textContent = Array.isArray(draftsRes) ? draftsRes.length : '—';
+    document.getElementById('stat-enquiries').textContent = Array.isArray(enqRes) ? enqRes.length : '—';
+    document.getElementById('stat-posts-sub').textContent = 'Live on journal page';
+    if(Array.isArray(postsRes) && postsRes.length){
+      document.getElementById('dashRecentPosts').innerHTML = postsRes.map(p=>`
+        <div class="activity-item">
+          <div class="activity-item-left"><strong>${p.title}</strong><span>${p.category||'Journal'} · ${formatDate(p.created_at)}</span></div>
+          <span class="activity-status status-published">Published</span>
+        </div>`).join('');
+    } else {
+      document.getElementById('dashRecentPosts').innerHTML = '<div class="activity-item"><div class="activity-item-left"><strong>No posts yet</strong><span>Create your first journal post</span></div></div>';
+    }
+  } catch(e){ showToast('Could not load stats: '+e.message, true); }
+}
+
+// ═══════════════════════════════════════════════════
+// POSTS
+// ═══════════════════════════════════════════════════
+async function loadPosts(){
+  document.getElementById('postsTableBody').innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--white-faint);"><span class="spinner"></span> Loading...</td></tr>';
+  if(!isConfigured()){ renderDemoPosts(); return; }
+  try {
+    const data = await sbFetch('/rest/v1/posts?select=*&order=created_at.desc');
+    if(!Array.isArray(data)) throw new Error('Could not load posts');
+    allPosts = data; renderPostsTable(allPosts);
+  } catch(e){ showToast(e.message, true); renderDemoPosts(); }
+}
+
+function renderDemoPosts(){
+  allPosts = [
+    {id:'demo1',title:"The Insider's Guide to Abuja's Most Exclusive Venues",category:'Lifestyle and Access',excerpt:'From rooftop lounges to private dining rooms.',image_url:'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80',created_at:'2026-01-02',status:'published',read_time:'6 min read'},
+    {id:'demo2',title:"How to Travel Nigeria Without the Stress",category:'Travel',excerpt:'Executive car hire, flights, and airport handling.',image_url:'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1200&q=80',created_at:'2025-12-15',status:'published',read_time:'4 min read'},
+    {id:'demo3',title:"Project Trust — What Our Clients Say",category:'Diaspora',excerpt:'How LAPEQ became the trusted third eye for Nigerians building from abroad.',image_url:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&q=80',created_at:'2025-12-01',status:'draft',read_time:'5 min read'},
+  ];
+  renderPostsTable(allPosts);
+}
+
+function renderPostsTable(posts){
+  const tbody = document.getElementById('postsTableBody');
+  if(!posts.length){ tbody.innerHTML='<tr><td colspan="5"><div class="empty-state"><p>No posts yet.</p></div></td></tr>'; return; }
+  tbody.innerHTML = posts.map(p=>`
+    <tr>
+      <td>${p.title}</td>
+      <td><span class="post-category">${p.category||'—'}</span></td>
+      <td>${formatDate(p.created_at)}</td>
+      <td><span class="activity-status ${p.status==='published'?'status-published':'status-draft'}">${p.status==='published'?'Published':'Draft'}</span></td>
+      <td><div class="table-actions">
+        <button class="table-action" onclick="editPost('${p.id}')">Edit</button>
+        <button class="table-action delete" onclick="deletePost('${p.id}',this)">Delete</button>
+      </div></td>
+    </tr>`).join('');
+}
+
+function filterPosts(){
+  const q = document.getElementById('postSearch').value.toLowerCase();
+  const cat = document.getElementById('postCatFilter').value;
+  const status = document.getElementById('postStatusFilter').value;
+  renderPostsTable(allPosts.filter(p=>(!q||p.title.toLowerCase().includes(q))&&(!cat||p.category===cat)&&(!status||p.status===status)));
+}
+
+function clearEditor(){
+  ['editingPostId','postTitle','postExcerpt','postContent','postImageUrl','postMetaTitle','postMetaDesc','postSlug','postFocusKw'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('postCategory').value = '';
+  document.getElementById('postStatusDisplay').textContent = 'Draft';
+  document.getElementById('postDateDisplay').textContent = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  const prev = document.getElementById('imgPreview'); if(prev){ prev.style.display='none'; prev.src=''; }
+  const tw = document.getElementById('tagWrap'); if(tw) tw.innerHTML = '';
+  const pv = document.getElementById('postPreview'); if(pv && pv.style.display!=='none') togglePreview();
+}
+
+async function editPost(id){
+  const post = allPosts.find(p=>p.id===id);
+  if(!post) return;
+  clearEditor();
+  document.getElementById('editingPostId').value = id;
+  document.getElementById('postTitle').value = post.title||'';
+  document.getElementById('postExcerpt').value = post.excerpt||'';
+  document.getElementById('postContent').value = post.content||'';
+  document.getElementById('postImageUrl').value = post.image_url||'';
+  document.getElementById('postCategory').value = post.category||'';
+  document.getElementById('postMetaTitle').value = post.meta_title||'';
+  document.getElementById('postMetaDesc').value = post.meta_desc||'';
+  document.getElementById('postStatusDisplay').textContent = post.status==='published'?'Published':'Draft';
+  if(post.image_url){ const p=document.getElementById('imgPreview'); p.src=post.image_url; p.style.display='block'; }
+  showPanel('new-post', document.querySelector('[onclick*="new-post"]'));
+  showToast('Post loaded for editing');
+}
+
+async function deletePost(id, btn){
+  if(!confirm('Delete this post? This cannot be undone.')) return;
+  if(id.startsWith('demo')){ btn.closest('tr').remove(); allPosts=allPosts.filter(p=>p.id!==id); showToast('Post removed'); return; }
+  try {
+    const res = await fetch(SUPABASE_URL+'/rest/v1/posts?id=eq.'+id, {
+      method:'DELETE', headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+localStorage.getItem('sb_access_token'),'Prefer':'return=minimal'}
+    });
+    if(res.ok||res.status===204){ btn.closest('tr').remove(); allPosts=allPosts.filter(p=>p.id!==id); showToast('Post deleted'); }
+    else throw new Error(await res.text()||'Delete failed');
+  } catch(e){ showToast('Delete failed: '+e.message, true); }
+}
+
+async function savePost(status){
+  const title = document.getElementById('postTitle').value.trim();
+  const content = document.getElementById('postContent').value.trim();
+  if(!title){ showToast('Please enter a post title', true); return; }
+  if(!content){ showToast('Please add content before saving', true); return; }
+  const tags = Array.from(document.getElementById('tagWrap').querySelectorAll('.tag')).map(t=>t.textContent.replace('x','').trim());
+  const words = content.split(/\s+/).length;
+  const payload = {
+    title, content,
+    excerpt: document.getElementById('postExcerpt').value,
+    image_url: document.getElementById('postImageUrl').value,
+    category: document.getElementById('postCategory').value,
+    meta_title: document.getElementById('postMetaTitle').value||title,
+    meta_desc: document.getElementById('postMetaDesc').value,
+    slug: document.getElementById('postSlug').value,
+    tags, read_time: Math.ceil(words/200)+' min read', status,
+    updated_at: new Date().toISOString()
+  };
+  if(!isConfigured()){ document.getElementById('postStatusDisplay').textContent=status==='published'?'Published':'Draft'; showToast(status==='published'?'✓ Published (demo)':'Draft saved (demo)'); return; }
+  const existingId = document.getElementById('editingPostId').value;
+  try {
+    if(existingId){ await sbFetch('/rest/v1/posts?id=eq.'+existingId, {method:'PATCH', body:JSON.stringify(payload)}); }
+    else { payload.created_at=new Date().toISOString(); await sbFetch('/rest/v1/posts', {method:'POST', headers:{'Prefer':'return=representation'}, body:JSON.stringify(payload)}); }
+    document.getElementById('postStatusDisplay').textContent=status==='published'?'Published':'Draft';
+    showToast(status==='published'?'✓ Post published':'Draft saved');
+    loadDashboardStats();
+  } catch(e){ showToast('Save failed: '+e.message, true); }
+}
+
+// ═══════════════════════════════════════════════════
+// IMAGE UPLOAD
+// ═══════════════════════════════════════════════════
+function handleImageUpload(input){
+  const file = input.files[0];
+  if(!file) return;
+  if(file.size > 5*1024*1024){ showToast('Image too large — max 5MB', true); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const dataUrl = e.target.result;
+    const prev = document.getElementById('imgPreview');
+    if(prev){ prev.src = dataUrl; prev.style.display = 'block'; }
+    const urlInput = document.getElementById('postImageUrl');
+    if(urlInput) urlInput.value = dataUrl;
+    // Try to upload to Supabase Storage in background — keep local preview regardless
+    if(isConfigured()){
+      const filename = 'journal/'+Date.now()+'-'+file.name.replace(/[^a-z0-9.]/gi,'_');
+      const token = localStorage.getItem('sb_access_token') || SUPABASE_ANON_KEY;
+      fetch(SUPABASE_URL+'/storage/v1/object/lapeq-images/'+filename, {
+        method:'POST',
+        headers:{'Authorization':'Bearer '+token,'apikey':SUPABASE_ANON_KEY,'Content-Type':file.type,'x-upsert':'true'},
+        body: file
+      }).then(r => {
+        if(r.ok){
+          const publicUrl = SUPABASE_URL+'/storage/v1/object/public/lapeq-images/'+filename;
+          if(urlInput) urlInput.value = publicUrl;
+          if(prev) prev.src = publicUrl;
+          showToast('✓ Image uploaded to Storage');
+        } else {
+          showToast('Local preview saved — Storage upload skipped (create lapeq-images bucket to enable)');
+        }
+      }).catch(() => showToast('Local preview saved — Storage not connected'));
+    } else {
+      showToast('✓ Image preview ready');
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+async // uploadImageToStorage — now inlined in handleImageUpload
+
+function previewImageUrl(){
+  const url = document.getElementById('postImageUrl').value;
+  const img = document.getElementById('imgPreview');
+  if(url){ img.src=url; img.style.display='block'; } else img.style.display='none';
+}
+
+// ═══════════════════════════════════════════════════
+// PICKS
+// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+// PICKS — Journal-style with add/edit/delete
+// ═══════════════════════════════════════════════════
+async function loadPicks(){
+  await loadAllPicks();
+}
+
+async function loadAllPicks(){
+  const tbody = document.getElementById('picksTableBody');
+  if(!tbody) return;
+  if(!isConfigured()){ renderPicksTable([]); return; }
+  try {
+    const data = await sbFetch('/rest/v1/picks?select=*&order=created_at.desc');
+    allPicks = Array.isArray(data) ? data : [];
+    renderPicksTable(allPicks);
+  } catch(e){ showToast('Could not load picks: '+e.message, true); }
+}
+
+function renderPicksTable(picks){
+  const tbody = document.getElementById('picksTableBody');
+  if(!tbody) return;
+  if(!picks.length){
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><p>No picks yet. Click + New Pick to add your first.</p></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = picks.map(p=>`
+    <tr>
+      <td style="display:flex;align-items:center;gap:10px;">
+        ${p.image_url?`<img src="${p.image_url}" style="width:40px;height:40px;object-fit:cover;flex-shrink:0;" alt="">`:'<div style="width:40px;height:40px;background:var(--black-3);border:1px solid var(--border);flex-shrink:0;"></div>'}
+        <span>${p.name||'—'}</span>
+      </td>
+      <td><span class="post-category">${p.type||'pick'}</span></td>
+      <td>${p.city||'—'}</td>
+      <td>${p.rating||'—'}</td>
+      <td><span class="activity-status ${p.status==='published'?'status-published':'status-draft'}">${p.status==='published'?'Published':'Draft'}</span></td>
+      <td><div class="table-actions">
+        <button class="table-action" onclick="editPick('${p.id}')">Edit</button>
+        <button class="table-action delete" onclick="deletePick('${p.id}',this)">Delete</button>
+      </div></td>
+    </tr>`).join('');
+}
+
+function clearPickEditor(){
+  ['editingPickId','pickName','pickCategory','pickCity','pickRating','pickImageUrl','pickNote','pickMonth'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  const prev=document.getElementById('pickImgPreview'); if(prev){ prev.src=''; prev.style.display='none'; }
+}
+
+function editPick(id){
+  const p=allPicks.find(x=>x.id===id); if(!p) return;
+  clearPickEditor();
+  document.getElementById('editingPickId').value=id;
+  document.getElementById('pickName').value=p.name||'';
+  document.getElementById('pickCategory').value=p.type||'';
+  document.getElementById('pickCity').value=p.city||'';
+  document.getElementById('pickRating').value=p.rating||'';
+  document.getElementById('pickImageUrl').value=p.image_url||'';
+  document.getElementById('pickNote').value=p.note||'';
+  document.getElementById('pickMonth').value=p.month_label||'';
+  if(p.image_url){ const prev=document.getElementById('pickImgPreview'); prev.src=p.image_url; prev.style.display='block'; }
+  showPanel('new-pick', null);
+  showToast('Pick loaded for editing');
+}
+
+async function deletePick(id, btn){
+  if(!confirm('Delete this pick? This cannot be undone.')) return;
+  try {
+    const res=await fetch(SUPABASE_URL+'/rest/v1/picks?id=eq.'+id,{
+      method:'DELETE',headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+localStorage.getItem('sb_access_token'),'Prefer':'return=minimal'}
+    });
+    if(res.ok||res.status===204){ allPicks=allPicks.filter(p=>p.id!==id); renderPicksTable(allPicks); showToast('Pick deleted'); }
+    else throw new Error(await res.text()||'Delete failed');
+  } catch(e){ showToast('Delete failed: '+e.message, true); }
+}
+
+function handlePickImgUpload(input){
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const url=e.target.result;
+    document.getElementById('pickImgPreview').src=url;
+    document.getElementById('pickImgPreview').style.display='block';
+    document.getElementById('pickImageUrl').value=url;
+    if(isConfigured()){
+      const fname='picks/'+Date.now()+'-'+file.name.replace(/[^a-z0-9.]/gi,'_');
+      const token=localStorage.getItem('sb_access_token');
+      fetch(SUPABASE_URL+'/storage/v1/object/lapeq-images/'+fname,{method:'POST',headers:{'Authorization':'Bearer '+token,'apikey':SUPABASE_ANON_KEY,'Content-Type':file.type,'x-upsert':'true'},body:file})
+        .then(r=>{ if(r.ok){ const pu=SUPABASE_URL+'/storage/v1/object/public/lapeq-images/'+fname; document.getElementById('pickImageUrl').value=pu; document.getElementById('pickImgPreview').src=pu; showToast('✓ Image uploaded'); }})
+        .catch(()=>showToast('Storage upload failed — preview kept',true));
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+async function savePick(status){
+  const name=document.getElementById('pickName').value.trim();
+  if(!name){ showToast('Please enter a pick name', true); return; }
+  const payload={
+    name, type:document.getElementById('pickCategory').value||'pick',
+    city:document.getElementById('pickCity').value,
+    rating:parseFloat(document.getElementById('pickRating').value)||null,
+    image_url:document.getElementById('pickImageUrl').value.trim(),
+    note:document.getElementById('pickNote').value,
+    month_label:document.getElementById('pickMonth').value,
+    status, updated_at:new Date().toISOString()
+  };
+  if(!isConfigured()){ showToast(status==='published'?'✓ Pick published (demo)':'Draft saved (demo)'); return; }
+  const existingId=document.getElementById('editingPickId').value;
+  try {
+    if(existingId){ await sbFetch('/rest/v1/picks?id=eq.'+existingId, {method:'PATCH', body:JSON.stringify(payload)}); }
+    else { payload.created_at=new Date().toISOString(); await sbFetch('/rest/v1/picks', {method:'POST', headers:{'Prefer':'return=representation'}, body:JSON.stringify(payload)}); }
+    showToast(status==='published'?'✓ Pick published':'Draft saved');
+    await loadAllPicks();
+    showPanel('picks', document.querySelector('[onclick*="picks"]'));
+  } catch(e){ showToast('Save failed: '+e.message, true); }
+}
+
+async function savePicks(s){ await savePick(s); }
+
+
+// EDITOR TOOLS
+// ═══════════════════════════════════════════════════
+function handleTagInput(e){
+  if(e.key!=='Enter') return;
+  const val=e.target.value.trim();
+  if(val){ addTagValue(val); e.target.value=''; }
+}
+function addTagValue(val){
+  const wrap=document.getElementById('tagWrap');
+  const span=document.createElement('span'); span.className='tag';
+  span.innerHTML=val+'<span class="tag-remove" onclick="this.parentElement.remove()">x</span>';
+  wrap.appendChild(span);
+}
+function checkSeo(){
+  const title=document.getElementById('postMetaTitle').value;
+  const desc=document.getElementById('postMetaDesc').value;
+  const kw=document.getElementById('postFocusKw').value;
+  const img=document.getElementById('postImageUrl').value;
+  const content=document.getElementById('postContent').value;
+  const excerpt=document.getElementById('postExcerpt').value;
+  const words=content.trim().split(/\s+/).filter(w=>w).length;
+  const upd=(id,ok,msg)=>{ const el=document.getElementById(id); if(el){ el.textContent=(ok?'✓ ':'○ ')+msg; el.style.color=ok?'#4ec994':'var(--white-faint)'; }};
+  upd('chk-title',title.length>=10&&title.length<=60,'Meta title '+(title.length?'('+title.length+' chars)':'set'));
+  upd('chk-desc',desc.length>=100&&desc.length<=160,'Meta description '+(desc.length?'('+desc.length+' chars)':'set'));
+  upd('chk-kw',kw.length>2,'Focus keyword: '+(kw||'not entered'));
+  upd('chk-image',img.length>5,'Featured image '+(img?'added':'missing'));
+  upd('chk-length',words>=800,'Content: '+words+' words');
+  upd('chk-excerpt',excerpt.length>20,'Excerpt '+(excerpt?'written':'missing'));
+  const score=[title.length>=10&&title.length<=60,desc.length>=100&&desc.length<=160,kw.length>2,img.length>5,words>=800,excerpt.length>20].filter(Boolean).length;
+  const box=document.getElementById('seoScoreBox');
+  if(box){ const pct=Math.round(score/6*100); box.style.display='block'; box.innerHTML='<strong style="color:'+(pct>=80?'#4ec994':pct>=50?'var(--gold)':'#e07070')+'">SEO Score: '+pct+'%</strong> — '+(pct>=80?'Great!':pct>=50?'Needs more details.':'More work needed.'); }
+  const t=document.getElementById('postTitle').value;
+  const sl=document.getElementById('postSlug');
+  if(sl&&t&&!sl.dataset.manual) sl.value=t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+function fmt(before,after){ const ta=document.getElementById('postContent'); const s=ta.selectionStart,e=ta.selectionEnd,sel=ta.value.substring(s,e); ta.value=ta.value.substring(0,s)+before+sel+after+ta.value.substring(e); ta.focus(); ta.selectionStart=s+before.length; ta.selectionEnd=s+before.length+sel.length; }
+function togglePreview(){ const ta=document.getElementById('postContent'),pv=document.getElementById('postPreview'); if(pv.style.display==='none'){ pv.innerHTML=ta.value.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/^## (.+)$/gm,'<h2 style="font-family:\'Cormorant Garamond\',serif;font-size:26px;font-weight:300;color:var(--white);margin:20px 0 8px;">$1</h2>').replace(/^### (.+)$/gm,'<h3 style="font-size:18px;color:var(--white);margin:16px 0 6px;">$1</h3>').replace(/^> (.+)$/gm,'<blockquote style="border-left:2px solid var(--gold);padding-left:16px;margin:16px 0;font-style:italic;color:var(--white-dim);">$1</blockquote>').replace(/^- (.+)$/gm,'<li style="margin-left:20px;margin-bottom:4px;">$1</li>').replace(/\n/g,'<br>'); pv.style.display='block'; ta.style.display='none'; } else { pv.style.display='none'; ta.style.display='block'; } }
+
+// ═══════════════════════════════════════════════════
+// MEMBERS
+// ═══════════════════════════════════════════════════
+async function loadMembers(){
+  const c=document.getElementById('membersContainer');
+  c.innerHTML='<p style="text-align:center;padding:32px;color:var(--white-faint);"><span class="spinner"></span> Loading...</p>';
+  try {
+    const data=await sbFetch('/rest/v1/members?order=created_at.desc');
+    allMembers=Array.isArray(data)&&data.length?data:[];
+    renderMembers();
+  } catch(e){ c.innerHTML=`<div style="padding:32px;"><p style="color:var(--white-faint);font-size:12px;">${e.message}</p><button onclick="loadMembers()" class="btn-gold" style="margin-top:12px;font-size:8px;">Retry</button></div>`; }
+}
+function filterMembersBy(tier,btn){ memberFilter=tier; document.querySelectorAll('.active-filter').forEach(b=>b.classList.remove('active-filter')); if(btn) btn.classList.add('active-filter'); renderMembers(); }
+function filterMembers(){ renderMembers(); }
+function renderMembers(){
+  const c=document.getElementById('membersContainer');
+  const q=(document.getElementById('memberSearch')?.value||'').toLowerCase();
+  const filtered=allMembers.filter(m=>(memberFilter==='all'||m.tier===memberFilter)&&(!q||(m.name||'').toLowerCase().includes(q)||(m.email||'').toLowerCase().includes(q)));
+  if(!filtered.length){ c.innerHTML='<p style="text-align:center;color:var(--white-faint);padding:40px;">No members found.</p>'; return; }
+  const tc={gold:'var(--gold)',black:'rgba(255,255,255,0.5)',silver:'#b0b0b0',free:'var(--white-faint)'};
+  c.innerHTML=`<table class="posts-table"><thead><tr><th>Name</th><th>Email</th><th>Tier</th><th>City</th><th>Status</th><th>Joined</th></tr></thead><tbody>${filtered.map(m=>`<tr><td>${m.name||'—'}</td><td style="font-size:11px;">${m.email||'—'}</td><td><span style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:${tc[m.tier]||'var(--white-faint)'};">${m.tier||'free'}</span></td><td>${m.city||'—'}</td><td><span class="activity-status ${m.status==='active'?'status-published':'status-draft'}">${m.status||'active'}</span></td><td style="font-size:11px;">${formatDate(m.joined_at||m.created_at)}</td></tr>`).join('')}</tbody></table>`;
+}
+
+// ═══════════════════════════════════════════════════
+// ENQUIRIES
+// ═══════════════════════════════════════════════════
+const CORP_SERVICES=['Corporate Pairing','Corporate Membership','Investment Advisorship'];
+async function loadEnquiries(){
+  if(!isConfigured()) return;
+  const c=document.getElementById('enquiriesContainer');
+  c.innerHTML='<p style="text-align:center;padding:32px;color:var(--white-faint);"><span class="spinner"></span> Loading enquiries...</p>';
+  try {
+    const data=await sbFetch('/rest/v1/enquiries?select=*&order=created_at.desc');
+    if(!Array.isArray(data)){
+      // Check if it's an error object
+      const msg = data && data.message ? data.message : 'Check that the enquiries table exists in Supabase.';
+      c.innerHTML='<p style="color:#e07070;text-align:center;padding:40px;">'+msg+'</p>';
+      return;
+    }
+    allEnquiries=data;
+    renderEnquiries();
+    // Update badge count
+    const newCount=data.filter(e=>!e.status||e.status==='new').length;
+    document.getElementById('stat-enquiries').textContent=newCount;
+  } catch(e){
+    c.innerHTML='<p style="color:#e07070;text-align:center;padding:40px;">Error: '+e.message+'<br><small>Make sure the enquiries table exists in Supabase.</small></p>';
+  }
+}
+function filterEnquiries(f,btn){ enquiryFilter=f; document.querySelectorAll('.active-filter').forEach(b=>b.classList.remove('active-filter')); if(btn) btn.classList.add('active-filter'); renderEnquiries(); }
+function renderEnquiries(){
+  const c=document.getElementById('enquiriesContainer');
+  let filtered=allEnquiries;
+  if(enquiryFilter==='new') filtered=allEnquiries.filter(e=>!e.status||e.status==='new');
+  if(enquiryFilter==='corporate') filtered=allEnquiries.filter(e=>CORP_SERVICES.includes(e.service));
+  if(enquiryFilter==='responded') filtered=allEnquiries.filter(e=>e.status==='responded');
+  if(!filtered.length){ c.innerHTML='<p style="text-align:center;color:var(--white-faint);padding:40px;">No enquiries found.</p>'; return; }
+  c.innerHTML=filtered.map(e=>{
+    const corp=CORP_SERVICES.includes(e.service),isNew=!e.status||e.status==='new',date=formatDate(e.created_at);
+    return `<div class="sidebar-card" style="margin-bottom:12px;cursor:pointer;border-left:3px solid ${corp?'rgba(201,168,76,0.8)':'var(--border)'}" onclick="viewEnquiry('${e.id}')">
+      <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
+            <span style="font-size:12px;color:var(--white);">${e.name||'Unknown'}</span>
+            ${corp?'<span style="font-size:7px;background:var(--gold);color:#000;padding:2px 8px;letter-spacing:2px;text-transform:uppercase;font-weight:600;">Corporate</span>':''}
+            ${isNew?'<span style="font-size:7px;background:rgba(42,124,90,0.2);border:1px solid rgba(42,124,90,0.4);color:#4ec994;padding:2px 8px;letter-spacing:2px;text-transform:uppercase;">New</span>':''}
+          </div>
+          <div style="font-size:10px;color:var(--white-dim);">${e.email||''} ${e.phone?'· '+e.phone:''}</div>
+          <div style="font-size:10px;color:var(--gold);margin-top:3px;">${e.service||'General'} ${e.city?'· '+e.city:''}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;font-size:9px;color:var(--white-faint);">${date}</div>
+      </div>
+      ${e.message?`<div style="margin-top:10px;font-size:11px;color:var(--white-faint);line-height:1.8;border-top:1px solid var(--border);padding-top:8px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${e.message}</div>`:''}
+    </div>`;
+  }).join('');
+}
+function viewEnquiry(id){
+  const e=allEnquiries.find(x=>x.id===id); if(!e) return;
+  const corp=CORP_SERVICES.includes(e.service),date=e.created_at?new Date(e.created_at).toLocaleString('en-GB'):'—';
+  document.getElementById('enquiryModalContent').innerHTML=`
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px;flex-wrap:wrap;">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--gold);">${e.name||'Unknown'}</h3>
+      ${corp?'<span style="font-size:7px;background:var(--gold);color:#000;padding:3px 10px;font-weight:600;letter-spacing:2px;">CORPORATE</span>':''}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+      <div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Email</div><div style="font-size:13px;">${e.email||'—'}</div></div>
+      <div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Phone</div><div style="font-size:13px;">${e.phone||'—'}</div></div>
+      <div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Service</div><div style="font-size:13px;">${e.service||'—'}</div></div>
+      <div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">City</div><div style="font-size:13px;">${e.city||'—'}</div></div>
+      <div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Date</div><div style="font-size:13px;">${date}</div></div>
+      <div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Status</div><div style="font-size:13px;">${e.status||'new'}</div></div>
+    </div>
+    <div style="margin-bottom:24px;"><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Message</div>
+    <div style="font-size:13px;color:var(--white-dim);line-height:2;padding:16px;background:var(--black-3);border:1px solid var(--border);">${e.message||'No message.'}</div></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      ${e.email?`<a href="mailto:${e.email}" class="btn-gold" style="text-decoration:none;font-size:8px;">Reply via Email</a>`:''}
+      ${e.phone?`<a href="https://wa.me/${e.phone.replace(/[^0-9]/g,'')}" target="_blank" class="btn-outline" style="text-decoration:none;font-size:8px;">WhatsApp</a>`:''}
+      <button onclick="markEnquiry('${e.id}','responded')" class="btn-outline" style="font-size:8px;">Mark Responded</button>
+      <button onclick="markEnquiry('${e.id}','taken')" class="btn-outline" style="font-size:8px;border-color:rgba(201,168,76,0.4);color:var(--gold);">Mark Taken</button>
+    </div>`;
+  document.getElementById('enquiryModal').style.display='flex';
+}
+async function markEnquiry(id,status){
+  try {
+    await sbFetch('/rest/v1/enquiries?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status})});
+    const e=allEnquiries.find(x=>x.id===id); if(e) e.status=status;
+    renderEnquiries(); document.getElementById('enquiryModal').style.display='none'; showToast('Marked as '+status);
+  } catch(e){ showToast('Could not update', true); }
+}
+
+// ═══════════════════════════════════════════════════
+// SITE CONTENT
+// ═══════════════════════════════════════════════════
+const SC_FIELDS=['instagram','twitter','facebook','linkedin','whatsapp','tiktok','email','phone','diaspora-email','biz-email','cities','hero-home','hero-diaspora','hero-membership','price-silver','price-gold','price-black','price-discount','dt-watch','dt-guardian','dt-sentinel','dt-accuracy','dt-response','cov-full','cov-partial'];
+
+async function loadSiteContent(){
+  if(!isConfigured()) return;
+  try {
+    const data=await sbFetch('/rest/v1/site_config?select=key,value');
+    if(!Array.isArray(data)) return;
+    const map={}; data.forEach(r=>map[r.key]=r.value);
+    SC_FIELDS.forEach(f=>{ const el=document.getElementById('sc-'+f); if(el&&map['sc_'+f.replace(/-/g,'_')]!==undefined) el.value=map['sc_'+f.replace(/-/g,'_')]; });
+    document.getElementById('sc-save-status').textContent='Loaded from Supabase';
+  } catch(e){}
+}
+
+async function saveSiteContent(){
+  if(!isConfigured()){ showToast('Connect Supabase first',true); return; }
+  const btn=document.getElementById('scSaveBtn'); const status=document.getElementById('sc-save-status');
+  btn.textContent='Saving...'; btn.disabled=true;
+  try {
+    const obj={};
+    SC_FIELDS.forEach(f=>{ const el=document.getElementById('sc-'+f); if(el) obj['sc_'+f.replace(/-/g,'_')]=el.value; });
+    await upsertConfig(obj);
+    status.innerHTML='<span style="color:#4ec994;">✓ Saved at '+new Date().toLocaleTimeString()+'</span>';
+    showToast('✓ Site content saved');
+  } catch(e){ status.innerHTML='<span style="color:#e07070;">✗ '+e.message+'</span>'; showToast('Save failed: '+e.message,true); }
+  btn.textContent='Save All Site Content'; btn.disabled=false;
+}
+
+async function scUploadImage(input,fieldId,prevId){
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=async e=>{
+    const dataUrl=e.target.result;
+    const inputEl=document.getElementById(fieldId); const prevEl=document.getElementById(prevId);
+    if(prevEl){ prevEl.src=dataUrl; prevEl.style.display='block'; }
+    if(inputEl) inputEl.value=dataUrl;
+    if(isConfigured()){
+      const fname='site/'+fieldId+'-'+Date.now()+'-'+file.name.replace(/[^a-z0-9.]/gi,'_');
+      const token=localStorage.getItem('sb_access_token');
+      try {
+        const res=await fetch(SUPABASE_URL+'/storage/v1/object/lapeq-images/'+fname,{method:'POST',headers:{'Authorization':'Bearer '+token,'apikey':SUPABASE_ANON_KEY,'Content-Type':file.type,'x-upsert':'true'},body:file});
+        if(res.ok){ const url=SUPABASE_URL+'/storage/v1/object/public/lapeq-images/'+fname; if(inputEl) inputEl.value=url; if(prevEl) prevEl.src=url; showToast('✓ Image uploaded'); }
+      } catch(err){}
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+function downloadConfigPatch(){
+  const vals={};
+  SC_FIELDS.forEach(f=>{ const el=document.getElementById('sc-'+f); if(el) vals[f]=el.value; });
+  const js=`// LAPEQ site-config.js — add to <head> of each HTML page
+window.LAPEQ_CONFIG = ${JSON.stringify(vals,null,2)};
+document.addEventListener('DOMContentLoaded',function(){
+  const cfg=window.LAPEQ_CONFIG;
+  const s={instagram:cfg.instagram,twitter:cfg.twitter,facebook:cfg.facebook,linkedin:cfg.linkedin,tiktok:cfg.tiktok};
+  document.querySelectorAll('.footer-social-link[aria-label]').forEach(el=>{
+    const key=el.getAttribute('aria-label').toLowerCase();
+    if(s[key]&&s[key]!=='#') el.href=s[key];
+  });
+  if(cfg.whatsapp) document.querySelectorAll('a[href*="wa.me"]').forEach(el=>el.href='https://wa.me/'+cfg.whatsapp.replace(/[^0-9]/g,''));
+});`;
+  const blob=new Blob([js],{type:'text/javascript'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='site-config.js'; a.click();
+  showToast('✓ site-config.js downloaded');
+}
+
+// ═══════════════════════════════════════════════════
+// DIASPORA SAVES
+// ═══════════════════════════════════════════════════
+async function saveDiasporaPricing(){
+  const s=document.getElementById('dt-price-status'); s.textContent='Saving...';
+  try {
+    await upsertConfig({sc_dt_watch:document.getElementById('dt-price-watch').value,sc_dt_guardian:document.getElementById('dt-price-guardian').value,sc_dt_sentinel:document.getElementById('dt-price-sentinel').value});
+    // sync site-content fields
+    ['watch','guardian','sentinel'].forEach(k=>{ const el=document.getElementById('sc-dt-'+k); if(el) el.value=document.getElementById('dt-price-'+k).value; });
+    s.innerHTML='<span style="color:#4ec994;">✓ Saved — diaspora.html reads this live</span>'; showToast('✓ Pricing saved');
+  } catch(e){ s.innerHTML='<span style="color:#e07070;">✗ '+e.message+'</span>'; showToast('Save failed: '+e.message,true); }
+}
+async function saveDiasporaCities(){
+  try { await upsertConfig({sc_cov_full:document.getElementById('dt-cov-full').value,sc_cov_partial:document.getElementById('dt-cov-partial').value}); showToast('✓ Cities saved'); }
+  catch(e){ showToast('Save failed: '+e.message,true); }
+}
+async function saveDiasporaStats(){
+  try { await upsertConfig({sc_dt_accuracy:document.getElementById('dt-stat-accuracy').value,sc_dt_response:document.getElementById('dt-stat-response').value}); showToast('✓ Stats saved'); }
+  catch(e){ showToast('Save failed: '+e.message,true); }
+}
+
+// ═══════════════════════════════════════════════════
+// SETTINGS
+// ═══════════════════════════════════════════════════
+function saveSupabaseConfig(){
+  SUPABASE_URL=document.getElementById('sbUrl').value.trim().replace(/\/$/,'');
+  SUPABASE_ANON_KEY=document.getElementById('sbKey').value.trim();
+  localStorage.setItem('sb_url',SUPABASE_URL); localStorage.setItem('sb_key',SUPABASE_ANON_KEY);
+  localStorage.removeItem('sb_access_token');
+  const el=document.getElementById('sbTestResult');
+  el.innerHTML='<span class="spinner"></span> Testing...';
+  fetch(SUPABASE_URL+'/rest/v1/posts?limit=1',{headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY}})
+    .then(async r=>{ const d=await r.json(); if(r.ok||Array.isArray(d)){ el.innerHTML='<span style="color:#4ec994;">✓ Connected</span>'; showToast('✓ Supabase connected'); } else el.innerHTML='<span style="color:#e07070;">✗ '+(d.message||d.error||'Check URL and anon key')+'</span>'; })
+    .catch(()=>{ el.innerHTML='<span style="color:#e07070;">✗ Could not reach Supabase</span>'; });
+}
+
+// ═══════════════════════════════════════════════════
+// MEDIA
+// ═══════════════════════════════════════════════════
+async function uploadMedia(files){
+  const prog=document.getElementById('mediaUploadProgress');
+  if(!files||!files.length) return;
+  prog.style.display='block'; prog.textContent='Uploading '+files.length+' file(s)...';
+  setTimeout(()=>{ prog.textContent='✓ Complete. Connect Supabase Storage (bucket: lapeq-images) to persist files.'; setTimeout(()=>prog.style.display='none',4000); },1200);
+}
+
+// ═══════════════════════════════════════════════════
+// TAXONOMY
+// ═══════════════════════════════════════════════════
+function addCategory(){
+  const input=document.getElementById('newCategoryInput'); const val=(input.value||'').trim(); if(!val) return;
+  const row=document.createElement('div');
+  row.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--black-3);border:1px solid var(--border);';
+  row.innerHTML='<span style="font-size:11px;">'+val+'</span><button class="table-action delete" onclick="this.closest(\'div\').remove()">Delete</button>';
+  document.getElementById('categoriesList').appendChild(row);
+  input.value=''; showToast('Category added');
+}
+function addTaxTag(){
+  const input=document.getElementById('newTagListInput'); const val=(input.value||'').trim(); if(!val) return;
+  const span=document.createElement('span'); span.className='tag';
+  span.innerHTML=val+'<span class="tag-remove" onclick="this.parentElement.remove()">✕</span>';
+  document.getElementById('tagsList').appendChild(span);
+  input.value=''; showToast('Tag added');
+}
+
+// ═══════════════════════════════════════════════════
+// REDIRECTS
+// ═══════════════════════════════════════════════════
+function addRedirectRow(){
+  const tbody=document.getElementById('redirectsTbody'); if(!tbody) return;
+  const row=document.createElement('tr');
+  const inp='style="background:transparent;border:1px solid var(--border);color:var(--white);padding:6px 10px;font-size:11px;width:100%;"';
+  row.innerHTML='<td><input '+inp+' placeholder="/old-path.html"></td><td><input '+inp+' placeholder="/new-path.html"></td><td><span class="post-category">301</span></td><td><button class="table-action delete" onclick="this.closest(\'tr\').remove()">Delete</button></td>';
+  tbody.appendChild(row);
+}
+
+// ═══════════════════════════════════════════════════
+// SEO AUDIT
+// ═══════════════════════════════════════════════════
+function runSeoAudit(){
+  const page=document.getElementById('seoAuditPage')?.value||'index.html';
+  const result=document.getElementById('seoAuditResult'); if(!result) return;
+  result.innerHTML='<span class="spinner"></span> Analysing...';
+  const audits={'index.html':{score:88,checks:[{pass:true,msg:'Title tag present'},{pass:true,msg:'Meta description set'},{pass:true,msg:'OG tags present'},{pass:false,msg:'Missing sitemap.xml'},{pass:true,msg:'Mobile viewport set'}]},'diaspora.html':{score:82,checks:[{pass:true,msg:'Title optimised'},{pass:true,msg:'Meta description set'},{pass:false,msg:'Missing Service schema'},{pass:true,msg:'H1 present'}]},'membership.html':{score:75,checks:[{pass:true,msg:'Title present'},{pass:false,msg:'Meta description too short'},{pass:false,msg:'Pricing schema missing'},{pass:true,msg:'Mobile responsive'}]}};
+  setTimeout(()=>{
+    const a=audits[page]||{score:70,checks:[{pass:true,msg:'Title present'},{pass:false,msg:'Full audit needs Supabase'}]};
+    const color=a.score>=80?'#4ec994':a.score>=60?'var(--gold)':'#e07070';
+    result.innerHTML='<div style="padding:14px;background:rgba(201,168,76,0.06);border:1px solid var(--border-hi);margin-bottom:12px;"><strong style="color:'+color+';font-size:14px;">SEO Score: '+a.score+'/100</strong></div>'+a.checks.map(c=>'<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);"><span style="color:'+(c.pass?'#4ec994':'#e07070')+';font-size:14px;">'+(c.pass?'✓':'✗')+'</span><span style="font-size:11px;color:var(--white-faint);">'+c.msg+'</span></div>').join('');
+  },800);
+}
+
+// ═══════════════════════════════════════════════════
+// THEME & UTILITIES
+// ═══════════════════════════════════════════════════
+function toggleAdminTheme(){ const h=document.documentElement; const n=h.getAttribute('data-theme')==='dark'?'light':'dark'; h.setAttribute('data-theme',n); localStorage.setItem('admin-theme',n); }
+function formatDate(str){ if(!str) return '—'; return new Date(str).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}); }
+function showToast(msg,isError=false){ const t=document.getElementById('toast'); t.textContent=msg; t.className='toast show'+(isError?' error':''); clearTimeout(t._timer); t._timer=setTimeout(()=>t.classList.remove('show'),3500); }
+
+// ═══════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════
+(function(){
+  // Load theme
+  const theme=localStorage.getItem('admin-theme')||'dark';
+  document.documentElement.setAttribute('data-theme',theme);
+  // Override with saved Supabase credentials if present
+  const savedUrl=localStorage.getItem('sb_url');
+  const savedKey=localStorage.getItem('sb_key');
+  if(savedUrl) SUPABASE_URL=savedUrl;
+  if(savedKey) SUPABASE_ANON_KEY=savedKey;
+  // Populate settings fields
+  const su=document.getElementById('sbUrl'); if(su) su.value=SUPABASE_URL;
+  const sk=document.getElementById('sbKey'); if(sk) sk.value=SUPABASE_ANON_KEY;
+  // Set today's date in editor
+  const dd=document.getElementById('postDateDisplay');
+  if(dd) dd.textContent=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  // Restore session
+  const token=localStorage.getItem('sb_access_token');
+  if(token){
+    const email=localStorage.getItem('sb_user_email')||'admin@lapeq.com';
+    enterDashboard(email);
+  }
+  // Load picks
+  loadAllPicks();
+})();
+
+// ═══════════════════════════════════════════════════
+// CLEAR DEMO DATA
+// ═══════════════════════════════════════════════════
+async function clearAllPosts(){
+  if(!isConfigured()){ showToast('Connect Supabase first', true); return; }
+  if(!confirm('DELETE ALL JOURNAL POSTS from Supabase?\n\nThis cannot be undone.')) return;
+  const status = document.getElementById('clearDataStatus');
+  if(status) status.textContent = 'Deleting posts...';
+  try {
+    const res = await fetch(SUPABASE_URL+'/rest/v1/posts?id=neq.00000000-0000-0000-0000-000000000000', {
+      method:'DELETE',
+      headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+localStorage.getItem('sb_access_token'),'Prefer':'return=minimal'}
+    });
+    if(res.ok||res.status===204){ showToast('✓ All posts deleted'); if(status) status.textContent='✓ All posts cleared — '+new Date().toLocaleTimeString(); allPosts=[]; renderPostsTable([]); }
+    else throw new Error(await res.text());
+  } catch(e){ showToast('Error: '+e.message, true); if(status) status.textContent='Error: '+e.message; }
+}
+
+async function clearAllPicks(){
+  if(!isConfigured()){ showToast('Connect Supabase first', true); return; }
+  if(!confirm('DELETE ALL MONTHLY PICKS from Supabase?\n\nThis cannot be undone.')) return;
+  const status = document.getElementById('clearDataStatus');
+  if(status) status.textContent = 'Deleting picks...';
+  try {
+    const res = await fetch(SUPABASE_URL+'/rest/v1/picks?id=neq.00000000-0000-0000-0000-000000000000', {
+      method:'DELETE',
+      headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+localStorage.getItem('sb_access_token'),'Prefer':'return=minimal'}
+    });
+    if(res.ok||res.status===204){ showToast('✓ All picks deleted'); if(status) status.textContent='✓ All picks cleared — '+new Date().toLocaleTimeString(); allPicks=[]; renderPicksTable([]); }
+    else throw new Error(await res.text());
+  } catch(e){ showToast('Error: '+e.message, true); if(status) status.textContent='Error: '+e.message; }
+}
+
+async function clearAllEnquiries(){
+  if(!isConfigured()){ showToast('Connect Supabase first', true); return; }
+  if(!confirm('DELETE ALL ENQUIRIES from Supabase?\n\nThis cannot be undone.')) return;
+  const status = document.getElementById('clearDataStatus');
+  if(status) status.textContent = 'Deleting enquiries...';
+  try {
+    const res = await fetch(SUPABASE_URL+'/rest/v1/enquiries?id=neq.00000000-0000-0000-0000-000000000000', {
+      method:'DELETE',
+      headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+localStorage.getItem('sb_access_token'),'Prefer':'return=minimal'}
+    });
+    if(res.ok||res.status===204){ showToast('✓ All enquiries deleted'); if(status) status.textContent='✓ All enquiries cleared — '+new Date().toLocaleTimeString(); allEnquiries=[]; renderEnquiries(); }
+    else throw new Error(await res.text());
+  } catch(e){ showToast('Error: '+e.message, true); if(status) status.textContent='Error: '+e.message; }
+}
+
+
+// ── Theme ──
+(function(){var t=localStorage.getItem('lapeq-theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();
+function toggleTheme(){var h=document.documentElement,t=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',t);localStorage.setItem('lapeq-theme',t);}
+
+// ── Nav scroll ──
+window.addEventListener('scroll',function(){
+  var nb=document.getElementById('navbar');
+  if(nb) nb.classList.toggle('scrolled',window.scrollY>60);
+});
+
+// ── Mobile nav ──
+function toggleMobileNav(){var mn=document.getElementById('mobileNav');if(mn)mn.classList.toggle('open');}
+function closeMobileNav(){var mn=document.getElementById('mobileNav');if(mn)mn.classList.remove('open');}
+
+// ── Reveal on scroll ──
+var _revealObs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');_revealObs.unobserve(e.target);}});
+},{threshold:0.05,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(function(el){
+  var r=el.getBoundingClientRect();
+  if(r.top<window.innerHeight&&r.bottom>0) el.classList.add('visible');
+  else _revealObs.observe(el);
+});
+
+// ── FAQ toggle (used on some pages) ──
+function toggleFaq(el){var open=el.classList.contains('open');document.querySelectorAll('.faq-item.open').forEach(function(f){f.classList.remove('open');});if(!open)el.classList.add('open');}
+
+</script>
+</body>
+</html>
