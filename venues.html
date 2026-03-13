@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curated Venues — LAPEQ | Premium Dining, Lounges & Wellness in Nigeria</title>
+<meta name="description" content="LAPEQ's hand-selected collection of Nigeria's finest restaurants, lounges, cafés and wellness sanctuaries. Victoria Island, Ikoyi, Abuja, Akwa-Ibom.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ======================================================
+   LAPEQ — Venues Page Stylesheet
+   ====================================================== */
+
+[data-theme="dark"] {
+  --bg:#080808; --bg-2:#111111; --bg-3:#181510; --bg-4:#0e0c08;
+  --surface:#141210; --border:rgba(201,168,76,0.14);
+  --border-hi:rgba(201,168,76,0.30);
+  --text:#F4F1EA; --text-sub:rgba(244,241,234,0.80);
+  --text-dim:rgba(244,241,234,0.50);
+  --gold:#C9A84C; --gold-lt:#E8C97A; --gold-dk:#A07830;
+  --gold-glow:rgba(201,168,76,0.18);
+  --overlay:rgba(8,8,8,0.90); --overlay-r:rgba(8,8,8,0.55);
+}
+[data-theme="light"] {
+  --bg:#F5F1E8; --bg-2:#EDE9DF; --bg-3:#E6E1D5; --bg-4:#F0EBE0;
+  --surface:#EAE5D8; --border:rgba(139,100,20,0.18);
+  --border-hi:rgba(139,100,20,0.40);
+  --text:#100D08; --text-sub:rgba(16,13,8,0.78);
+  --text-dim:rgba(16,13,8,0.52);
+  --gold:#8A6418; --gold-lt:#B8891E; --gold-dk:#6A4C10;
+  --gold-glow:rgba(139,100,20,0.10);
+  --overlay:rgba(240,235,224,0.93); --overlay-r:rgba(240,235,224,0.55);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;font-weight:300;overflow-x:hidden;transition:background 0.4s,color 0.4s;}
+::-webkit-scrollbar{width:2px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--gold);}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+
+.section-tag{font-size:8px;letter-spacing:7px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:16px;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,54px);font-weight:300;line-height:1.1;color:var(--text);}
+.section-title em{font-style:italic;color:var(--gold);}
+.gold-divider{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--border-hi) 20%,var(--border-hi) 80%,transparent);}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.8s ease,transform 0.8s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* THEME TOGGLE */
+.theme-toggle{position:fixed;bottom:28px;left:28px;z-index:9000;width:48px;height:48px;background:var(--bg-2);border:1px solid var(--border-hi);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 20px rgba(0,0,0,0.3);}
+.theme-toggle:hover{border-color:var(--gold);background:var(--gold-glow);}
+.theme-toggle svg{width:18px;height:18px;fill:var(--gold);}
+.theme-toggle .icon-light{display:none;}
+[data-theme="light"] .theme-toggle .icon-dark{display:none;}
+[data-theme="light"] .theme-toggle .icon-light{display:block;}
+
+/* FLOAT BOOK */
+.float-book{display:none;position:fixed;bottom:28px;right:24px;z-index:8000;background:var(--gold);color:#080808;font-size:8px;letter-spacing:3px;text-transform:uppercase;font-weight:600;padding:14px 22px;box-shadow:0 8px 32px rgba(201,168,76,0.35);transition:all 0.3s;cursor:pointer;border:none;}
+.float-book:hover{background:var(--gold-lt);transform:translateY(-2px);}
+@media(max-width:960px){.float-book{display:block;}}
+
+/* TRUST BAR */
+.trust-bar{position:fixed;top:0;left:0;right:0;z-index:300;background:var(--gold);padding:9px 64px;display:flex;align-items:center;justify-content:space-between;font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:#080808;font-weight:600;transition:transform 0.4s;}
+.trust-bar.hidden{transform:translateY(-100%);}
+.trust-items{display:flex;align-items:center;gap:28px;}
+.trust-item{display:flex;align-items:center;gap:8px;white-space:nowrap;}
+.trust-item::before{content:'';width:3px;height:3px;background:rgba(0,0,0,0.35);border-radius:50%;}
+.trust-bar-right{display:flex;align-items:center;gap:16px;}
+.trust-bar-phone{font-size:10px;letter-spacing:1px;color:#080808;font-weight:700;}
+.trust-bar-wa{padding:4px 14px;border:1px solid rgba(0,0,0,0.25);font-size:7px;letter-spacing:2px;color:#080808;transition:background 0.2s;}
+.trust-bar-wa:hover{background:rgba(0,0,0,0.08);}
+
+/* NAV */
+nav{position:fixed;top:32px;left:0;right:0;z-index:200;padding:0 64px;height:72px;display:flex;align-items:center;justify-content:space-between;background:transparent;transition:background 0.4s,top 0.4s,box-shadow 0.4s;}
+nav.scrolled{background:var(--overlay);top:0;box-shadow:0 1px 0 var(--border);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;letter-spacing:10px;color:var(--text);transition:color 0.3s;}
+.nav-logo:hover{color:var(--gold);}
+.nav-links{display:flex;gap:0;list-style:none;align-items:center;}
+.nav-links>li>a{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-sub);padding:8px 18px;transition:color 0.3s;position:relative;}
+.nav-links>li>a:hover{color:var(--gold);}
+.nav-links>li>a.active{color:var(--gold);}
+.nav-links>li>a::after{content:'';position:absolute;bottom:2px;left:18px;right:18px;height:1px;background:var(--gold);transform:scaleX(0);transition:transform 0.3s;}
+.nav-links>li>a:hover::after,.nav-links>li>a.active::after{transform:scaleX(1);}
+.nav-cta{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);border:1px solid var(--border-hi);padding:11px 24px;transition:all 0.3s;white-space:nowrap;}
+.nav-cta:hover{background:var(--gold);color:#080808;}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.hamburger span{display:block;width:24px;height:1px;background:var(--text);}
+
+/* MOBILE NAV */
+.mobile-nav{position:fixed;inset:0;z-index:190;background:var(--overlay);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;opacity:0;pointer-events:none;transition:opacity 0.4s;}
+.mobile-nav.open{opacity:1;pointer-events:all;}
+.mobile-nav a{font-size:14px;letter-spacing:5px;text-transform:uppercase;color:var(--text);transition:color 0.3s;}
+.mobile-nav a:hover{color:var(--gold);}
+.mobile-nav-close{position:absolute;top:24px;right:24px;background:none;border:none;color:var(--text);font-size:24px;cursor:pointer;}
+
+/* ── PAGE HERO ── */
+.page-hero{
+  position:relative;height:70vh;min-height:500px;
+  display:flex;align-items:flex-end;
+  padding:0 64px 80px;
+  overflow:hidden;
+  margin-top:0;
+}
+.page-hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=80') center/cover no-repeat;
+  filter:brightness(0.28) saturate(0.7);
+  transform:scale(1.05);
+  transition:transform 8s ease;
+}
+.page-hero-bg.loaded{transform:scale(1);}
+.page-hero-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to top, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0.4) 50%, transparent 100%);
+}
+.page-hero-content{position:relative;z-index:2;max-width:760px;}
+.page-hero-eyebrow{
+  font-size:8px;letter-spacing:8px;text-transform:uppercase;
+  color:var(--gold);display:block;margin-bottom:20px;opacity:0;
+  animation:heroFadeUp 0.8s ease 0.5s forwards;
+}
+.page-hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(42px,6vw,80px);font-weight:300;line-height:1.0;
+  color:var(--text);margin-bottom:24px;opacity:0;
+  animation:heroFadeUp 0.8s ease 0.7s forwards;
+}
+.page-hero-title em{font-style:italic;color:var(--gold);}
+.page-hero-desc{
+  font-size:13px;line-height:1.8;color:var(--text-sub);
+  max-width:560px;opacity:0;
+  animation:heroFadeUp 0.8s ease 0.9s forwards;
+}
+
+@keyframes heroFadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+
+/* ── FILTER BAR ── */
+.filter-section{
+  position:sticky;top:72px;z-index:100;
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+  padding:0 64px;
+  transition:top 0.4s;
+}
+.filter-inner{
+  display:flex;align-items:center;gap:0;
+  overflow-x:auto;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+.filter-inner::-webkit-scrollbar{display:none;}
+.filter-btn{
+  font-size:8px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--text-dim);
+  padding:20px 24px;
+  border:none;background:none;cursor:pointer;
+  position:relative;white-space:nowrap;
+  transition:color 0.3s;
+}
+.filter-btn::after{
+  content:'';position:absolute;bottom:0;left:24px;right:24px;
+  height:1px;background:var(--gold);
+  transform:scaleX(0);transition:transform 0.3s;
+}
+.filter-btn:hover{color:var(--text);}
+.filter-btn.active{color:var(--gold);}
+.filter-btn.active::after{transform:scaleX(1);}
+.filter-count{
+  font-size:7px;color:var(--gold);
+  background:var(--gold-glow);border:1px solid var(--border);
+  padding:2px 6px;margin-left:6px;
+  vertical-align:middle;
+}
+
+/* SEARCH */
+.filter-search{
+  margin-left:auto;display:flex;align-items:center;gap:10px;
+  padding:12px 0;
+  border-left:1px solid var(--border);
+  padding-left:24px;
+  flex-shrink:0;
+}
+.filter-search input{
+  background:none;border:none;outline:none;
+  font-family:'Montserrat',sans-serif;font-size:10px;
+  color:var(--text);width:140px;
+  transition:width 0.3s;
+}
+.filter-search input::placeholder{color:var(--text-dim);letter-spacing:1px;}
+.filter-search input:focus{width:200px;}
+.filter-search svg{width:14px;height:14px;stroke:var(--gold);fill:none;}
+
+/* ── CITY STRIP ── */
+.city-strip{
+  display:flex;gap:0;
+  padding:0 64px;
+  border-bottom:1px solid var(--border);
+  overflow-x:auto;scrollbar-width:none;
+}
+.city-strip::-webkit-scrollbar{display:none;}
+.city-btn{
+  font-size:7px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--text-dim);padding:12px 20px;
+  border:none;background:none;cursor:pointer;
+  position:relative;white-space:nowrap;transition:color 0.3s;
+}
+.city-btn.active,.city-btn:hover{color:var(--gold);}
+
+/* ── VENUES GRID ── */
+.venues-section{padding:72px 64px;}
+.venues-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+}
+.venue-card{
+  position:relative;overflow:hidden;cursor:pointer;
+  background:var(--surface);
+  transition:transform 0.4s;
+}
+.venue-card:hover{transform:scale(1.01);}
+.venue-card.featured{grid-column:span 2;grid-row:span 2;}
+
+.venue-img{
+  width:100%;aspect-ratio:4/3;object-fit:cover;
+  transition:transform 0.6s ease,filter 0.4s;
+  filter:saturate(0.85);
+}
+.venue-card.featured .venue-img{aspect-ratio:unset;height:100%;}
+.venue-card:hover .venue-img{transform:scale(1.06);filter:saturate(1);}
+
+.venue-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top, rgba(8,8,8,0.96) 0%, rgba(8,8,8,0.5) 45%, transparent 75%);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:28px;
+  transition:background 0.4s;
+}
+.venue-card:hover .venue-overlay{background:linear-gradient(to top, rgba(8,8,8,0.98) 0%, rgba(8,8,8,0.65) 50%, transparent 80%);}
+
+.venue-type{
+  font-size:7px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:6px;
+}
+.venue-type::before{content:'';width:20px;height:1px;background:var(--gold);}
+.venue-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(20px,2.5vw,30px);font-weight:300;
+  color:var(--text);margin-bottom:6px;line-height:1.1;
+}
+.venue-card.featured .venue-name{font-size:clamp(28px,3.5vw,42px);}
+.venue-location{font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:14px;}
+.venue-desc{
+  font-size:11px;line-height:1.7;color:var(--text-sub);
+  max-height:0;overflow:hidden;
+  transition:max-height 0.4s ease,opacity 0.4s ease;
+  opacity:0;
+}
+.venue-card:hover .venue-desc{max-height:80px;opacity:1;}
+
+.venue-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.venue-tag{
+  font-size:7px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--text-dim);border:1px solid var(--border);
+  padding:3px 8px;transition:all 0.3s;
+}
+.venue-card:hover .venue-tag{border-color:var(--border-hi);color:var(--text-sub);}
+
+.venue-actions{
+  display:flex;align-items:center;gap:12px;margin-top:16px;
+  opacity:0;transform:translateY(8px);
+  transition:opacity 0.3s,transform 0.3s;
+}
+.venue-card:hover .venue-actions{opacity:1;transform:none;}
+.venue-btn{
+  font-size:7px;letter-spacing:3px;text-transform:uppercase;
+  background:var(--gold);color:#080808;
+  padding:9px 20px;border:none;cursor:pointer;
+  transition:background 0.3s;
+}
+.venue-btn:hover{background:var(--gold-lt);}
+.venue-btn-ghost{
+  font-size:7px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--text-sub);border:1px solid var(--border-hi);
+  padding:9px 20px;cursor:pointer;background:none;
+  transition:all 0.3s;
+}
+.venue-btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+
+/* LAPEQ PICK badge */
+.lapeq-pick{
+  position:absolute;top:20px;left:20px;z-index:2;
+  background:var(--gold);color:#080808;
+  font-size:6px;letter-spacing:3px;text-transform:uppercase;font-weight:600;
+  padding:5px 10px;
+  box-shadow:0 4px 16px rgba(201,168,76,0.4);
+}
+
+/* MEMBERS ONLY badge */
+.members-badge{
+  position:absolute;top:20px;right:20px;z-index:2;
+  background:rgba(8,8,8,0.85);color:var(--gold);
+  font-size:6px;letter-spacing:3px;text-transform:uppercase;font-weight:600;
+  padding:5px 10px;border:1px solid var(--border-hi);
+}
+
+/* ── EMPTY STATE ── */
+.no-results{
+  grid-column:1/-1;text-align:center;
+  padding:80px 40px;color:var(--text-dim);
+}
+.no-results h3{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;margin-bottom:12px;}
+.no-results p{font-size:11px;line-height:1.7;}
+
+/* ── FEATURED STRIP (Members) ── */
+.members-strip{
+  background:var(--bg-3);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:80px 64px;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+}
+.members-strip-text .section-tag{margin-bottom:12px;}
+.members-strip-text .section-title{margin-bottom:20px;}
+.members-strip-text p{font-size:13px;line-height:1.8;color:var(--text-sub);margin-bottom:32px;}
+.members-strip-text a{
+  font-size:8px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);border:1px solid var(--border-hi);
+  padding:14px 32px;display:inline-block;transition:all 0.3s;
+}
+.members-strip-text a:hover{background:var(--gold);color:#080808;}
+.members-strip-perks{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.perk{padding:24px;border:1px solid var(--border);background:var(--surface);transition:border-color 0.3s;}
+.perk:hover{border-color:var(--border-hi);}
+.perk-icon{font-size:20px;margin-bottom:12px;}
+.perk h4{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;margin-bottom:8px;}
+.perk p{font-size:10px;line-height:1.7;color:var(--text-dim);}
+
+/* ── SUGGEST SECTION ── */
+.suggest-section{
+  padding:80px 64px;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+  border-bottom:1px solid var(--border);
+}
+.suggest-form{display:flex;flex-direction:column;gap:16px;}
+.suggest-form input,.suggest-form textarea,.suggest-form select{
+  width:100%;background:var(--surface);border:1px solid var(--border);
+  color:var(--text);font-family:'Montserrat',sans-serif;font-size:11px;
+  padding:16px 18px;outline:none;transition:border-color 0.3s;
+  -webkit-appearance:none;
+}
+.suggest-form input::placeholder,.suggest-form textarea::placeholder{color:var(--text-dim);letter-spacing:1px;}
+.suggest-form input:focus,.suggest-form textarea:focus,.suggest-form select:focus{border-color:var(--gold);}
+.suggest-form textarea{height:120px;resize:vertical;}
+.suggest-form select option{background:var(--bg-2);}
+.suggest-form button{
+  background:var(--gold);color:#080808;border:none;cursor:pointer;
+  font-size:8px;letter-spacing:4px;text-transform:uppercase;font-weight:600;
+  padding:16px 32px;transition:all 0.3s;align-self:flex-start;
+}
+.suggest-form button:hover{background:var(--gold-lt);transform:translateY(-1px);}
+.suggest-text .section-tag{margin-bottom:12px;}
+.suggest-text .section-title{margin-bottom:20px;}
+.suggest-text p{font-size:13px;line-height:1.8;color:var(--text-sub);}
+
+/* ── FOOTER ── */
+footer{
+  display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1fr;
+  gap:40px;padding:72px 64px 40px;
+  border-top:1px solid var(--border);
+  background:var(--bg);
+}
+.footer-brand{grid-column:1/2;}
+.footer-brand p{font-size:11px;line-height:1.8;color:var(--text-dim);margin-top:14px;max-width:280px;}
+.footer-social{display:flex;gap:10px;margin-top:20px;}
+.footer-social-link{width:34px;height:34px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-dim);transition:all 0.3s;}
+.footer-social-link:hover{border-color:var(--gold);color:var(--gold);}
+.footer-col h5{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:0.7;margin-bottom:18px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.footer-col ul li a{font-size:11px;color:var(--text-dim);transition:color 0.3s;}
+.footer-col ul li a:hover{color:var(--gold);}
+.footer-legal{grid-column:1/-1;display:flex;gap:20px;padding-top:18px;border-top:1px solid var(--border);flex-wrap:wrap;}
+.footer-legal a{font-size:10px;color:var(--text-dim);transition:color 0.3s;}
+.footer-legal a:hover{color:var(--gold);}
+.footer-bottom{grid-column:1/-1;border-top:1px solid var(--border);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.footer-bottom span{font-size:10px;color:var(--text-dim);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+  .venues-grid{grid-template-columns:repeat(2,1fr);}
+  .venue-card.featured{grid-column:span 1;grid-row:span 1;}
+  .venue-card.featured .venue-img{aspect-ratio:4/3;height:auto;}
+  .members-strip,.suggest-section{grid-template-columns:1fr;}
+  footer{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:768px){
+  .trust-bar{padding:8px 20px;}
+  .trust-items{gap:14px;}
+  nav{padding:0 24px;}
+  .nav-links,.nav-cta{display:none;}
+  .hamburger{display:flex;}
+  .page-hero{padding:0 24px 60px;height:60vh;}
+  .filter-section,.city-strip{padding:0 20px;}
+  .filter-btn{padding:16px 14px;font-size:7.5px;}
+  .venues-section{padding:48px 20px;}
+  .venues-grid{grid-template-columns:1fr;gap:2px;}
+  .members-strip,.suggest-section{padding:56px 24px;gap:40px;}
+  .members-strip-perks{grid-template-columns:1fr 1fr;}
+  footer{grid-template-columns:1fr;padding:48px 24px 24px;}
+}
+@media(max-width:480px){
+  .page-hero-title{font-size:36px;}
+  .members-strip-perks{grid-template-columns:1fr;}
+  .filter-search{display:none;}
+}
+
+/* ══════════════════════════════════════════
+   MOBILE-FIRST ENHANCEMENTS
+   ══════════════════════════════════════════ */
+img{max-width:100%;height:auto;}
+@media(max-width:768px){
+  nav{padding:14px 20px !important;}
+  .nav-logo{font-size:18px !important;letter-spacing:4px !important;}
+  .nav-links,.nav-cta{display:none !important;}
+  .hamburger{display:flex !important;}
+  .page-hero{padding:120px 20px 60px !important;}
+  .journal-hero{padding:110px 20px 56px !important;}
+  .contact-hero{padding:110px 20px 48px !important;}
+  .picks-hero{padding:110px 20px 64px !important;}
+  .mem-hero{padding:110px 20px 64px !important;}
+  .content{padding:40px 20px !important;max-width:100% !important;}
+  .biz-grid,.enterprise-grid,.tiers-grid,.perks-grid,.articles-grid{grid-template-columns:1fr !important;}
+  .pairing-layout,.biz-testi-grid,.biz-form-grid,.svc-ladies-inner,.svc-block{grid-template-columns:1fr !important;direction:ltr !important;}
+  .city-tabs,.filter-bar,.filter-inner,.city-strip{overflow-x:auto;flex-wrap:nowrap !important;scrollbar-width:none;padding-left:16px;padding-right:16px;}
+  .city-tabs::-webkit-scrollbar,.filter-bar::-webkit-scrollbar,.city-strip::-webkit-scrollbar{display:none;}
+  .city-tab,.filter-btn{flex-shrink:0;white-space:nowrap;}
+  .venues-grid.three,.venues-grid.two,.venues-grid.featured{grid-template-columns:1fr !important;}
+  .venue-photo{height:220px !important;}
+  .featured-article{grid-template-columns:1fr !important;}
+  .featured-img-wrap{min-height:260px !important;}
+  .featured-body{padding:32px 24px !important;}
+  .process-steps{grid-template-columns:1fr 1fr !important;gap:28px !important;}
+  .process-steps::before{display:none !important;}
+  .float-book{bottom:20px;right:16px;padding:12px 18px;}
+  .theme-toggle{bottom:16px;left:16px;width:40px !important;height:40px !important;}
+  footer{padding:40px 20px 28px !important;flex-direction:column !important;gap:24px !important;}
+  .footer-main{flex-direction:column !important;}
+  .footer-links{flex-direction:column !important;gap:16px !important;}
+  .footer-copy{flex-direction:column !important;gap:8px !important;}
+  .trust-bar{padding:8px 16px !important;font-size:7px !important;}
+  .form-row,.biz-form-grid{grid-template-columns:1fr !important;}
+  .section-title{font-size:clamp(26px,8vw,44px) !important;}
+  .page-hero h1,.contact-hero h1{font-size:clamp(34px,10vw,56px) !important;}
+  .journal-hero h1{font-size:clamp(44px,12vw,72px) !important;}
+  .picks-hero h1{font-size:clamp(36px,10vw,60px) !important;}
+  .page-hero-btns,.mem-hero-ctas,.biz-cta-btns,.join-cta-row,.cta-btns{flex-direction:column !important;align-items:stretch !important;gap:10px !important;}
+  .btn-gold,.btn-outline,.btn-primary,.btn-gold-solid,.btn-outline-gold{width:100% !important;text-align:center !important;justify-content:center !important;}
+  .wellness-grid{grid-template-columns:1fr 1fr !important;}
+  .svc-mem-grid{grid-template-columns:1fr 1fr !important;}
+  [class*="-inner"]{padding-left:20px;padding-right:20px;}
+  .hiw-grid{grid-template-columns:1fr 1fr !important;}
+  .join-tiers{grid-template-columns:1fr 1fr !important;}
+  .biz-services,.pairing-section,.enterprise-section,.process-section,.biz-testi,.biz-cta,.biz-contact,.compare-section,.tiers-section,.perks-section,.mem-faq-section,.mem-cta-strip,.featured-wrap,.articles-wrap,.quote-strip,.journal-newsletter,.city-section{padding-left:20px !important;padding-right:20px !important;}
+  .tier-nav{padding:0 16px !important;overflow-x:auto;}
+  .compare-inner{overflow-x:auto;}
+  .compare-table{min-width:460px;}
+}
+@media(max-width:480px){
+  .process-steps,.wellness-grid,.svc-mem-grid,.events-grid{grid-template-columns:1fr !important;}
+  .hiw-grid{grid-template-columns:1fr !important;}
+  .join-tiers{grid-template-columns:1fr !important;}
+  .tiers-grid{grid-template-columns:1fr !important;}
+  .tier-card{padding:36px 20px !important;}
+  .nav-cta{display:none !important;}
+  .hero-stats,.mem-hero-stats{grid-template-columns:1fr 1fr !important;}
+  .content{padding:32px 16px !important;}
+  .page-hero,.journal-hero,.contact-hero,.picks-hero,.mem-hero{padding-left:16px !important;padding-right:16px !important;}
+}
+</style>
+</head>
+<body>
+
+<!-- TRUST BAR -->
+<div class="trust-bar" id="trustBar">
+  <div class="trust-items">
+    <span class="trust-item">LAPEQ — Curated Venues</span>
+    <span class="trust-item">Hand-selected by our team</span>
+    <span class="trust-item">Abuja &bull; Lagos &bull; Akwa-Ibom</span>
+  </div>
+  <div class="trust-bar-right">
+    <a href="https://wa.me/2348122543635" class="trust-bar-wa">WhatsApp Concierge</a>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">LAPEQ</a>
+  <ul class="nav-links">
+    <li><a href="services.html">Services</a></li>
+    <li><a href="picks.html">Monthly Picks</a></li>
+    <li><a href="diaspora.html">Diaspora</a></li>
+    <li><a href="venues.html" class="active">Venues</a></li>
+    <li><a href="business.html">Business</a></li>
+    <li><a href="membership.html">Membership</a></li>
+    <li><a href="journal.html">Journal</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="contact.html" class="nav-cta">Book Concierge</a>
+  <button class="hamburger" onclick="toggleMobileNav()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-close" onclick="toggleMobileNav()">✕</button>
+  <a href="index.html" onclick="toggleMobileNav()">Home</a>
+  <a href="services.html" onclick="toggleMobileNav()">Services</a>
+  <a href="picks.html" onclick="toggleMobileNav()">Monthly Picks</a>
+  <a href="venues.html" onclick="toggleMobileNav()">Venues</a>
+  <a href="business.html" onclick="toggleMobileNav()">Business</a>
+  <a href="membership.html" onclick="toggleMobileNav()">Membership</a>
+  <a href="journal.html" onclick="toggleMobileNav()">Journal</a>
+  <a href="contact.html" onclick="toggleMobileNav()">Contact</a>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero" style="margin-top:32px;">
+  <div class="page-hero-bg" id="heroBg"></div>
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <span class="page-hero-eyebrow">LAPEQ Curated Collection</span>
+    <h1 class="page-hero-title">Where <em>Exceptional</em><br>People Gather</h1>
+    <p class="page-hero-desc">Every venue in our collection has been personally vetted by the LAPEQ team. We assess ambience, service calibre, culinary or wellness quality, and the discreet luxury that our members expect.</p>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-section" id="filterSection">
+  <div class="filter-inner">
+    <button class="filter-btn active" data-filter="all" onclick="filterVenues('all',this)">
+      All <span class="filter-count" id="count-all">18</span>
+    </button>
+    <button class="filter-btn" data-filter="restaurant" onclick="filterVenues('restaurant',this)">
+      Restaurants <span class="filter-count" id="count-restaurant">6</span>
+    </button>
+    <button class="filter-btn" data-filter="lounge" onclick="filterVenues('lounge',this)">
+      Lounges &amp; Bars <span class="filter-count" id="count-lounge">5</span>
+    </button>
+    <button class="filter-btn" data-filter="cafe" onclick="filterVenues('cafe',this)">
+      Cafés <span class="filter-count" id="count-cafe">3</span>
+    </button>
+    <button class="filter-btn" data-filter="wellness" onclick="filterVenues('wellness',this)">
+      Spas &amp; Wellness <span class="filter-count" id="count-wellness">4</span>
+    </button>
+    <div class="filter-search">
+      <svg viewBox="0 0 24 24" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search venues..." id="searchInput" oninput="searchVenues(this.value)">
+    </div>
+  </div>
+</div>
+
+<!-- CITY STRIP -->
+<div class="city-strip">
+  <button class="city-btn active" data-city="all" onclick="filterCity('all',this)">All Cities</button>
+  <button class="city-btn" data-city="abuja" onclick="filterCity('abuja',this)">Abuja</button>
+  <button class="city-btn" data-city="lagos" onclick="filterCity('lagos',this)">Lagos</button>
+  <button class="city-btn" data-city="akwa-ibom" onclick="filterCity('akwa-ibom',this)">Akwa-Ibom</button>
+</div>
+
+<!-- VENUES GRID -->
+<section class="venues-section">
+  <div class="venues-grid" id="venuesGrid">
+
+    <!-- FEATURED: Shiro -->
+    <div class="venue-card featured reveal" data-category="restaurant" data-city="lagos" data-name="shiro restaurant">
+      <span class="lapeq-pick">LAPEQ Pick</span>
+      <img class="venue-img" src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=900&q=80" alt="Shiro Restaurant Lagos" loading="lazy">
+      <div class="venue-overlay">
+        <span class="venue-type">Fine Dining</span>
+        <h2 class="venue-name">Shiro</h2>
+        <p class="venue-location">Victoria Island, Lagos</p>
+        <p class="venue-desc">Pan-Asian cuisine in Lagos's most celebrated waterfront setting. Known for its theatrical presentation, extraordinary sushi, and the kind of atmosphere that commands presence. A perennial on every serious Lagos dining shortlist.</p>
+        <div class="venue-tags">
+          <span class="venue-tag">Pan-Asian</span>
+          <span class="venue-tag">Waterfront</span>
+          <span class="venue-tag">Private Dining</span>
+        </div>
+        <div class="venue-actions">
+          <button class="venue-btn" onclick="bookVenue('Shiro')">Reserve Via LAPEQ</button>
+          <button class="venue-btn-ghost">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leamington Spa -->
+    <div class="venue-card reveal" data-category="wellness" data-city="abuja" data-name="leamington spa">
+      <span class="members-badge">Members Priority</span>
+      <img class="venue-img" src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=700&q=80" alt="Leamington Spa Abuja" loading="lazy">
+      <div class="venue-overlay">
+        <span class="venue-type">Spa &amp; Wellness</span>
+        <h2 class="venue-name">Leamington Spa</h2>
+        <p class="venue-location">Maitama, Abuja</p>
+        <p class="venue-desc">Abuja's most prestigious wellness destination. Signature treatments combining traditional African healing and modern therapies.</p>
+        <div class="venue-tags"><span class="venue-tag">Massage</span><span class="venue-tag">Facials</span></div>
+        <div class="venue-actions">
+          <button class="venue-btn" onclick="bookVenue('Leamington Spa')">Reserve Via LAPEQ</button>
+          <button class="venue-btn-ghost">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Zinc Lounge -->
+    <div class="venue-card reveal" data-category="lounge" data-city="abuja" data-name="zinc lounge">
+      <img class="venue-img" src="https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=700&q=80" alt="Zinc Lounge Abuja" loading="lazy">
+      <div class="venue-overlay">
+        <span class="venue-type">Lounge &amp; Bar</span>
+        <h2 class="venue-name">Zinc Lounge</h2>
+        <p class="venue-location">Wuse II, Abuja</p>
+        <p class="venue-desc">Abuja's signature see-and-be-seen lounge. A refined atmosphere, curated cocktail menu, and the city's most distinguished crowd.</p>
+        <div class="venue-tags"><span class="venue-tag">Cocktails</span><span class="venue-tag">Live Music</span></div>
+        <div class="venue-actions">
+          <button class="venue-btn" onclick="bookVenue('Zinc Lounge')">Reserve Via LAPEQ</button>
+          <button class="venue-btn-ghost">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nok by Alara -->
+    <div class="venue-card reveal" data-category="restaurant" data-city="lagos" data-name="nok by alara">
+      <span class="lapeq-pick">LAPEQ Pick</span>
+      <img class="venue-img" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=700&q=80" alt="Nok by Alara Lagos" loading="lazy">
+      <div class="venue-overlay">
+        <span class="venue-type">Fine Dining</span>
+        <h2 class="venue-name">Nok by Alara</h2>
+        <p class="venue-location">Ikoyi, Lagos</p>
+        <p class="venue-desc">A landmark of Nigerian gastronomy, reimagining West African cuisine within a stunning heritage space. Bold flavours, flawless service.</p>
+        <div class="venue-tags"><span class="venue-tag">African Cuisine</span><span class="venue-tag">Cocktail Bar</span></div>
+        <div class="venue-actions">
+          <button class="venue-btn" onclick="bookVenue('Nok by Alara')">Reserve Via LAPEQ</button>
+          <button class="venue-btn-ghost">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cactus Restaurant -->
+    <div class="venue-card reveal" data-category="restaurant" data-city="abuja" data-name="cactus restaurant">
+      <img class="venue-img" src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?w=700&q=80" alt="Cactus Restaurant Abuja" loading="lazy">
+      <div class="venue-overlay">
+        <span class="venue-type">Restaurant</span>
+        <h2 class="venue-name">Cactus Restaurant</h2>
+        <p class="venue-location">Victoria Island, Lagos</p>
+        <p class="venue-desc">A Lagos institution. International cuisine, impeccable outdoor dining overlooking the lagoon. Timeless elegance since 1986.</p>
+        <div class="venue-tags"><span class="venue-tag">International</span><span class="venue-tag">Waterfront</span></div>
+        <div class="venue-actions">
+          <button class="venue-btn" onclick="bookVenue('Cactus')">Reserve Via LAPEQ</button>
+          <button class="venue-btn-ghost">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orchid Café -->
+    <div class="venue-card reveal" data-category="cafe" data-city="abuja" data-name="orchid cafe">
+      <img class="venue-img" src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=700&q=80" alt="Orchid Café Abuja" loading="lazy">
+      <div class="venue-overlay">
+        <span class="venue-type">Café</span>
+        <h2 class="venue-name">Orchid Café</h2>
+        <p class="venue-location">Garki, Abuja</p>
+        <p class="venue-desc">An airy, sophisticated café known for its single-origin pour-overs, artisan pastries, and a tranquil garden terrace. The ideal setting for productive mornings or intimate meetings.</p>
+        <div class="venue-tags"><span class="venue-tag">Specialty Coffee</span><span class="venue-tag">Brunch</span></div>
+        <div class="venue-actions">
+          <button class="venue-btn" onclick="bookVenue('Orchid Café')">Reserve Via LAPEQ</button>
+          <button class="venue-btn-ghost">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sky Restaurant -->
+    <div class="venue-card reveal" data-category="restaurant" data-city="abuja" data-name="sky restaurant abuja">
+      <span class="members-badge">Members Priority</span>
+      <img class="venue-img" src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=700&q=80" alt="Sky Restaurant Abuja" loading="lazy">
+      <div class="venue-overlay">
+        <span class="venue-type">Rooftop Dining</span>
+        <h2 class="venue-name">Sky Restaurant</h2>
+        <p class="venue-location">Central Business District, Abuja</p>
+        <p class="venue-desc">Abuja's premier rooftop dining experience, offering panoramic city views, continental cuisine, and unparalleled sunset cocktails.</p>
+        <div class="venue-tags"><span class="venue-tag">Rooftop</span><span class="venue-tag">Continental</span></div>
+        <div class="venue-actions">
+          <button class="venue-btn" onclick="bookVenue('Sky Restaurant')">Reserve Via LAPEQ</button>
+          <button class="venue-btn-ghost">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transcorp Hilton Pool Bar -->
+    <div class="venue-card reveal" data-category="lounge" data-city="abuja" data-name="transcorp hilton pool bar">
+      <img class="venue-img" src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=700&q=80" alt="Pool Bar Abuja" loading="lazy">
+      <div class="venue-overlay">
+        <span class="venue-type">Pool Bar</span>
+        <h2 class="venue-name">The Pool Bar</h2>
+        <p class="venue-location">Transcorp Hilton, Abuja</p>
+        <p class="venue-desc">Where Abuja's power circles decompress. Refreshing cocktails, al fresco dining, and the gentle ambience of five-star hotel life.</p>
+        <div class="venue-tags"><span class="venue-tag">Poolside</span><span class="venue-tag">Cocktails</span></div>
+        <div class="venue-actions">
+          <button class="venue-btn" onclick="bookVenue('The Pool Bar')">Reserve Via LAPEQ</button>
+          <button class="venue-btn-ghost">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- The Gentleman's Quarter -->
+    <div class="venue-card reveal" data-category="lounge" data-city="lagos" data-name="gentlemans quarter lagos">
+      <span class="lapeq-pick">LAPEQ Pick</span>
+      <img class="venue-img" src="https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?w=700&q=80" alt="The Gentleman's Quarter Lagos" loading="lazy">
+      <div class="venue-overlay">
+        <span class="venue-type">Members' Lounge</span>
+        <h2 class="venue-name">The Gentleman's Quarter</h2>
+        <p class="venue-location">Lekki Phase 1, Lagos</p>
+        <p class="venue-desc">An intimate members' lounge channelling classic gentlemen's club energy. Fine whiskeys, leather seating, hushed conversations, extraordinary cigars.</p>
+        <div class="venue-tags"><span class="venue-tag">Whisky Bar</span><span class="venue-tag">Cigars</span><span class="venue-tag">Members</span></div>
+        <div class="venue-actions">
+          <button class="venue-btn" onclick="bookVenue('The Gentleman\'s Quarter')">Reserve Via LAPEQ</button>
+          <button class="venue-btn-ghost">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Naija Botanical Spa -->
+    <div class="venue-card reveal" data-category="wellness" data-city="akwa-ibom" data-name="botanical spa akwa ibom">
+      <span class="members-badge">Members Priority</span>
+      <img class="venue-img" src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=700&q=80" alt="Botanical Spa Akwa-Ibom" loading="lazy">
+      <div class="venue-overlay">
+        <span class="venue-type">Spa &amp; Wellness</span>
+        <h2 class="venue-name">The Botanical Spa</h2>
+        <p class="venue-location">Uyo, Akwa-Ibom</p>
+        <p class="venue-desc">A sanctuary of botanical therapies rooted in Ibibio healing traditions. Secluded garden cabanas, indigenous plant-based treatments, and deep restorative silence.</p>
+        <div class="venue-tags"><span class="venue-tag">Botanical</span><span class="venue-tag">Retreat</span><span class="venue-tag">Holistic</span></div>
+        <div class="venue-actions">
+          <button class="venue-btn" onclick="bookVenue('The Botanical Spa')">Reserve Via LAPEQ</button>
+          <button class="venue-btn-ghost">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RSVP Lagos -->
+    <div class="venue-card reveal" data-category="lounge" data-city="lagos" data-name="rsvp lagos">
+      <img class="venue-img" src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=700&q=80" alt="RSVP Lagos" loading="lazy">
+      <div class="venue-overlay">
+        <span class="venue-type">Cocktail Bar</span>
+        <h2 class="venue-name">RSVP</h2>
+        <p class="venue-location">Victoria Island, Lagos</p>
+        <p class="venue-desc">Lagos's most sophisticated cocktail programme. The head mixologist draws from Nigerian botanical ingredients to create genuinely unique, award-worthy drinks.</p>
+        <div class="venue-tags"><span class="venue-tag">Craft Cocktails</span><span class="venue-tag">Private Events</span></div>
+        <div class="venue-actions">
+          <button class="venue-btn" onclick="bookVenue('RSVP')">Reserve Via LAPEQ</button>
+          <button class="venue-btn-ghost">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alto Café -->
+    <div class="venue-card reveal" data-category="cafe" data-city="lagos" data-name="alto cafe lagos">
+      <img class="venue-img" src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=700&q=80" alt="Alto Café Lagos" loading="lazy">
+      <div class="venue-overlay">
+        <span class="venue-type">Café</span>
+        <h2 class="venue-name">Alto Café</h2>
+        <p class="venue-location">Ikoyi, Lagos</p>
+        <p class="venue-desc">A refined café experience in the heart of Ikoyi. Japanese-inspired interiors, precision-brewed coffee, and an edited menu of breakfast and light plates.</p>
+        <div class="venue-tags"><span class="venue-tag">Specialty Coffee</span><span class="venue-tag">Japanese</span></div>
+        <div class="venue-actions">
+          <button class="venue-btn" onclick="bookVenue('Alto Café')">Reserve Via LAPEQ</button>
+          <button class="venue-btn-ghost">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Eko Hotel Spa -->
+    <div class="venue-card reveal" data-category="wellness" data-city="lagos" data-name="eko hotel spa lagos">
+      <img class="venue-img" src="https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=700&q=80" alt="Eko Hotel Spa Lagos" loading="lazy">
+      <div class="venue-overlay">
+        <span class="venue-type">Hotel Spa</span>
+        <h2 class="venue-name">Eko Hotel Spa</h2>
+        <p class="venue-location">Victoria Island, Lagos</p>
+        <p class="venue-desc">Lagos's most complete wellness offering. State-of-the-art facilities, skilled therapists, and an iconic poolside to complete your restoration.</p>
+        <div class="venue-tags"><span class="venue-tag">Full Service</span><span class="venue-tag">Pool</span></div>
+        <div class="venue-actions">
+          <button class="venue-btn" onclick="bookVenue('Eko Hotel Spa')">Reserve Via LAPEQ</button>
+          <button class="venue-btn-ghost">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calabar Chops -->
+    <div class="venue-card reveal" data-category="restaurant" data-city="akwa-ibom" data-name="calabar chops akwa ibom">
+      <img class="venue-img" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=700&q=80" alt="Restaurant Akwa-Ibom" loading="lazy">
+      <div class="venue-overlay">
+        <span class="venue-type">Restaurant</span>
+        <h2 class="venue-name">Calabar Chops</h2>
+        <p class="venue-location">Uyo, Akwa-Ibom</p>
+        <p class="venue-desc">Celebrating the rich culinary heritage of the Niger Delta. Expertly prepared local delicacies in an elevated dining room that honours tradition without sacrificing refinement.</p>
+        <div class="venue-tags"><span class="venue-tag">Niger Delta</span><span class="venue-tag">Seafood</span></div>
+        <div class="venue-actions">
+          <button class="venue-btn" onclick="bookVenue('Calabar Chops')">Reserve Via LAPEQ</button>
+          <button class="venue-btn-ghost">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- The Pearl Wellness -->
+    <div class="venue-card reveal" data-category="wellness" data-city="akwa-ibom" data-name="pearl wellness uyo">
+      <span class="lapeq-pick">LAPEQ Pick</span>
+      <img class="venue-img" src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=700&q=80" alt="Pearl Wellness Uyo" loading="lazy">
+      <div class="venue-overlay">
+        <span class="venue-type">Spa &amp; Wellness</span>
+        <h2 class="venue-name">The Pearl Wellness</h2>
+        <p class="venue-location">Uyo, Akwa-Ibom</p>
+        <p class="venue-desc">Akwa-Ibom's finest wellness retreat. Floating pools, bespoke body rituals, and a meditative garden that makes time truly stand still.</p>
+        <div class="venue-tags"><span class="venue-tag">Float Therapy</span><span class="venue-tag">Retreat</span></div>
+        <div class="venue-actions">
+          <button class="venue-btn" onclick="bookVenue('The Pearl Wellness')">Reserve Via LAPEQ</button>
+          <button class="venue-btn-ghost">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Domino Café -->
+    <div class="venue-card reveal" data-category="cafe" data-city="abuja" data-name="domino cafe abuja">
+      <img class="venue-img" src="https://images.unsplash.com/photo-1493857671505-72967e2e2760?w=700&q=80" alt="Domino Café Abuja" loading="lazy">
+      <div class="venue-overlay">
+        <span class="venue-type">Café</span>
+        <h2 class="venue-name">Domino Café</h2>
+        <p class="venue-location">Wuse, Abuja</p>
+        <p class="venue-desc">Abuja's most beloved café institution. Honest food, serious coffee, and an unhurried warmth that keeps regulars returning daily.</p>
+        <div class="venue-tags"><span class="venue-tag">Brunch</span><span class="venue-tag">Classic</span></div>
+        <div class="venue-actions">
+          <button class="venue-btn" onclick="bookVenue('Domino Café')">Reserve Via LAPEQ</button>
+          <button class="venue-btn-ghost">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lagos Kitchen -->
+    <div class="venue-card reveal" data-category="restaurant" data-city="lagos" data-name="lagos kitchen lekki">
+      <img class="venue-img" src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=700&q=80" alt="Lagos Kitchen" loading="lazy">
+      <div class="venue-overlay">
+        <span class="venue-type">Restaurant</span>
+        <h2 class="venue-name">The Lagos Kitchen</h2>
+        <p class="venue-location">Lekki, Lagos</p>
+        <p class="venue-desc">An exuberant celebration of Lagos on a plate. An ever-changing tasting menu that captures the city's cosmopolitan energy with Nigerian soul.</p>
+        <div class="venue-tags"><span class="venue-tag">Tasting Menu</span><span class="venue-tag">Modern Nigerian</span></div>
+        <div class="venue-actions">
+          <button class="venue-btn" onclick="bookVenue('The Lagos Kitchen')">Reserve Via LAPEQ</button>
+          <button class="venue-btn-ghost">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chairman's Bar -->
+    <div class="venue-card reveal" data-category="lounge" data-city="abuja" data-name="chairmans bar abuja">
+      <span class="members-badge">Members Priority</span>
+      <img class="venue-img" src="https://images.unsplash.com/photo-1578911373434-0cb395d2cbfb?w=700&q=80" alt="Chairman's Bar Abuja" loading="lazy">
+      <div class="venue-overlay">
+        <span class="venue-type">Bar &amp; Lounge</span>
+        <h2 class="venue-name">The Chairman's Bar</h2>
+        <p class="venue-location">Asokoro, Abuja</p>
+        <p class="venue-desc">The quiet room where Abuja's decisions are made. An invitation-only ambience, extraordinary cognac selection, and service that anticipates your needs before you express them.</p>
+        <div class="venue-tags"><span class="venue-tag">Cognac</span><span class="venue-tag">Private</span><span class="venue-tag">Exclusive</span></div>
+        <div class="venue-actions">
+          <button class="venue-btn" onclick="bookVenue('The Chairman\'s Bar')">Reserve Via LAPEQ</button>
+          <button class="venue-btn-ghost">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- No results -->
+    <div class="no-results" id="noResults" style="display:none;">
+      <h3>No venues found</h3>
+      <p>Try adjusting your filters or search, or <a href="contact.html" style="color:var(--gold)">speak to a concierge</a> for a personalised recommendation.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- MEMBERS STRIP -->
+<section class="members-strip">
+  <div class="members-strip-text reveal">
+    <span class="section-tag">Members get more</span>
+    <h2 class="section-title">Priority Access &amp;<br><em>Exclusive Privileges</em></h2>
+    <p>LAPEQ members receive guaranteed reservations at sold-out venues, private dining room access, pre-event staging, complimentary upgrades, and the kind of preferential treatment that money alone cannot buy.</p>
+    <a href="membership.html">Explore Membership</a>
+  </div>
+  <div class="members-strip-perks reveal">
+    <div class="perk">
+      <div class="perk-icon">🥂</div>
+      <h4>Priority Reservations</h4>
+      <p>Access tables at fully-booked restaurants. Our relationships open doors.</p>
+    </div>
+    <div class="perk">
+      <div class="perk-icon">🚪</div>
+      <h4>Private Rooms</h4>
+      <p>Exclusive private dining spaces for business or personal occasions.</p>
+    </div>
+    <div class="perk">
+      <div class="perk-icon">✨</div>
+      <h4>Complimentary Upgrades</h4>
+      <p>Surprise amenities, complimentary courses, and thoughtful touches.</p>
+    </div>
+    <div class="perk">
+      <div class="perk-icon">🤫</div>
+      <h4>Absolute Discretion</h4>
+      <p>Your visits, preferences, and guest details remain strictly confidential.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SUGGEST A VENUE -->
+<section class="suggest-section">
+  <div class="suggest-text reveal">
+    <span class="section-tag">Know a hidden gem?</span>
+    <h2 class="section-title">Suggest a <em>Venue</em></h2>
+    <p>Our collection grows through the intelligence of our community. If you've discovered somewhere extraordinary that belongs in our curated list, tell us about it. Every suggestion is personally reviewed by the LAPEQ team.</p>
+  </div>
+  <form class="suggest-form reveal" onsubmit="handleSuggest(event)">
+    <input type="text" placeholder="Venue name" id="suggestName" required>
+    <select id="suggestType">
+      <option value="" disabled selected>Category</option>
+      <option value="restaurant">Restaurant</option>
+      <option value="lounge">Lounge / Bar</option>
+      <option value="cafe">Café</option>
+      <option value="wellness">Spa &amp; Wellness</option>
+      <option value="other">Other</option>
+    </select>
+    <input type="text" placeholder="City &amp; Area (e.g. Ikoyi, Lagos)" id="suggestCity" required>
+    <textarea placeholder="Tell us what makes this venue special..." id="suggestNotes"></textarea>
+    <input type="text" placeholder="Your name (optional)">
+    <button type="submit">Submit Suggestion</button>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <a href="index.html" class="nav-logo">LAPEQ</a>
+    <p>Premium concierge and lifestyle management. Based in Abuja, Nigeria. Delivering seamless, luxurious experiences across four cities.</p>
+    <div         <!-- ======================================================
+           SOCIAL MEDIA LINKS — Edit URLs below
+           Instagram:  replace href="#" on the first link
+           Twitter/X:  replace href="#" on the second link
+           Facebook:   replace href="#" on the third link
+           LinkedIn:   replace href="#" on the fourth link
+           WhatsApp:   replace the wa.me number below
+           TikTok:     replace href="#" on the last link
+           ====================================================== -->
+        class="footer-social">
+      <a href="#" class="footer-social-link" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+      <a href="#" class="footer-social-link" aria-label="X">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a href="#" class="footer-social-link" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <a href="#" class="footer-social-link" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="footer-col">
+    <h5>Experiences</h5>
+    <ul>
+      <li><a href="venues.html">Curated Venues</a></li>
+      <li><a href="services.html">Hospitality &amp; Travel</a></li>
+      <li><a href="services.html">Private Chef &amp; Dining</a></li>
+      <li><a href="services.html">Wellness Access</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h5>Membership</h5>
+    <ul>
+      <li><a href="membership.html">Free — Join Now</a></li>
+      <li><a href="membership.html">Silver</a></li>
+      <li><a href="membership.html">Gold</a></li>
+      <li><a href="membership.html">Black</a></li>
+      <li><a href="business.html">Corporate</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h5>Company</h5>
+    <ul>
+      <li><a href="index.html#about">About LAPEQ</a></li>
+      <li><a href="index.html#founder">Our Founder</a></li>
+      <li><a href="picks.html">Monthly Picks</a></li>
+    <li><a href="diaspora.html">Diaspora</a></li>
+      <li><a href="journal.html">Journal</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h5>Contact Us</h5>
+    <ul>
+      <li><a href="mailto:hello@lapeq.com">hello@lapeq.com</a></li>
+      <li><a href="https://wa.me/2348122543635">WhatsApp Us</a></li>
+      <li><a href="contact.html">Send an Enquiry</a></li>
+    </ul>
+  </div>
+  <div class="footer-legal">
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+    <a href="privacy-policy.html">NDA Policy</a>
+    <a href="privacy-policy.html">Data Protection</a>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 LAPEQ. All rights reserved.</span>
+    <span>Abuja &middot; Lagos &middot; Akwa-Ibom</span>
+  </div>
+</footer>
+
+<button class="float-book" onclick="location.href='contact.html'">Book Concierge</button>
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+  <svg class="icon-dark" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg class="icon-light" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── THEME ──
+function toggleTheme(){
+  const h=document.documentElement;
+  const t=h.getAttribute('data-theme')==='dark'?'light':'dark';
+  h.setAttribute('data-theme',t);
+  localStorage.setItem('lapeq-theme',t);
+}
+(function(){
+  const t=localStorage.getItem('lapeq-theme')||'dark';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+
+// ── TRUST BAR HIDE ON SCROLL ──
+let lastY=0;
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY;
+  const tb=document.getElementById('trustBar');
+  const nb=document.getElementById('navbar');
+  if(y>80){
+    tb.classList.add('hidden');
+    nb.style.top='0';
+  } else {
+    tb.classList.remove('hidden');
+    nb.style.top='32px';
+  }
+  if(y>100) nb.classList.add('scrolled');
+  else nb.classList.remove('scrolled');
+  lastY=y;
+});
+
+// ── MOBILE NAV ──
+function toggleMobileNav(){
+  document.getElementById('mobileNav').classList.toggle('open');
+}
+
+// ── HERO BG LOAD ──
+window.addEventListener('load',()=>{
+  document.getElementById('heroBg').classList.add('loaded');
+});
+
+// ── REVEAL ON SCROLL ──
+const revealObs=new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('visible'),i*80);
+      revealObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+// ── FILTER STATE ──
+let activeCategory='all';
+let activeCity='all';
+let searchQuery='';
+
+function updateGrid(){
+  const cards=document.querySelectorAll('.venue-card[data-category]');
+  let visible=0;
+  cards.forEach(card=>{
+    const cat=card.dataset.category;
+    const city=card.dataset.city;
+    const name=card.dataset.name||'';
+    const catMatch=activeCategory==='all'||cat===activeCategory;
+    const cityMatch=activeCity==='all'||city===activeCity;
+    const searchMatch=!searchQuery||name.includes(searchQuery.toLowerCase());
+    if(catMatch&&cityMatch&&searchMatch){
+      card.style.display='';
+      visible++;
+    } else {
+      card.style.display='none';
+    }
+  });
+  document.getElementById('noResults').style.display=visible===0?'grid':'none';
+}
+
+function filterVenues(cat,btn){
+  activeCategory=cat;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updateGrid();
+}
+
+function filterCity(city,btn){
+  activeCity=city;
+  document.querySelectorAll('.city-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updateGrid();
+}
+
+function searchVenues(val){
+  searchQuery=val.trim();
+  updateGrid();
+}
+
+// ── BOOK VENUE ──
+function bookVenue(name){
+  const msg=encodeURIComponent(`Hello LAPEQ, I'd like to make a reservation at ${name} via your concierge service.`);
+  window.open(`https://wa.me/2348122543635?text=${msg}`,'_blank');
+}
+
+// ── SUGGEST FORM ──
+function handleSuggest(e){
+  e.preventDefault();
+  const name=document.getElementById('suggestName').value.trim();
+  const city=document.getElementById('suggestCity').value.trim();
+  const notes=document.getElementById('suggestNotes') ? document.getElementById('suggestNotes').value.trim() : '';
+  if(!name||!city){alert('Please fill in the venue name and city.');return;}
+  const btn=document.getElementById('suggestBtn');
+  if(btn){btn.textContent='Thank you!';btn.disabled=true;setTimeout(()=>{btn.textContent='Submit Suggestion';btn.disabled=false;},4000);}
+  const modal=document.getElementById('suggestModal');
+  if(modal)modal.classList.remove('open');
+}
+function openSuggestModal(){const m=document.getElementById('suggestModal');if(m)m.classList.add('open');}
+function closeSuggestModal(){const m=document.getElementById('suggestModal');if(m)m.classList.remove('open');}
+window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60));
+const ro=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+const _SB_URL='https://uqccvwhadllcfscjinnk.supabase.co',_SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVxY2N2d2hhZGxsY2ZzY2ppbm5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2MDQ0MjgsImV4cCI6MjA4ODE4MDQyOH0.PsvQs9cmme_Pqiwg9OklJ6O6V5wOjZK7hNUY9N1Z_oE';
+</script>
+</body>
+</html>

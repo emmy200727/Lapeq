@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact LAPEQ — Book Your Concierge</title>
+<meta name="description" content="Reach out to LAPEQ. Premium concierge services across Abuja, Lagos and Port Harcourt. Gold and Black members receive a response within the hour.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+[data-theme="dark"]{--bg:#080808;--bg-2:#111111;--bg-3:#181510;--bg-4:#0e0c08;--border:rgba(201,168,76,0.14);--border-hi:rgba(201,168,76,0.30);--text:#F4F1EA;--text-sub:rgba(244,241,234,0.80);--text-dim:rgba(244,241,234,0.50);--gold:#C9A84C;--gold-lt:#E8C97A;--gold-dk:#A07830;--gold-glow:rgba(201,168,76,0.18);--overlay:rgba(8,8,8,0.90);}
+[data-theme="light"]{--bg:#F5F1E8;--bg-2:#EDE9DF;--bg-3:#E6E1D5;--bg-4:#F0EBE0;--border:rgba(139,100,20,0.18);--border-hi:rgba(139,100,20,0.40);--text:#100D08;--text-sub:rgba(16,13,8,0.78);--text-dim:rgba(16,13,8,0.52);--gold:#8A6418;--gold-lt:#B8891E;--gold-dk:#6A4C10;--gold-glow:rgba(139,100,20,0.10);--overlay:rgba(240,235,224,0.93);}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;font-weight:300;overflow-x:hidden;transition:background 0.4s,color 0.4s;}
+::-webkit-scrollbar{width:2px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--gold);}
+img{display:block;max-width:100%;}a{text-decoration:none;color:inherit;}
+.section-tag{font-size:8px;letter-spacing:7px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:16px;}
+.gold-divider{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--border-hi) 20%,var(--border-hi) 80%,transparent);}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.8s ease,transform 0.8s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:22px 64px;background:var(--overlay);border-bottom:1px solid var(--border);backdrop-filter:blur(12px);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;letter-spacing:7px;color:var(--gold);}
+.nav-back{display:flex;align-items:center;gap:8px;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--text-sub);transition:color 0.3s;}
+.nav-back:hover{color:var(--gold);}
+.nav-back::before{content:'←';font-size:14px;}
+.nav-cta{padding:10px 26px;border:1px solid var(--border-hi);color:var(--gold);font-size:9px;letter-spacing:3px;text-transform:uppercase;transition:all 0.3s;}
+.nav-cta:hover{background:var(--gold);color:var(--bg);}
+
+/* THEME TOGGLE */
+.theme-toggle{position:fixed;bottom:28px;left:28px;z-index:9000;width:44px;height:44px;background:var(--bg-2);border:1px solid var(--border-hi);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s;}
+.theme-toggle:hover{border-color:var(--gold);}
+.theme-toggle svg{width:16px;height:16px;fill:var(--gold);}
+.theme-toggle .icon-light{display:none;}
+[data-theme="light"] .theme-toggle .icon-dark{display:none;}
+[data-theme="light"] .theme-toggle .icon-light{display:block;}
+
+/* HERO */
+.contact-hero{padding:160px 80px 80px;max-width:1400px;margin:0 auto;}
+.contact-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,7vw,90px);font-weight:300;line-height:1;color:var(--text);margin-bottom:24px;}
+.contact-hero h1 em{font-style:italic;color:var(--gold);}
+.contact-hero p{font-size:14px;line-height:2;color:var(--text-sub);max-width:500px;}
+
+/* MAIN LAYOUT */
+.contact-main{max-width:1400px;margin:0 auto;padding:0 80px;display:grid;grid-template-columns:1fr 1.4fr;gap:3px;background:var(--border);}
+
+/* INFO PANEL */
+.contact-info-panel{background:var(--bg-2);padding:64px 56px;}
+.contact-info-panel h3{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--text);margin-bottom:28px;}
+.ci-item{display:flex;align-items:flex-start;gap:16px;margin-bottom:20px;}
+.ci-icon{width:36px;height:36px;border:1px solid var(--border-hi);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--gold);flex-shrink:0;}
+.ci-item span{font-size:13px;color:var(--text-sub);line-height:1.8;padding-top:6px;}
+.ci-item a{color:var(--gold);}
+.ci-item a:hover{text-decoration:underline;}
+.nda-box{margin-top:36px;padding:24px;background:var(--gold-glow);border:1px solid var(--border-hi);}
+.nda-box-label{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:block;}
+.nda-box p{font-size:12px;color:var(--text-sub);line-height:2;}
+.cities-list{margin-top:36px;}
+.cities-list-label{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--text-dim);margin-bottom:16px;display:block;}
+.cities{display:flex;flex-direction:column;gap:8px;}
+.city-item{font-size:12px;color:var(--text-sub);display:flex;align-items:center;gap:10px;}
+.city-item::before{content:'';width:3px;height:3px;background:var(--gold);border-radius:50%;flex-shrink:0;}
+
+/* FORM PANEL */
+.contact-form-panel{background:var(--bg-3);padding:64px 56px;}
+.contact-form-panel h3{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--text);margin-bottom:32px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.form-field{margin-bottom:16px;}
+.form-field label{display:block;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;}
+.form-field input,.form-field select,.form-field textarea{width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--text);padding:14px 16px;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:300;outline:none;transition:border-color 0.3s;}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--gold);}
+.form-field textarea{min-height:120px;resize:vertical;}
+.form-field select{appearance:none;cursor:pointer;}
+.form-submit{width:100%;margin-top:8px;padding:16px;background:var(--gold);color:#080808;font-size:9px;letter-spacing:3px;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;transition:background 0.3s;}
+.form-submit:hover{background:var(--gold-lt);}
+.form-success{display:none;padding:24px;background:rgba(42,92,63,0.15);border:1px solid rgba(42,92,63,0.4);text-align:center;margin-top:16px;}
+.form-success p{font-size:13px;color:#6fcf97;line-height:1.9;}
+
+/* HOW IT WORKS */
+.hiw-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);}
+.hiw-step{background:var(--bg-3);padding:40px 28px;}
+.hiw-num{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:16px;}
+.hiw-step h4{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--text);margin-bottom:10px;}
+.hiw-step p{font-size:12px;color:var(--text-sub);line-height:2;}
+
+/* JOIN / SIGN UP */
+.join-section{background:var(--bg-4);padding:96px 80px;text-align:center;}
+.join-section h2{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,64px);font-weight:300;color:var(--text);line-height:1.1;margin-bottom:20px;}
+.join-section h2 em{font-style:italic;color:var(--gold);}
+.join-section > p{font-size:13px;color:var(--text-sub);line-height:2;max-width:540px;margin:0 auto 48px;}
+.join-tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);max-width:1000px;margin:0 auto 48px;}
+.join-tier{background:var(--bg-2);padding:32px 24px;text-align:center;}
+.join-tier.featured{background:var(--bg-3);border-top:2px solid var(--gold);}
+.join-tier-name{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px;}
+.join-tier-desc{font-size:11px;color:var(--text-sub);line-height:1.9;margin-bottom:20px;}
+.join-tier-link{display:inline-block;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);padding:9px 18px;border:1px solid var(--border-hi);transition:all 0.3s;}
+.join-tier-link:hover{background:var(--gold);color:var(--bg);}
+.join-cta-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.btn-gold-solid{padding:16px 40px;background:var(--gold);color:#080808;font-size:9px;letter-spacing:3px;text-transform:uppercase;font-weight:600;transition:background 0.3s;}
+.btn-gold-solid:hover{background:var(--gold-lt);}
+.btn-outline-gold{padding:16px 40px;border:1px solid var(--border-hi);color:var(--gold);font-size:9px;letter-spacing:3px;text-transform:uppercase;transition:all 0.3s;}
+.btn-outline-gold:hover{background:var(--gold);color:var(--bg);}
+
+/* FOOTER */
+footer{background:var(--bg-4);border-top:1px solid var(--border);padding:48px 80px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;}
+footer span{font-size:10px;color:var(--text-dim);letter-spacing:1px;}
+footer a{color:var(--gold);font-size:10px;letter-spacing:2px;text-transform:uppercase;}
+
+/* MOBILE */
+/* HOW IT WORKS SECTION */
+.hiw-section{padding:96px 80px;background:var(--bg-2);}
+.hiw-discretion{margin-top:3px;padding:32px 40px;background:var(--bg-4);border:1px solid var(--border);display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+.hiw-disc-links{display:flex;gap:12px;margin-left:auto;flex-wrap:wrap;}
+
+/* MOBILE — tablet */
+@media(max-width:900px){
+  nav{padding:14px 20px;}
+  .contact-hero{padding:110px 24px 48px;}
+  .contact-hero h1{font-size:clamp(38px,10vw,56px);}
+  .contact-hero p{font-size:13px;}
+  .contact-main{padding:0;grid-template-columns:1fr;}
+  .contact-info-panel,.contact-form-panel{padding:40px 24px;}
+  .form-row{grid-template-columns:1fr;gap:0;}
+  .hiw-section{padding:60px 24px;}
+  .hiw-grid{grid-template-columns:1fr 1fr;}
+  .hiw-discretion{padding:24px 20px;flex-direction:column;gap:16px;}
+  .hiw-disc-links{margin-left:0;}
+  .join-tiers{grid-template-columns:1fr 1fr;}
+  .join-section{padding:64px 24px;}
+  footer{padding:32px 24px 20px;flex-direction:column;gap:12px;align-items:flex-start;}
+  .theme-toggle{bottom:16px;left:16px;}
+}
+
+/* MOBILE — phone */
+@media(max-width:480px){
+  nav{padding:12px 16px;}
+  .nav-logo{font-size:18px;letter-spacing:4px;}
+  .nav-back{font-size:8px;}
+  .nav-cta{padding:8px 14px;font-size:8px;}
+  .contact-hero{padding:100px 16px 40px;}
+  .contact-hero h1{font-size:clamp(34px,11vw,48px);}
+  .contact-info-panel,.contact-form-panel{padding:32px 16px;}
+  .form-field input,.form-field select,.form-field textarea{padding:12px 14px;font-size:11px;}
+  .form-submit{padding:14px;font-size:8px;}
+  .hiw-section{padding:48px 16px;}
+  .hiw-grid{grid-template-columns:1fr;}
+  .hiw-step{padding:28px 20px;}
+  .hiw-num{font-size:36px;}
+  .join-section{padding:48px 16px;}
+  .join-tiers{grid-template-columns:1fr;}
+  .join-tier{padding:24px 16px;}
+  .join-cta-row{flex-direction:column;align-items:stretch;}
+  .btn-gold-solid,.btn-outline-gold{padding:14px 24px;text-align:center;width:100%;}
+  footer{padding:28px 16px 20px;}
+  .theme-toggle{width:38px;height:38px;bottom:14px;left:14px;}
+}
+
+/* MOBILE — very small */
+@media(max-width:360px){
+  .contact-hero h1{font-size:32px;}
+  .hiw-num{font-size:30px;}
+  .join-section h2{font-size:30px;}
+}
+.footer-social{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap;}
+.footer-social-link{width:34px;height:34px;border:1px solid rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center;color:rgba(240,237,230,0.4);transition:all 0.3s;text-decoration:none;}
+.footer-social-link:hover{border-color:#C9A84C;color:#C9A84C;}
+.footer-social-link{width:34px;height:34px;border:1px solid rgba(201,168,76,0.2);display:inline-flex;align-items:center;justify-content:center;color:rgba(240,237,230,0.4);transition:all 0.3s;text-decoration:none;}
+.footer-social-link:hover{border-color:#C9A84C;color:#C9A84C;}
+
+/* ══════════════════════════════════════════
+   MOBILE-FIRST ENHANCEMENTS
+   ══════════════════════════════════════════ */
+img{max-width:100%;height:auto;}
+@media(max-width:768px){
+  nav{padding:14px 20px !important;}
+  .nav-logo{font-size:18px !important;letter-spacing:4px !important;}
+  .nav-links,.nav-cta{display:none !important;}
+  .hamburger{display:flex !important;}
+  .page-hero{padding:120px 20px 60px !important;}
+  .journal-hero{padding:110px 20px 56px !important;}
+  .contact-hero{padding:110px 20px 48px !important;}
+  .picks-hero{padding:110px 20px 64px !important;}
+  .mem-hero{padding:110px 20px 64px !important;}
+  .content{padding:40px 20px !important;max-width:100% !important;}
+  .biz-grid,.enterprise-grid,.tiers-grid,.perks-grid,.articles-grid{grid-template-columns:1fr !important;}
+  .pairing-layout,.biz-testi-grid,.biz-form-grid,.svc-ladies-inner,.svc-block{grid-template-columns:1fr !important;direction:ltr !important;}
+  .city-tabs,.filter-bar,.filter-inner,.city-strip{overflow-x:auto;flex-wrap:nowrap !important;scrollbar-width:none;padding-left:16px;padding-right:16px;}
+  .city-tabs::-webkit-scrollbar,.filter-bar::-webkit-scrollbar,.city-strip::-webkit-scrollbar{display:none;}
+  .city-tab,.filter-btn{flex-shrink:0;white-space:nowrap;}
+  .venues-grid.three,.venues-grid.two,.venues-grid.featured{grid-template-columns:1fr !important;}
+  .venue-photo{height:220px !important;}
+  .featured-article{grid-template-columns:1fr !important;}
+  .featured-img-wrap{min-height:260px !important;}
+  .featured-body{padding:32px 24px !important;}
+  .process-steps{grid-template-columns:1fr 1fr !important;gap:28px !important;}
+  .process-steps::before{display:none !important;}
+  .float-book{bottom:20px;right:16px;padding:12px 18px;}
+  .theme-toggle{bottom:16px;left:16px;width:40px !important;height:40px !important;}
+  footer{padding:40px 20px 28px !important;flex-direction:column !important;gap:24px !important;}
+  .footer-main{flex-direction:column !important;}
+  .footer-links{flex-direction:column !important;gap:16px !important;}
+  .footer-copy{flex-direction:column !important;gap:8px !important;}
+  .trust-bar{padding:8px 16px !important;font-size:7px !important;}
+  .form-row,.biz-form-grid{grid-template-columns:1fr !important;}
+  .section-title{font-size:clamp(26px,8vw,44px) !important;}
+  .page-hero h1,.contact-hero h1{font-size:clamp(34px,10vw,56px) !important;}
+  .journal-hero h1{font-size:clamp(44px,12vw,72px) !important;}
+  .picks-hero h1{font-size:clamp(36px,10vw,60px) !important;}
+  .page-hero-btns,.mem-hero-ctas,.biz-cta-btns,.join-cta-row,.cta-btns{flex-direction:column !important;align-items:stretch !important;gap:10px !important;}
+  .btn-gold,.btn-outline,.btn-primary,.btn-gold-solid,.btn-outline-gold{width:100% !important;text-align:center !important;justify-content:center !important;}
+  .wellness-grid{grid-template-columns:1fr 1fr !important;}
+  .svc-mem-grid{grid-template-columns:1fr 1fr !important;}
+  [class*="-inner"]{padding-left:20px;padding-right:20px;}
+  .hiw-grid{grid-template-columns:1fr 1fr !important;}
+  .join-tiers{grid-template-columns:1fr 1fr !important;}
+  .biz-services,.pairing-section,.enterprise-section,.process-section,.biz-testi,.biz-cta,.biz-contact,.compare-section,.tiers-section,.perks-section,.mem-faq-section,.mem-cta-strip,.featured-wrap,.articles-wrap,.quote-strip,.journal-newsletter,.city-section{padding-left:20px !important;padding-right:20px !important;}
+  .tier-nav{padding:0 16px !important;overflow-x:auto;}
+  .compare-inner{overflow-x:auto;}
+  .compare-table{min-width:460px;}
+}
+@media(max-width:480px){
+  .process-steps,.wellness-grid,.svc-mem-grid,.events-grid{grid-template-columns:1fr !important;}
+  .hiw-grid{grid-template-columns:1fr !important;}
+  .join-tiers{grid-template-columns:1fr !important;}
+  .tiers-grid{grid-template-columns:1fr !important;}
+  .tier-card{padding:36px 20px !important;}
+  .nav-cta{display:none !important;}
+  .hero-stats,.mem-hero-stats{grid-template-columns:1fr 1fr !important;}
+  .content{padding:32px 16px !important;}
+  .page-hero,.journal-hero,.contact-hero,.picks-hero,.mem-hero{padding-left:16px !important;padding-right:16px !important;}
+}
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()">
+  <svg class="icon-dark" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+  <svg class="icon-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+</button>
+
+<nav>
+  <a href="index.html" class="nav-back">Back to LAPEQ</a>
+  <a href="index.html" class="nav-logo">LAPEQ</a>
+  <a href="https://wa.me/2348122543635" class="nav-cta">WhatsApp Us</a>
+</nav>
+
+<!-- ===== HERO ===== -->
+<div class="contact-hero reveal">
+  <span class="section-tag">Get in Touch</span>
+  <h1>Begin Your<br><em>Enquiry</em></h1>
+  <p>Reach out via the form, WhatsApp, or call us directly. Gold and Black members receive a response within the hour. All enquiries are handled under complete NDA.</p>
+</div>
+
+<div class="gold-divider"></div>
+
+<!-- ===== CONTACT MAIN: INFO + FORM ===== -->
+<div class="contact-main">
+
+  <div class="contact-info-panel reveal">
+    <h3>Contact Information</h3>
+    <div class="ci-item">
+      <div class="ci-icon">E</div>
+      <span><a href="mailto:hello@lapeq.com">hello@lapeq.com</a></span>
+    </div>
+    <div class="ci-item">
+      <div class="ci-icon">T</div>
+      <span>+234 812 254 3635</span>
+    </div>
+    <div class="ci-item">
+      <div class="ci-icon">W</div>
+      <span><a href="https://wa.me/2348122543635">WhatsApp: +234 812 254 3635</a></span>
+    </div>
+    <div class="ci-item">
+      <div class="ci-icon">H</div>
+      <span>24/7 for Gold &amp; Black Members<br>9am – 10pm for Silver and Free</span>
+    </div>
+    <div class="nda-box">
+      <span class="nda-box-label">Discretion Guarantee</span>
+      <p>All enquiries are handled under NDA. Your data is encrypted, never shared, and never used beyond your direct request.</p>
+    </div>
+    <div class="cities-list">
+      <span class="cities-list-label">We Operate In</span>
+      <div class="cities">
+        <div class="city-item">Abuja — Federal Capital Territory</div>
+        <div class="city-item">Lagos — Victoria Island, Ikoyi, Lekki</div>
+        <div class="city-item">Port Harcourt — GRA, Trans-Amadi</div>
+        <div class="city-item">Diaspora — UK, US, UAE (Remote)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-form-panel reveal">
+    <h3>Send Your Request</h3>
+    <div class="form-row">
+      <div class="form-field"><label>First Name</label><input type="text" id="cf-first" placeholder="Your first name" required></div>
+      <div class="form-field"><label>Last Name</label><input type="text" id="cf-last" placeholder="Your last name"></div>
+    </div>
+    <div class="form-field">
+      <label>Email Address</label>
+      <input type="email" id="cf-email" placeholder="your@email.com" required oninput="validateEmail(this)">
+      <span id="email-err" style="font-size:9px;color:#e07070;display:none;margin-top:4px;">Please enter a valid email address (e.g. name@domain.com)</span>
+    </div>
+    <div class="form-field">
+      <label>Phone / WhatsApp</label>
+      <div style="display:flex;gap:8px;">
+        <select id="cf-phone-code" style="width:130px;flex-shrink:0;background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--text);padding:14px 10px;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:300;outline:none;appearance:none;cursor:pointer;">
+          <option value="+234">🇳🇬 +234</option>
+          <option value="+1">🇺🇸 +1</option>
+          <option value="+44">🇬🇧 +44</option>
+          <option value="+971">🇦🇪 +971</option>
+          <option value="+1-CA">🇨🇦 +1</option>
+          <option value="+353">🇮🇪 +353</option>
+          <option value="+27">🇿🇦 +27</option>
+          <option value="+233">🇬🇭 +233</option>
+          <option value="+254">🇰🇪 +254</option>
+          <option value="+49">🇩🇪 +49</option>
+          <option value="+33">🇫🇷 +33</option>
+          <option value="+61">🇦🇺 +61</option>
+          <option value="+65">🇸🇬 +65</option>
+        </select>
+        <input type="tel" id="cf-phone" placeholder="8012345678" style="flex:1;" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+      </div>
+    </div>
+    <div class="form-field">
+      <label>Service Required</label>
+      <select id="cf-service" onchange="updateSubService()">
+        <option value="">Select a service...</option>
+        <option value="Hospitality and Travel">Hospitality and Travel</option>
+        <option value="Lifestyle and Exclusive Access">Lifestyle and Exclusive Access</option>
+        <option value="Wellness and Lifestyle">Wellness and Lifestyle</option>
+        <option value="Private Chef and Dining">Private Chef and Dining</option>
+        <option value="Entertainment and Events">Entertainment and Events</option>
+        <option value="Sports and Recreation">Sports and Recreation</option>
+        <option value="Management of Dates">Management of Dates</option>
+        <option value="Investment Advisorship">Investment Advisorship</option>
+        <option value="Corporate Pairing">Corporate Pairing</option>
+        <option value="Corporate Membership">Corporate Membership</option>
+        <option value="Diaspora Support">Diaspora Support</option>
+        <option value="Project Trust">Project Trust</option>
+        <option value="Executive Networking Transit">Executive Networking Transit</option>
+        <option value="Ladies Concierge">Ladies Concierge</option>
+        <option value="Gentlemen's Concierge">Gentlemen&#8217;s Concierge</option>
+        <option value="Membership Enquiry">Membership Enquiry</option>
+        <option value="General Enquiry">General Enquiry</option>
+      </select>
+    </div>
+    <div class="form-field" id="sub-service-wrap" style="display:none;">
+      <label id="sub-service-label">Specify Further</label>
+      <select id="cf-sub-service">
+        <option value="">Select an option...</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label>City</label>
+      <select id="cf-city">
+        <option value="">Select your city...</option>
+        <option>Abuja</option>
+        <option>Lagos</option>
+        <option>Port Harcourt</option>
+        <option>Akwa Ibom</option>
+        <option>Diaspora — UK</option>
+        <option>Diaspora — US</option>
+        <option>Diaspora — UAE</option>
+        <option>Diaspora — Canada</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="form-field"><label>Message</label><textarea id="cf-message" placeholder="Tell us what you need — the more detail, the better we can prepare for you."></textarea></div>
+    <button class="form-submit" onclick="submitEnquiry()">Send Your Request</button>
+    <div class="form-success" id="formSuccess">
+      <p>✓ Your enquiry has been received.<br>A member of our team will be in touch shortly.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="gold-divider"></div>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="hiw-section">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="text-align:center;max-width:560px;margin:0 auto 64px;" class="reveal">
+      <span class="section-tag">The Process</span>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4.5vw,52px);font-weight:300;color:var(--text);line-height:1.1;">How It<br><em style="color:var(--gold);font-style:italic;">Works</em></h2>
+      <p style="font-size:13px;color:var(--text-sub);line-height:2;margin-top:14px;">From your first message to a seamlessly arranged experience — here is exactly what happens when you contact LAPEQ.</p>
+    </div>
+    <div class="hiw-grid reveal">
+      <div class="hiw-step">
+        <div class="hiw-num">01</div>
+        <h4>Reach Out</h4>
+        <p>Fill in the contact form, send a WhatsApp, or call us directly. Tell us what you need — as much or as little detail as you're comfortable with.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-num">02</div>
+        <h4>We Listen</h4>
+        <p>A dedicated LAPEQ concierge reviews your request and calls or messages to confirm every detail. Gold and Black members are contacted within the hour.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-num">03</div>
+        <h4>We Arrange</h4>
+        <p>Your concierge handles every booking, coordination, and confirmation on your behalf. You are updated at each step — only when there is something to know.</p>
+      </div>
+      <div class="hiw-step" style="border-left:2px solid var(--border-hi);">
+        <div class="hiw-num">04</div>
+        <h4>You Experience</h4>
+        <p>Arrive. Enjoy. Everything is in place, exactly as arranged. LAPEQ remains on standby in case anything needs to be adjusted in real time.</p>
+      </div>
+    </div>
+    <div class="hiw-discretion reveal">
+      <div>
+        <div style="font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Discretion Guarantee</div>
+        <div style="font-size:13px;color:var(--text-sub);line-height:2;">Every enquiry is handled under NDA. Your information is encrypted, never shared, and used only for your specific request.</div>
+      </div>
+      <div class="hiw-disc-links">
+        <a href="membership.html" style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);padding:12px 24px;border:1px solid var(--border-hi);white-space:nowrap;transition:all 0.3s;">View Membership</a>
+        <a href="services.html" style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--text-sub);padding:12px 24px;border:1px solid var(--border);white-space:nowrap;">Our Services</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- ===== JOIN / SIGN UP CTA ===== -->
+<section class="join-section reveal">
+  <span class="section-tag">Membership</span>
+  <h2>Join LAPEQ.<br><em>Choose Your Level.</em></h2>
+  <p>From our free community membership to our invitation-only Black tier — there is a place for everyone who values time, access, and an elevated way of living.</p>
+  <div class="join-tiers">
+    <div class="join-tier">
+      <span class="join-tier-name">Free</span>
+      <div class="join-tier-desc">LAPEQ card, partner discounts, Monthly Picks &amp; Journal access.</div>
+      <a href="membership.html" class="join-tier-link">Get Started</a>
+    </div>
+    <div class="join-tier">
+      <span class="join-tier-name">Silver</span>
+      <div class="join-tier-desc">Hotel &amp; travel booking, dedicated concierge, 48hr response guarantee.</div>
+      <a href="membership.html" class="join-tier-link">Apply</a>
+    </div>
+    <div class="join-tier featured">
+      <span class="join-tier-name">Gold</span>
+      <div class="join-tier-desc">Full service suite — Ladies Concierge, Executive Transit, Project Trust.</div>
+      <a href="membership.html" class="join-tier-link">Apply for Gold</a>
+    </div>
+    <div class="join-tier">
+      <span class="join-tier-name">Black</span>
+      <div class="join-tier-desc">24/7 personal concierge, unlimited requests, Investment Advisorship.</div>
+      <a href="membership.html" class="join-tier-link">Request Invitation</a>
+    </div>
+  </div>
+  <div class="join-cta-row">
+    <a href="membership.html" class="btn-gold-solid">Explore All Tiers</a>
+    <a href="https://wa.me/2348122543635" class="btn-outline-gold">Speak to Our Team</a>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- ===== FOOTER ===== -->
+<footer style="padding:40px 80px;border-top:1px solid rgba(201,168,76,0.08);">
+    <!-- SOCIAL MEDIA LINKS -->
+    <div class="footer-social" style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
+      <a href="#" class="footer-social-link" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      <a href="#" class="footer-social-link" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a href="#" class="footer-social-link" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.88a8.16 8.16 0 0 0 4.77 1.52V7a4.85 4.85 0 0 1-1-.31z"/></svg></a>
+      <a href="#" class="footer-social-link" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+      <a href="https://wa.me/2348122543635" class="footer-social-link" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg></a>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:16px;">
+      <a href="mailto:business@lapeq.com" style="font-size:11px;color:rgba(240,237,230,0.4);text-decoration:none;">business@lapeq.com</a>
+      <a href="mailto:diaspora@lapeq.com" style="font-size:11px;color:rgba(240,237,230,0.4);text-decoration:none;">diaspora@lapeq.com</a>
+      <a href="mailto:hello@lapeq.com" style="font-size:11px;color:rgba(240,237,230,0.4);text-decoration:none;">hello@lapeq.com</a>
+    </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-top:1px solid rgba(201,168,76,0.06);padding-top:20px;">
+    <span style="font-size:10px;color:rgba(240,237,230,0.2);">&copy; 2026 LAPEQ. All rights reserved.</span>
+    <span style="font-size:10px;color:rgba(240,237,230,0.2);">Abuja &middot; Lagos &middot; Port Harcourt &middot; Akwa Ibom</span>
+    <a href="index.html" style="font-size:10px;color:rgba(201,168,76,0.5);">← Return to Main Site</a>
+  </div>
+</footer>
+<script>
+var SB_URL='https://uqccvwhadllcfscjinnk.supabase.co',SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVxY2N2d2hhZGxsY2ZzY2ppbm5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2MDQ0MjgsImV4cCI6MjA4ODE4MDQyOH0.PsvQs9cmme_Pqiwg9OklJ6O6V5wOjZK7hNUY9N1Z_oE';
+var SUB_OPTIONS={
+  'Hospitality and Travel':{label:'Type of Travel',opts:['Airport Transfer','Hotel Booking','Private Jet Charter','Yacht Charter','Interstate Travel','International Travel']},
+  'Lifestyle and Exclusive Access':{label:'What Do You Need Access To',opts:['Exclusive Restaurants','Private Lounges','Members Clubs','High-Profile Events','Art & Culture Events','VIP Concerts']},
+  'Wellness and Lifestyle':{label:'Wellness Category',opts:['Spa & Massage','Personal Training','Nutrition & Dietitian','Mental Wellness','Yoga & Pilates','Medical Wellness Check']},
+  'Private Chef and Dining':{label:'Occasion',opts:['Private Dinner','Couples Experience','Family Gathering','Corporate Dinner','Cooking Class','Weekly Meal Prep']},
+  'Entertainment and Events':{label:'Event Type',opts:['Private Party','Birthday Celebration','Anniversary','Corporate Event','Networking Event','Pop-Up Dining']},
+  'Sports and Recreation':{label:'Sport / Activity',opts:['Golf','Football / Soccer','Tennis','Basketball','Gym Access','Swimming','Horse Riding','Gaming Lounge','Sports Event Tickets']},
+  "Ladies Concierge":{label:'Service Area',opts:['Personal Styling','Salon & Spa Booking','Social Event Management','Executive Transport','Wardrobe Coordination','Diaspora Wives Support']},
+  "Gentlemen's Concierge":{label:'Service Area',opts:['Executive Car Hire','Restaurant Reservations','Sports & Recreation','Personal Shopping','Event Planning','Private Gym Access']},
+  'Diaspora Support':{label:'Type of Support',opts:['Property Management','Family Welfare Checks','Contractor Oversight','Document & Legal','Shipping & Importation','Arrival Coordination']},
+  'Project Trust':{label:'Property Type',opts:['Residential Build','Commercial Build','Renovation','Land Verification','Rental Management','General Oversight']}
+};
+function updateSubService(){
+  var svc=document.getElementById('cf-service').value;
+  var wrap=document.getElementById('sub-service-wrap');
+  var lbl=document.getElementById('sub-service-label');
+  var sel=document.getElementById('cf-sub-service');
+  if(SUB_OPTIONS[svc]){
+    var opts=SUB_OPTIONS[svc];
+    lbl.textContent=opts.label;
+    sel.innerHTML='<option value="">Select an option...</option>'+opts.opts.map(function(o){return '<option>'+o+'</option>';}).join('');
+    wrap.style.display='flex';
+  }else{wrap.style.display='none';sel.value='';}
+}
+function validateEmail(input){
+  var err=document.getElementById('email-err');
+  var re=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  if(input.value&&!re.test(input.value)){err.style.display='block';input.style.borderColor='#e07070';}
+  else{err.style.display='none';input.style.borderColor='';}
+}
+async function submitEnquiry(){
+  var btn=document.querySelector('.form-submit');
+  var first=document.getElementById('cf-first').value.trim();
+  var last=document.getElementById('cf-last').value.trim();
+  var email=document.getElementById('cf-email').value.trim();
+  var phoneCode=(document.getElementById('cf-phone-code')||{value:'+234'}).value.replace('-CA','');
+  var phoneNum=document.getElementById('cf-phone').value.trim();
+  var phone=phoneNum?phoneCode+phoneNum:'';
+  var service=document.getElementById('cf-service').value;
+  var subSvc=(document.getElementById('cf-sub-service')||{value:''}).value;
+  var fullService=service+(subSvc?' — '+subSvc:'');
+  var city=document.getElementById('cf-city').value;
+  var message=document.getElementById('cf-message').value.trim();
+  var re=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  if(!first||!email||!message){
+    btn.textContent='Please fill in Name, Email and Message';
+    btn.style.background='#8a3a1a';
+    setTimeout(function(){btn.textContent='Send Your Request';btn.style.background='';},3000);
+    return;
+  }
+  if(!re.test(email)){
+    document.getElementById('email-err').style.display='block';
+    document.getElementById('cf-email').style.borderColor='#e07070';
+    btn.textContent='Please enter a valid email address';btn.style.background='#8a3a1a';
+    setTimeout(function(){btn.textContent='Send Your Request';btn.style.background='';},3000);
+    return;
+  }
+  btn.textContent='Sending...';btn.disabled=true;
+  try{
+    var res=await fetch(SB_URL+'/rest/v1/enquiries',{
+      method:'POST',
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify({name:first+(last?' '+last:''),email:email,phone:phone,service:fullService,city:city,message:message,status:'new',created_at:new Date().toISOString()})
+    });
+    if(res.ok||res.status===201||res.status===204){
+      document.getElementById('formSuccess').style.display='block';
+      ['cf-first','cf-last','cf-email','cf-phone','cf-message'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+      document.getElementById('cf-service').value='';
+      document.getElementById('cf-city').value='';
+      var sw=document.getElementById('sub-service-wrap');if(sw)sw.style.display='none';
+    }else{
+      var t=await res.text();
+      var errDiv=document.getElementById('formError');
+      if(errDiv){errDiv.textContent='Something went wrong ('+res.status+'). Please email hello@lapeq.com directly.';errDiv.style.display='block';}
+      console.error('Supabase error:',res.status,t);
+    }
+  }catch(err){
+    var errDiv=document.getElementById('formError');
+    if(errDiv){errDiv.textContent='Could not send. Please email hello@lapeq.com directly.';errDiv.style.display='block';}
+    console.error(err);
+  }
+  btn.disabled=false;btn.textContent='Send Your Request';
+}
+window.addEventListener('scroll',function(){document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);});
+(function(){var t=localStorage.getItem('lapeq-theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();
+
+// ── Theme ──
+(function(){var t=localStorage.getItem('lapeq-theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();
+function toggleTheme(){var h=document.documentElement,t=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',t);localStorage.setItem('lapeq-theme',t);}
+
+// ── Nav scroll ──
+window.addEventListener('scroll',function(){
+  var nb=document.getElementById('navbar');
+  if(nb) nb.classList.toggle('scrolled',window.scrollY>60);
+});
+
+// ── Mobile nav ──
+function toggleMobileNav(){var mn=document.getElementById('mobileNav');if(mn)mn.classList.toggle('open');}
+function closeMobileNav(){var mn=document.getElementById('mobileNav');if(mn)mn.classList.remove('open');}
+
+// ── Reveal on scroll ──
+var _revealObs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');_revealObs.unobserve(e.target);}});
+},{threshold:0.05,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(function(el){
+  var r=el.getBoundingClientRect();
+  if(r.top<window.innerHeight&&r.bottom>0) el.classList.add('visible');
+  else _revealObs.observe(el);
+});
+
+// ── FAQ toggle (used on some pages) ──
+function toggleFaq(el){var open=el.classList.contains('open');document.querySelectorAll('.faq-item.open').forEach(function(f){f.classList.remove('open');});if(!open)el.classList.add('open');}
+
+</script>
+
+</body>
+</html>
